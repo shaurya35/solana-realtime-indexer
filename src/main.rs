@@ -13,7 +13,8 @@ use carbon_pumpfun_decoder::{
 
 use yellowstone_grpc_proto::geyser::SubscribeRequestFilterTransactions;
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let pumpfun_filter = SubscribeRequestFilterTransactions {
         vote: Some(false),
@@ -115,7 +116,6 @@ fn decode_fixture(
                             println!("Fee recipient: {}", trade.fee_recipient);
                             println!("Creator: {}", trade.creator);
                             println!("Instruction name: {}", trade.ix_name);
-                            println!("All trade assertions passed");
 
                             trades.push(trade);
                         }
