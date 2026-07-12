@@ -1,5 +1,6 @@
 use std::fs;
 use std::str::FromStr;
+use std::collections::HashMap;
 
 use solana_instruction::{AccountMeta, Instruction};
 use solana_pubkey::Pubkey;
@@ -10,7 +11,30 @@ use carbon_pumpfun_decoder::{
     instructions::{CpiEvent, PumpfunInstruction},
 };
 
+use yellowstone_grpc_proto::geyser::SubscribeRequestFilterTransactions;
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+
+    let pumpfun_filter = SubscribeRequestFilterTransactions {
+        vote: Some(false),
+        failed: Some(false),
+        signature: None,
+        account_include: vec![
+            "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P".to_string(),
+        ],
+        account_exclude: vec![],
+        account_required: vec![],
+    };
+
+    let mut transaction_filters = HashMap::new();
+
+    transaction_filters.insert(
+        "pumpfun".to_string(),
+        pumpfun_filter,
+    );
+
+    println!("Transaction filters: {}", transaction_filters.len());
+
     let trades = decode_fixture("fixtures/pumpfun-buy-via-flashx-01-parsed.json")?;
 
     println!("Accepted trades: {}", trades.len());

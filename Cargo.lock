@@ -2526,6 +2526,7 @@ dependencies = [
  "serde_json",
  "solana-instruction",
  "solana-pubkey 3.0.0",
+ "yellowstone-grpc-proto",
 ]
 
 [[package]]
