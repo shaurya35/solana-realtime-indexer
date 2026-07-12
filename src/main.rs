@@ -10,24 +10,46 @@ use carbon_pumpfun_decoder::{
     instructions::{CpiEvent, PumpfunInstruction},
 };
 
-fn main() -> Result<(), Box<dyn std::error::Error>> { 
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let trades = decode_fixture(
+        "fixtures/pumpfun-buy-via-flashx-01-parsed.json",
+    )?;
+
+    println!("Accepted trades: {}", trades.len());
+
+    Ok(())
+}
+
+fn decode_fixture(
+    fixture_path: &str,
+) -> Result<
+    Vec<carbon_pumpfun_decoder::events::trade_event::TradeEventEvent>,
+    Box<dyn std::error::Error>,
+> {
 
     let pumpfun_program_id = "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P";
 
     let decoder = PumpfunDecoder;
 
-    let content = 
-        fs::read_to_string("fixtures/pumpfun-buy-via-flashx-01-parsed.json")?;
+    let content =
+        fs::read_to_string(fixture_path)?;
 
     let json: serde_json::Value = serde_json::from_str(&content)?;
+
+    let mut trades = Vec::new();
+
+    if !json["result"]["meta"]["err"].is_null() {
+        println!("Skipping failed transaction");
+        return Ok(trades);
+    }    
 
     let inner_groups = json["result"]["meta"]["innerInstructions"]
         .as_array()
         .unwrap();
 
     for group in inner_groups {
-        if group["index"].as_u64() == Some(3) {
-            println!("Found group with index: {}", group["index"]);
+            println!("Checking inner group: {}", group["index"]);
 
             let instructions = group["instructions"]
                 .as_array()
@@ -84,6 +106,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                                     println!("Fee recipient: {}", trade.fee_recipient);
                                     println!("Creator: {}", trade.creator);
                                     println!("Instruction name: {}", trade.ix_name);
+                                    println!("All trade assertions passed");
+
+                                    trades.push(trade);
+
                                 }
 
                                 _ => {
@@ -103,8 +129,44 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                     
                 }
             }
-        }
     }
 
-    Ok(())
+    Ok(trades)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn decodes_successful_pumpfun_trade() {
+        let trades = decode_fixture(
+            "fixtures/pumpfun-buy-via-flashx-01-parsed.json",
+        )
+        .unwrap();
+
+        assert_eq!(trades.len(), 1);
+
+        let trade = &trades[0];
+
+        assert_eq!(
+            trade.mint.to_string(),
+            "2KjpDfEZeA3LHcq1ycHi5qYf9Lc5D1iJtLhSHKUypump"
+        );
+        assert!(trade.is_buy);
+        assert_eq!(trade.token_amount, 3_940_708_338);
+        assert_eq!(trade.sol_amount, 97_777);
+        assert_eq!(trade.fee, 929);
+        assert_eq!(trade.creator_fee, 294);
+    }
+
+    #[test]
+    fn rejects_failed_transaction() {
+        let trades = decode_fixture(
+            "fixtures/pumpfun-failed-01.json",
+        )
+        .unwrap();
+
+        assert_eq!(trades.len(), 0);
+    }
 }
