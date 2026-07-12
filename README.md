@@ -3,8 +3,8 @@
 A Rust indexer for Pump.fun and PumpSwap trades on Solana, built with
 [Carbon](https://github.com/sevenlabs-hq/carbon) and Yellowstone gRPC.
 
-The goal is to decode real trades correctly — including ones that go through
-routers via CPI — not just look at outer instructions.
+The goal is to decode real trades correctly, including ones that go through
+routers via CPI, not just look at outer instructions.
 
 ## What it does
 
