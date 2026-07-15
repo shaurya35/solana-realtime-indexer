@@ -1,4 +1,3 @@
-
 use std::fs;
 use std::str::FromStr;
 use std::collections::HashMap;
@@ -9,7 +8,7 @@ use solana_pubkey::Pubkey;
 use carbon_core::instruction::{InstructionDecoder, InstructionProcessorInputType};
 use carbon_core::pipeline::Pipeline;
 use carbon_pumpfun_decoder::{
-    PumpfunDecoder, instructions::{CpiEvent, PumpfunInstruction, cpi_event},
+    PumpfunDecoder, instructions::{CpiEvent, PumpfunInstruction},
 };
 
 use yellowstone_grpc_proto::geyser::SubscribeRequestFilterTransactions;
