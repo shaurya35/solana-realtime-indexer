@@ -1,3 +1,4 @@
+
 use std::fs;
 use std::str::FromStr;
 use std::collections::HashMap;
@@ -5,13 +6,39 @@ use std::collections::HashMap;
 use solana_instruction::{AccountMeta, Instruction};
 use solana_pubkey::Pubkey;
 
-use carbon_core::instruction::InstructionDecoder;
+use carbon_core::instruction::{InstructionDecoder, InstructionProcessorInputType};
+use carbon_core::pipeline::Pipeline;
 use carbon_pumpfun_decoder::{
-    PumpfunDecoder,
-    instructions::{CpiEvent, PumpfunInstruction},
+    PumpfunDecoder, instructions::{CpiEvent, PumpfunInstruction, cpi_event},
 };
 
 use yellowstone_grpc_proto::geyser::SubscribeRequestFilterTransactions;
+use carbon_yellowstone_grpc_datasource::YellowstoneGrpcGeyserClient;
+
+struct TradeEventProcessor;
+
+impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpfunInstruction>> for TradeEventProcessor {
+    async fn process(
+        &mut self, 
+        data: &InstructionProcessorInputType<'_, PumpfunInstruction>) -> carbon_core::error::CarbonResult<()> {
+            match data.decoded_instruction {
+                PumpfunInstruction::CpiEvent { data: cpi_data, .. } => match cpi_data {
+                    CpiEvent::TradeEvent(trade) => {
+                        println!("Trade event found!");
+                        println!("Mint: {}", trade.mint);
+                        println!("User: {}", trade.user);
+                        println!("Is buy: {}", trade.is_buy);
+                        println!("Token amount: {}", trade.token_amount);
+                        println!("SOL amount: {}", trade.sol_amount);
+                    }
+                    _ => {}
+                },
+                _ => {}
+            }
+
+        Ok(())
+    }
+}
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -35,6 +62,28 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     );
 
     println!("Transaction filters: {}", transaction_filters.len());
+
+    let grpc_client = YellowstoneGrpcGeyserClient::new(
+        "https://solana-rpc.parafi.tech:10443".to_string(), 
+        None, 
+        None, 
+        HashMap::new(), 
+        transaction_filters, 
+        Default::default(), Default::default(), 
+        Default::default(), 
+        None, 
+        None,
+    );
+
+    env_logger::init();
+
+    rustls::crypto::aws_lc_rs::default_provider().install_default().unwrap();
+
+    Pipeline::builder()
+        .datasource(grpc_client)
+        .instruction(PumpfunDecoder, TradeEventProcessor)
+        .build()?
+        .run().await?;
 
     let trades = decode_fixture("fixtures/pumpfun-buy-via-flashx-01-parsed.json")?;
 
