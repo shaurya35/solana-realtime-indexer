@@ -1,6 +1,7 @@
 use std::fs;
 use std::str::FromStr;
 use std::collections::HashMap;
+use std::sync::atomic::AtomicU64;
 
 use solana_instruction::{AccountMeta, Instruction};
 use solana_pubkey::Pubkey;
@@ -17,6 +18,8 @@ use carbon_pump_swap_decoder::{
 use yellowstone_grpc_proto::geyser::SubscribeRequestFilterTransactions;
 use carbon_yellowstone_grpc_datasource::YellowstoneGrpcGeyserClient;
 
+static FAILED_COUNT: AtomicU64 = AtomicU64::new(0);
+
 struct TradeEventProcessor;
 
 impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpfunInstruction>> for TradeEventProcessor {
@@ -24,6 +27,11 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, Pumpfun
         &mut self, 
         data: &InstructionProcessorInputType<'_, PumpfunInstruction>
     ) -> carbon_core::error::CarbonResult<()> {
+            if data.metadata.transaction_metadata.meta.status.is_err() {
+                FAILED_COUNT.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+                return Ok(());
+            };
+
             match data.decoded_instruction {
                 PumpfunInstruction::CpiEvent { data: cpi_data, .. } => match cpi_data {
                     CpiEvent::TradeEvent(trade) => {
@@ -50,6 +58,11 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
         &mut self,
         data: &InstructionProcessorInputType<'_, PumpSwapInstruction>,
     ) -> carbon_core::error::CarbonResult<()> {
+        if data.metadata.transaction_metadata.meta.status.is_err(){
+            FAILED_COUNT.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+            return Ok(());
+        };
+
         match data.decoded_instruction {
             PumpSwapInstruction::CpiEvent { data: cpi_data, .. } => match cpi_data {
                 PumpSwapCpiEvent::BuyEvent(trade) => {
@@ -136,6 +149,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .instruction(PumpSwapDecoder, PumpSwapEventProcessor)
         .build()?
         .run().await?;
+
+    println!("Failed Count: {}", FAILED_COUNT.load(std::sync::atomic::Ordering::Relaxed));
 
     let trades = decode_fixture("fixtures/pumpfun-buy-via-flashx-01-parsed.json")?;
 
