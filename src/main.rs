@@ -10,6 +10,9 @@ use carbon_core::pipeline::Pipeline;
 use carbon_pumpfun_decoder::{
     PumpfunDecoder, instructions::{CpiEvent, PumpfunInstruction},
 };
+use carbon_pump_swap_decoder::{
+    PumpSwapDecoder, instructions::{CpiEvent as PumpSwapCpiEvent, PumpSwapInstruction},
+};
 
 use yellowstone_grpc_proto::geyser::SubscribeRequestFilterTransactions;
 use carbon_yellowstone_grpc_datasource::YellowstoneGrpcGeyserClient;
@@ -19,7 +22,8 @@ struct TradeEventProcessor;
 impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpfunInstruction>> for TradeEventProcessor {
     async fn process(
         &mut self, 
-        data: &InstructionProcessorInputType<'_, PumpfunInstruction>) -> carbon_core::error::CarbonResult<()> {
+        data: &InstructionProcessorInputType<'_, PumpfunInstruction>
+    ) -> carbon_core::error::CarbonResult<()> {
             match data.decoded_instruction {
                 PumpfunInstruction::CpiEvent { data: cpi_data, .. } => match cpi_data {
                     CpiEvent::TradeEvent(trade) => {
@@ -39,6 +43,38 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, Pumpfun
     }
 }
 
+struct PumpSwapEventProcessor;
+
+impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwapInstruction>> for PumpSwapEventProcessor {
+    async fn process(
+        &mut self,
+        data: &InstructionProcessorInputType<'_, PumpSwapInstruction>,
+    ) -> carbon_core::error::CarbonResult<()> {
+        match data.decoded_instruction {
+            PumpSwapInstruction::CpiEvent { data: cpi_data, .. } => match cpi_data {
+                PumpSwapCpiEvent::BuyEvent(trade) => {
+                    println!("Trade event found!");
+                    println!("Pool: {}", trade.pool);
+                    println!("User: {}", trade.user);
+                    println!("Token received: {}", trade.base_amount_out);
+                    println!("SOL amount: {}", trade.quote_amount_in);
+                }
+
+                PumpSwapCpiEvent::SellEvent(trade) => {
+                    println!("Trade event found!");
+                    println!("Pool: {}", trade.pool);
+                    println!("User: {}", trade.user);
+                    println!("Token sold: {}", trade.base_amount_in);
+                    println!("SOL amount: {}", trade.quote_amount_out);
+                }
+                _ => {}
+            },
+            _ => {}
+        }
+        Ok(())
+    }
+}
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
@@ -53,11 +89,27 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         account_required: vec![],
     };
 
+    let pumpswap_filter = SubscribeRequestFilterTransactions {
+        vote: Some(false),
+        failed: Some(false),
+        signature: None,
+        account_include: vec![
+            "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA".to_string(),
+        ],
+        account_exclude: vec![],
+        account_required: vec![],
+    };  
+
     let mut transaction_filters = HashMap::new();
 
     transaction_filters.insert(
         "pumpfun".to_string(),
         pumpfun_filter,
+    );
+
+    transaction_filters.insert(
+        "pumpswap".to_string(), 
+        pumpswap_filter,
     );
 
     println!("Transaction filters: {}", transaction_filters.len());
@@ -81,6 +133,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Pipeline::builder()
         .datasource(grpc_client)
         .instruction(PumpfunDecoder, TradeEventProcessor)
+        .instruction(PumpSwapDecoder, PumpSwapEventProcessor)
         .build()?
         .run().await?;
 
