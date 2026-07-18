@@ -1,13 +1,10 @@
-use std::fs;
-use std::str::FromStr;
 use std::collections::HashMap;
 
-use solana_instruction::{AccountMeta, Instruction};
 use solana_pubkey::Pubkey;
 
 use solana_rpc_client::nonblocking::rpc_client::RpcClient;
 
-use carbon_core::instruction::{InstructionDecoder, InstructionProcessorInputType};
+use carbon_core::instruction::{InstructionProcessorInputType};
 use carbon_core::pipeline::Pipeline;
 use carbon_pumpfun_decoder::{
     PumpfunDecoder, instructions::{CpiEvent, PumpfunInstruction},
@@ -34,7 +31,13 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, Pumpfun
             match data.decoded_instruction {
                 PumpfunInstruction::CpiEvent { data: cpi_data, .. } => match cpi_data {
                     CpiEvent::TradeEvent(trade) => {
+                        let meta = &data.metadata;
                         println!("Trade event found!");
+                        println!("--- event ---");
+                        println!("signature: {}", meta.transaction_metadata.signature);
+                        println!("slot: {}", meta.transaction_metadata.slot);
+                        println!("absolute_path: {:?}", meta.absolute_path);
+                        println!("event_ordinal: 0");
                         println!("Mint: {}", trade.mint);
                         println!("User: {}", trade.user);
                         println!("Is buy: {}", trade.is_buy);
@@ -105,7 +108,13 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
         match data.decoded_instruction {
             PumpSwapInstruction::CpiEvent { data: cpi_data, .. } => match cpi_data {
                 PumpSwapCpiEvent::BuyEvent(trade) => {
+                    let meta = &data.metadata;
                     println!("Trade event found!");
+                    println!("--- event ---");
+                    println!("signature: {}", meta.transaction_metadata.signature);
+                    println!("slot: {}", meta.transaction_metadata.slot);
+                    println!("absolute_path: {:?}", meta.absolute_path);
+                    println!("event_ordinal: 0");
                     println!("Pool: {}", trade.pool);
                     println!("User: {}", trade.user);
                     println!("Token received: {}", trade.base_amount_out);
@@ -118,7 +127,13 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                 }
 
                 PumpSwapCpiEvent::SellEvent(trade) => {
+                    let meta = &data.metadata;
                     println!("Trade event found!");
+                    println!("--- event ---");
+                    println!("signature: {}", meta.transaction_metadata.signature);
+                    println!("slot: {}", meta.transaction_metadata.slot);
+                    println!("absolute_path: {:?}", meta.absolute_path);
+                    println!("event_ordinal: 0");
                     println!("Pool: {}", trade.pool);
                     println!("User: {}", trade.user);
                     println!("Token sold: {}", trade.base_amount_in);
@@ -221,116 +236,117 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .build()?
         .run().await?;
 
-    let trades = decode_fixture("fixtures/pumpfun-buy-via-flashx-01-parsed.json")?;
-
-    println!("Accepted trades: {}", trades.len());
-
     Ok(())
-}
-
-fn decode_fixture(
-    fixture_path: &str,
-) -> Result<
-    Vec<carbon_pumpfun_decoder::events::trade_event::TradeEventEvent>,
-    Box<dyn std::error::Error>,
-> {
-    let pumpfun_program_id = "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P";
-
-    let decoder = PumpfunDecoder;
-
-    let content = fs::read_to_string(fixture_path)?;
-
-    let json: serde_json::Value = serde_json::from_str(&content)?;
-
-    let mut trades = Vec::new();
-
-    if !json["result"]["meta"]["err"].is_null() {
-        println!("Skipping failed transaction");
-        return Ok(trades);
-    }
-
-    let inner_groups = json["result"]["meta"]["innerInstructions"]
-        .as_array()
-        .unwrap();
-
-    for group in inner_groups {
-        println!("Checking inner group: {}", group["index"]);
-
-        let instructions = group["instructions"].as_array().unwrap();
-
-        for (position, instruction) in instructions.iter().enumerate() {
-            if instruction["programId"].as_str() == Some(pumpfun_program_id) {
-                let encoded_data = instruction["data"].as_str().unwrap();
-
-                let decoded_data = bs58::decode(encoded_data).into_vec()?;
-
-                let account_val = instruction["accounts"].as_array().unwrap();
-
-                let mut accounts = Vec::new();
-
-                for account in account_val {
-                    let address = account.as_str().unwrap();
-                    let pubkey = Pubkey::from_str(address)?;
-
-                    accounts.push(AccountMeta::new_readonly(pubkey, false));
-                }
-
-                let program_id = Pubkey::from_str(instruction["programId"].as_str().unwrap())?;
-
-                let solana_instruction = Instruction {
-                    program_id,
-                    accounts,
-                    data: decoded_data,
-                };
-
-                match decoder.decode_instruction(&solana_instruction) {
-                    Some(PumpfunInstruction::Buy { .. }) => {
-                        println!("Position {} decoded as Buy", position);
-                    }
-
-                    Some(PumpfunInstruction::CpiEvent { data, .. }) => match data {
-                        CpiEvent::TradeEvent(trade) => {
-                            println!("Trade event found!");
-                            println!("Mint: {}", trade.mint);
-                            println!("User: {}", trade.user);
-                            println!("Is buy: {}", trade.is_buy);
-                            println!("Token amount: {}", trade.token_amount);
-                            println!("SOL amount: {}", trade.sol_amount);
-                            println!("Protocol fee: {}", trade.fee);
-                            println!("Creator fee: {}", trade.creator_fee);
-                            println!("Fee recipient: {}", trade.fee_recipient);
-                            println!("Creator: {}", trade.creator);
-                            println!("Instruction name: {}", trade.ix_name);
-
-                            trades.push(trade);
-                        }
-
-                        _ => {
-                            println!("Position {} contains another event", position);
-                        }
-                    },
-
-                    Some(_) => {
-                        println!(
-                            "Position {} decoded as another Pumpfun instruction",
-                            position
-                        );
-                    }
-
-                    None => {
-                        println!("Position {} could not be decoded", position);
-                    }
-                }
-            }
-        }
-    }
-
-    Ok(trades)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    use std::fs;
+    use std::str::FromStr;
+    use solana_instruction::{AccountMeta, Instruction};
+    use carbon_core::instruction::InstructionDecoder;
+
+    fn decode_fixture(
+        fixture_path: &str,
+    ) -> Result<
+        Vec<carbon_pumpfun_decoder::events::trade_event::TradeEventEvent>,
+        Box<dyn std::error::Error>,
+    > {
+        let pumpfun_program_id = "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P";
+    
+        let decoder = PumpfunDecoder;
+    
+        let content = fs::read_to_string(fixture_path)?;
+    
+        let json: serde_json::Value = serde_json::from_str(&content)?;
+    
+        let mut trades = Vec::new();
+    
+        if !json["result"]["meta"]["err"].is_null() {
+            println!("Skipping failed transaction");
+            return Ok(trades);
+        }
+    
+        let inner_groups = json["result"]["meta"]["innerInstructions"]
+            .as_array()
+            .unwrap();
+    
+        for group in inner_groups {
+            println!("Checking inner group: {}", group["index"]);
+    
+            let instructions = group["instructions"].as_array().unwrap();
+    
+            for (position, instruction) in instructions.iter().enumerate() {
+                if instruction["programId"].as_str() == Some(pumpfun_program_id) {
+                    let encoded_data = instruction["data"].as_str().unwrap();
+    
+                    let decoded_data = bs58::decode(encoded_data).into_vec()?;
+    
+                    let account_val = instruction["accounts"].as_array().unwrap();
+    
+                    let mut accounts = Vec::new();
+    
+                    for account in account_val {
+                        let address = account.as_str().unwrap();
+                        let pubkey = Pubkey::from_str(address)?;
+    
+                        accounts.push(AccountMeta::new_readonly(pubkey, false));
+                    }
+    
+                    let program_id = Pubkey::from_str(instruction["programId"].as_str().unwrap())?;
+    
+                    let solana_instruction = Instruction {
+                        program_id,
+                        accounts,
+                        data: decoded_data,
+                    };
+    
+                    match decoder.decode_instruction(&solana_instruction) {
+                        Some(PumpfunInstruction::Buy { .. }) => {
+                            println!("Position {} decoded as Buy", position);
+                        }
+    
+                        Some(PumpfunInstruction::CpiEvent { data, .. }) => match data {
+                            CpiEvent::TradeEvent(trade) => {
+                                println!("Trade event found!");
+                                println!("Mint: {}", trade.mint);
+                                println!("User: {}", trade.user);
+                                println!("Is buy: {}", trade.is_buy);
+                                println!("Token amount: {}", trade.token_amount);
+                                println!("SOL amount: {}", trade.sol_amount);
+                                println!("Protocol fee: {}", trade.fee);
+                                println!("Creator fee: {}", trade.creator_fee);
+                                println!("Fee recipient: {}", trade.fee_recipient);
+                                println!("Creator: {}", trade.creator);
+                                println!("Instruction name: {}", trade.ix_name);
+    
+                                trades.push(trade);
+                            }
+    
+                            _ => {
+                                println!("Position {} contains another event", position);
+                            }
+                        },
+    
+                        Some(_) => {
+                            println!(
+                                "Position {} decoded as another Pumpfun instruction",
+                                position
+                            );
+                        }
+    
+                        None => {
+                            println!("Position {} could not be decoded", position);
+                        }
+                    }
+                }
+            }
+        }
+    
+        Ok(trades)
+    }
 
     #[test]
     fn decodes_successful_pumpfun_trade() {
