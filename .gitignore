@@ -1,5 +1,14 @@
 /target
+
 .env
 .DS_Store
+
+# agents
 AGENTS.md
+
+# notes 
 notes/UNDERSTANDING.md
+
+# fixtures
+fixtures/capture-*.jsonl
+!fixtures/golden-*.jsonl
