@@ -2,10 +2,10 @@ use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufWriter, BufRead, Write};
 use std::time::Duration;
+use std::sync::{Arc, Mutex};
 
 use async_trait::async_trait;
 use carbon_core::error::CarbonResult;
-use tokio_util::bytes;
 use tokio_util::sync::CancellationToken;
 
 use base64::Engine;
@@ -47,6 +47,15 @@ const GRPC_ENDPOINT: &str = "https://solana-rpc.parafi.tech:10443";
 const PUMPFUN_PROGRAM: &str = "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P";
 const PUMPSWAP_PROGRAM: &str = "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA";
 
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+struct EventId {
+    signature: String,
+    absolute_path: Vec<u8>,
+    event_ordinal: u32,
+}
+
+type EventLog = Arc<Mutex<Vec<EventId>>>;
+
 fn transaction_filters() -> HashMap<String, SubscribeRequestFilterTransactions> {
     let mut filters = HashMap::new();
 
@@ -67,7 +76,9 @@ fn transaction_filters() -> HashMap<String, SubscribeRequestFilterTransactions> 
     filters
 }
 
-struct TradeEventProcessor;
+struct TradeEventProcessor {
+    events: EventLog,
+}
 
 impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpfunInstruction>> for TradeEventProcessor {
     async fn process(
@@ -88,6 +99,14 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, Pumpfun
                         println!("slot: {}", meta.transaction_metadata.slot);
                         println!("absolute_path: {:?}", meta.absolute_path);
                         println!("event_ordinal: 0");
+                        {
+                            let mut log = self.events.lock().unwrap();
+                            log.push(EventId {
+                                signature: meta.transaction_metadata.signature.to_string(),
+                                absolute_path: meta.absolute_path.clone(),
+                                event_ordinal: 0,
+                            });
+                        }
                         println!("Mint: {}", trade.mint);
                         println!("User: {}", trade.user);
                         println!("Is buy: {}", trade.is_buy);
@@ -112,15 +131,22 @@ struct PoolInfo {
 
 struct PumpSwapEventProcessor {
     pools: HashMap<Pubkey, PoolInfo>,
-    rpc: RpcClient,
+    rpc: Option<RpcClient>,
+    events: EventLog,
 }
 
 impl PumpSwapEventProcessor {
     async fn ensure_pool(&mut self, pool: Pubkey){
+        
         if self.pools.contains_key(&pool){
             return;
         }
-        match self.rpc.get_account_data(&pool).await {
+
+        let Some(rpc) = &self.rpc else {
+            return
+        };
+
+        match rpc.get_account_data(&pool).await {
             Ok(data) => {
                 if let Some(p) =  Pool::decode(&data) {
                     self.pools.insert(
@@ -165,6 +191,14 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                     println!("slot: {}", meta.transaction_metadata.slot);
                     println!("absolute_path: {:?}", meta.absolute_path);
                     println!("event_ordinal: 0");
+                    {
+                        let mut log = self.events.lock().unwrap();
+                        log.push(EventId {
+                            signature: meta.transaction_metadata.signature.to_string(),
+                            absolute_path: meta.absolute_path.clone(),
+                            event_ordinal: 0,
+                        });
+                    }
                     println!("Pool: {}", trade.pool);
                     println!("User: {}", trade.user);
                     println!("Token received: {}", trade.base_amount_out);
@@ -184,6 +218,14 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                     println!("slot: {}", meta.transaction_metadata.slot);
                     println!("absolute_path: {:?}", meta.absolute_path);
                     println!("event_ordinal: 0");
+                    {
+                        let mut log = self.events.lock().unwrap();
+                        log.push(EventId {
+                            signature: meta.transaction_metadata.signature.to_string(),
+                            absolute_path: meta.absolute_path.clone(),
+                            event_ordinal: 0,
+                        });
+                    }
                     println!("Pool: {}", trade.pool);
                     println!("User: {}", trade.user);
                     println!("Token sold: {}", trade.base_amount_in);
@@ -424,13 +466,18 @@ impl Datasource for ReplayDatasource {
 
 async fn run_pipeline(
     datasource: impl Datasource + 'static,
+    rpc: Option<RpcClient>,
+    events: EventLog,
 ) -> Result<(), Box<dyn std::error::Error>> {
         Pipeline::builder()
             .datasource(datasource)
-            .instruction(PumpfunDecoder, TradeEventProcessor)
+            .instruction(PumpfunDecoder, TradeEventProcessor {
+                events: events.clone(),
+            })
             .instruction(PumpSwapDecoder, PumpSwapEventProcessor {
                 pools: HashMap::new(),
-                rpc: RpcClient::new("https://api.mainnet-beta.solana.com".to_string()),
+                rpc,
+                events,
             })
             .build()?
             .run()
@@ -455,7 +502,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             return Ok(());
         }
         Commands::Replay { path } => {
-            run_pipeline(ReplayDatasource { path }).await?;
+            let events = EventLog::default();
+            run_pipeline(ReplayDatasource { path }, None, events.clone()).await?;
+            println!("collected {} events", events.lock().unwrap().len());
             return Ok(());
         }
         Commands::Live => {}
@@ -477,7 +526,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         None,
     );
 
-    run_pipeline(grpc_client).await?;
+    run_pipeline(
+        grpc_client,
+        Some(RpcClient::new("https://api.mainnet-beta.solana.com".to_string())),
+        EventLog::default(),
+    ).await?;
 
     Ok(())
 }
@@ -615,5 +668,28 @@ mod tests {
         let trades = decode_fixture("fixtures/pumpfun-failed-01.json").unwrap();
 
         assert_eq!(trades.len(), 0);
+    }
+
+    async fn replay_ids(path: &str) -> Vec<EventId> {
+        
+        let events = EventLog::default();
+        
+        run_pipeline(ReplayDatasource { path: path.to_string() }, None, events.clone())
+            .await
+            .unwrap();
+
+        let mut ids = events.lock().unwrap().clone();
+        ids.sort();
+        
+        ids
+    }
+
+    #[tokio::test]
+    async fn replay_is_deterministic() {
+        let first = replay_ids("fixtures/golden-500.jsonl").await;
+        let second = replay_ids("fixtures/golden-500.jsonl").await;
+
+        assert!(!first.is_empty(), "no events decoded — fixture or decode path broken");
+        assert_eq!(first, second, "same fixture produced different event IDs");
     }
 }
