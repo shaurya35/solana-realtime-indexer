@@ -640,6 +640,46 @@ dependencies = [
 ]
 
 [[package]]
+name = "clap"
+version = "4.6.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0fb99565819980999fb7b4a1796046a5c949e6d4ff132cf5fadf5a641e20d776"
+dependencies = [
+ "clap_builder",
+ "clap_derive",
+]
+
+[[package]]
+name = "clap_builder"
+version = "4.6.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f09628afdcc538b57f3c6341e9c8e9970f18e4a481690a64974d7023bd33548b"
+dependencies = [
+ "anstream",
+ "anstyle",
+ "clap_lex",
+ "strsim",
+]
+
+[[package]]
+name = "clap_derive"
+version = "4.6.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "32f2392eae7f16557a3d727ef3a12e57b2b2ca6f98566a5f4fb41ffe305df077"
+dependencies = [
+ "heck",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.118",
+]
+
+[[package]]
+name = "clap_lex"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c8d4a3bb8b1e0c1050499d1815f5ab16d04f0959b233085fb31653fbfc9d98f9"
+
+[[package]]
 name = "cmake"
 version = "0.1.58"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3223,18 +3263,23 @@ dependencies = [
 name = "solana-realtime-indexer"
 version = "0.1.0"
 dependencies = [
+ "base64",
  "bs58",
  "carbon-core",
  "carbon-pump-swap-decoder",
  "carbon-pumpfun-decoder",
  "carbon-yellowstone-grpc-datasource",
+ "chrono",
+ "clap",
  "env_logger",
+ "futures",
  "rustls",
  "serde_json",
  "solana-instruction",
  "solana-pubkey 3.0.0",
  "solana-rpc-client",
  "tokio",
+ "yellowstone-grpc-client",
  "yellowstone-grpc-proto",
 ]
 
