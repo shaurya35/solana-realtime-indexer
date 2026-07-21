@@ -3263,6 +3263,7 @@ dependencies = [
 name = "solana-realtime-indexer"
 version = "0.1.0"
 dependencies = [
+ "async-trait",
  "base64",
  "bs58",
  "carbon-core",
@@ -3278,7 +3279,9 @@ dependencies = [
  "solana-instruction",
  "solana-pubkey 3.0.0",
  "solana-rpc-client",
+ "solana-signature",
  "tokio",
+ "tokio-util",
  "yellowstone-grpc-client",
  "yellowstone-grpc-proto",
 ]
