@@ -17,11 +17,35 @@ use carbon_pump_swap_decoder::{
 use yellowstone_grpc_proto::geyser::SubscribeRequestFilterTransactions;
 use carbon_yellowstone_grpc_datasource::YellowstoneGrpcGeyserClient;
 
+const GRPC_ENDPOINT: &str = "https://solana-rpc.parafi.tech:10443";
+const PUMPFUN_PROGRAM: &str = "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P";
+const PUMPSWAP_PROGRAM: &str = "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA";
+
+fn transaction_filters() -> HashMap<String, SubscribeRequestFilterTransactions> {
+    let mut filters = HashMap::new();
+
+    for (name, program) in [("pumpfun", PUMPFUN_PROGRAM), ("pumpswap", PUMPSWAP_PROGRAM)] {
+        filters.insert(
+            name.to_string(),
+            SubscribeRequestFilterTransactions{
+                vote: Some(false),
+                failed: Some(false),
+                signature: None,
+                account_include: vec![program.to_string()],
+                account_exclude: vec![],
+                account_required: vec![],
+            }
+        );
+    }
+
+    filters
+}
+
 struct TradeEventProcessor;
 
 impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpfunInstruction>> for TradeEventProcessor {
     async fn process(
-        &mut self, 
+        &mut self,
         data: &InstructionProcessorInputType<'_, PumpfunInstruction>
     ) -> carbon_core::error::CarbonResult<()> {
             if data.metadata.transaction_metadata.meta.status.is_err() {
@@ -74,12 +98,12 @@ impl PumpSwapEventProcessor {
             Ok(data) => {
                 if let Some(p) =  Pool::decode(&data) {
                     self.pools.insert(
-                        pool, 
-                        PoolInfo { 
-                            base_mint: p.base_mint, 
-                            quote_mint: p.quote_mint, 
-                            base_decimals: 0, 
-                            quote_decimals: 0 
+                        pool,
+                        PoolInfo {
+                            base_mint: p.base_mint,
+                            quote_mint: p.quote_mint,
+                            base_decimals: 0,
+                            quote_decimals: 0
                         },
                     );
                 } else {
@@ -153,14 +177,14 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                     println!("Base decimals: {}", pool_event.base_mint_decimals);
                     println!("Quote decimals: {}", pool_event.quote_mint_decimals);
                     self.pools.insert(
-                        pool_event.pool, 
+                        pool_event.pool,
                         PoolInfo {
                             base_mint: pool_event.base_mint,
                             quote_mint: pool_event.quote_mint,
                             base_decimals: pool_event.base_mint_decimals,
                             quote_decimals: pool_event.quote_mint_decimals,
                         },
-                    );  
+                    );
                 }
 
                 _ => {}
@@ -174,62 +198,31 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
-    let pumpfun_filter = SubscribeRequestFilterTransactions {
-        vote: Some(false),
-        failed: Some(false),
-        signature: None,
-        account_include: vec![
-            "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P".to_string(),
-        ],
-        account_exclude: vec![],
-        account_required: vec![],
-    };
+    env_logger::init();
+    rustls::crypto::aws_lc_rs::default_provider()
+        .install_default()
+        .unwrap();
 
-    let pumpswap_filter = SubscribeRequestFilterTransactions {
-        vote: Some(false),
-        failed: Some(false),
-        signature: None,
-        account_include: vec![
-            "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA".to_string(),
-        ],
-        account_exclude: vec![],
-        account_required: vec![],
-    };  
-
-    let mut transaction_filters = HashMap::new();
-
-    transaction_filters.insert(
-        "pumpfun".to_string(),
-        pumpfun_filter,
-    );
-
-    transaction_filters.insert(
-        "pumpswap".to_string(), 
-        pumpswap_filter,
-    );
+    let transaction_filters = transaction_filters();
 
     println!("Transaction filters: {}", transaction_filters.len());
 
     let grpc_client = YellowstoneGrpcGeyserClient::new(
-        "https://solana-rpc.parafi.tech:10443".to_string(), 
-        None, 
-        None, 
-        HashMap::new(), 
-        transaction_filters, 
-        Default::default(), Default::default(), 
-        Default::default(), 
-        None, 
+        GRPC_ENDPOINT.to_string(),
+        None,
+        None,
+        HashMap::new(),
+        transaction_filters,
+        Default::default(), Default::default(),
+        Default::default(),
+        None,
         None,
     );
-
-    env_logger::init();
-
-    rustls::crypto::aws_lc_rs::default_provider().install_default().unwrap();
 
     Pipeline::builder()
         .datasource(grpc_client)
         .instruction(PumpfunDecoder, TradeEventProcessor)
-        .instruction(PumpSwapDecoder, PumpSwapEventProcessor { 
+        .instruction(PumpSwapDecoder, PumpSwapEventProcessor {
             pools: HashMap::new(),
             rpc: RpcClient::new("https://api.mainnet-beta.solana.com".to_string()),
         })
@@ -255,59 +248,59 @@ mod tests {
         Box<dyn std::error::Error>,
     > {
         let pumpfun_program_id = "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P";
-    
+
         let decoder = PumpfunDecoder;
-    
+
         let content = fs::read_to_string(fixture_path)?;
-    
+
         let json: serde_json::Value = serde_json::from_str(&content)?;
-    
+
         let mut trades = Vec::new();
-    
+
         if !json["result"]["meta"]["err"].is_null() {
             println!("Skipping failed transaction");
             return Ok(trades);
         }
-    
+
         let inner_groups = json["result"]["meta"]["innerInstructions"]
             .as_array()
             .unwrap();
-    
+
         for group in inner_groups {
             println!("Checking inner group: {}", group["index"]);
-    
+
             let instructions = group["instructions"].as_array().unwrap();
-    
+
             for (position, instruction) in instructions.iter().enumerate() {
                 if instruction["programId"].as_str() == Some(pumpfun_program_id) {
                     let encoded_data = instruction["data"].as_str().unwrap();
-    
+
                     let decoded_data = bs58::decode(encoded_data).into_vec()?;
-    
+
                     let account_val = instruction["accounts"].as_array().unwrap();
-    
+
                     let mut accounts = Vec::new();
-    
+
                     for account in account_val {
                         let address = account.as_str().unwrap();
                         let pubkey = Pubkey::from_str(address)?;
-    
+
                         accounts.push(AccountMeta::new_readonly(pubkey, false));
                     }
-    
+
                     let program_id = Pubkey::from_str(instruction["programId"].as_str().unwrap())?;
-    
+
                     let solana_instruction = Instruction {
                         program_id,
                         accounts,
                         data: decoded_data,
                     };
-    
+
                     match decoder.decode_instruction(&solana_instruction) {
                         Some(PumpfunInstruction::Buy { .. }) => {
                             println!("Position {} decoded as Buy", position);
                         }
-    
+
                         Some(PumpfunInstruction::CpiEvent { data, .. }) => match data {
                             CpiEvent::TradeEvent(trade) => {
                                 println!("Trade event found!");
@@ -321,22 +314,22 @@ mod tests {
                                 println!("Fee recipient: {}", trade.fee_recipient);
                                 println!("Creator: {}", trade.creator);
                                 println!("Instruction name: {}", trade.ix_name);
-    
+
                                 trades.push(trade);
                             }
-    
+
                             _ => {
                                 println!("Position {} contains another event", position);
                             }
                         },
-    
+
                         Some(_) => {
                             println!(
                                 "Position {} decoded as another Pumpfun instruction",
                                 position
                             );
                         }
-    
+
                         None => {
                             println!("Position {} could not be decoded", position);
                         }
@@ -344,7 +337,7 @@ mod tests {
                 }
             }
         }
-    
+
         Ok(trades)
     }
 
