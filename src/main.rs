@@ -1,12 +1,16 @@
 use std::collections::HashMap;
 use std::fs::File;
-use std::io::{BufWriter, Write};
+use std::io::{BufWriter, BufRead, Write};
 use std::time::Duration;
+
+use async_trait::async_trait;
+use carbon_core::error::CarbonResult;
+use tokio_util::bytes;
+use tokio_util::sync::CancellationToken;
 
 use base64::Engine;
 
 use futures::{SinkExt, StreamExt};  
-
 use clap::{Parser, Subcommand};
 
 use solana_pubkey::Pubkey;
@@ -15,6 +19,12 @@ use solana_rpc_client::nonblocking::rpc_client::RpcClient;
 
 use carbon_core::instruction::{InstructionProcessorInputType};
 use carbon_core::pipeline::Pipeline;
+use carbon_core::datasource::{Datasource, DatasourceId, TransactionUpdate, Update, UpdateType};
+
+use carbon_yellowstone_grpc_datasource::YellowstoneGrpcGeyserClient;
+
+use solana_signature::Signature;
+
 use carbon_pumpfun_decoder::{
     PumpfunDecoder, instructions::{CpiEvent, PumpfunInstruction},
 };
@@ -25,10 +35,11 @@ use carbon_pump_swap_decoder::{
 
 use yellowstone_grpc_proto::geyser::SubscribeRequestFilterTransactions;
 use yellowstone_grpc_proto::geyser::{subscribe_update::UpdateOneof, SubscribeRequest, SubscribeRequestPing};
+use yellowstone_grpc_proto::geyser::SubscribeUpdateTransactionInfo;
 use yellowstone_grpc_proto::prost::Message;
 use yellowstone_grpc_proto::tonic::transport::ClientTlsConfig;
+use yellowstone_grpc_proto::convert_from::{create_tx_meta, create_tx_versioned};
 
-use carbon_yellowstone_grpc_datasource::YellowstoneGrpcGeyserClient;
 
 use yellowstone_grpc_client::GeyserGrpcClient;
 
@@ -222,6 +233,10 @@ enum Commands {
         #[arg(long, default_value_t = 5)]
         minutes: u64
     },
+    Replay {
+        #[arg(long)]
+        path: String,
+    },
     Live,
 }
 
@@ -301,6 +316,129 @@ async fn run_capture(minutes: u64) -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
+struct ReplayDatasource {
+    path: String,
+}
+
+#[async_trait]
+impl Datasource for ReplayDatasource {
+    async fn consume (
+        &self,
+        id: DatasourceId,
+        sender: tokio::sync::mpsc::Sender<(Update, DatasourceId)>,
+        cancellation_token: CancellationToken,
+    ) -> CarbonResult<()> {
+        
+        let file = File::open(&self.path).map_err(|e| {
+            carbon_core::error::Error::FailedToConsumeDatasource(e.to_string())
+        })?;
+
+        let reader = std::io::BufReader::new(file);
+
+        let mut sent = 0u64;
+        let mut skipped = 0u64;
+
+        for line in reader.lines() {
+            if cancellation_token.is_cancelled(){
+                break;
+            }
+            
+            let line = line.map_err(|e| {
+                carbon_core::error::Error::FailedToConsumeDatasource(e.to_string())
+            })?;
+
+            let value: serde_json::Value = match serde_json::from_str(&line){
+                Ok(v) => v,
+                Err(_) => { skipped += 1; continue; }
+            };
+
+            let slot = value["slot"].as_u64().unwrap_or(0);
+
+            let Some(data) = value["data"].as_str() else { 
+                skipped += 1; 
+                continue 
+            };
+
+            let Ok(bytes) = base64::engine::general_purpose::STANDARD.decode(data) else {
+                skipped += 1;
+                continue;
+            };
+
+            let Ok(info) = SubscribeUpdateTransactionInfo::decode(&bytes[..]) else {
+                skipped += 1; 
+                continue;
+            };
+
+            let Ok(signature) = Signature::try_from(info.signature) else {
+                skipped += 1; continue;
+            };
+
+            let Some(raw_tx) = info.transaction else { 
+                skipped += 1; 
+                continue 
+            };
+
+            let Some(raw_meta) = info.meta else { 
+                skipped += 1; 
+                continue 
+            };
+
+            let Ok(transaction) = create_tx_versioned(raw_tx) else { 
+                skipped += 1; 
+                continue 
+            };
+
+            let Ok(meta) = create_tx_meta(raw_meta) else { 
+                skipped += 1; 
+                continue 
+            };
+
+            let update = Update::Transaction(Box::new(TransactionUpdate {
+                signature,
+                transaction,
+                meta,
+                is_vote: info.is_vote,
+                slot,
+                index: Some(info.index),
+                block_time: None,
+                block_hash: None,
+            }));
+
+            if sender.send((update, id.clone())).await.is_err() {
+                break;
+            }
+
+            sent += 1;
+
+        }
+
+        println!("replay finished: {sent} sent, {skipped} skipped");
+        
+        Ok(())
+    }
+
+    fn update_types(&self) -> Vec<UpdateType> {
+        vec![UpdateType::Transaction]
+    }
+}
+
+async fn run_pipeline(
+    datasource: impl Datasource + 'static,
+) -> Result<(), Box<dyn std::error::Error>> {
+        Pipeline::builder()
+            .datasource(datasource)
+            .instruction(PumpfunDecoder, TradeEventProcessor)
+            .instruction(PumpSwapDecoder, PumpSwapEventProcessor {
+                pools: HashMap::new(),
+                rpc: RpcClient::new("https://api.mainnet-beta.solana.com".to_string()),
+            })
+            .build()?
+            .run()
+            .await?;
+
+        Ok(())
+}
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
@@ -314,6 +452,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     match cli.command {
         Commands::Capture { minutes } => {
             run_capture(minutes).await?;
+            return Ok(());
+        }
+        Commands::Replay { path } => {
+            run_pipeline(ReplayDatasource { path }).await?;
             return Ok(());
         }
         Commands::Live => {}
@@ -335,15 +477,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         None,
     );
 
-    Pipeline::builder()
-        .datasource(grpc_client)
-        .instruction(PumpfunDecoder, TradeEventProcessor)
-        .instruction(PumpSwapDecoder, PumpSwapEventProcessor { 
-            pools: HashMap::new(),
-            rpc: RpcClient::new("https://api.mainnet-beta.solana.com".to_string()),
-        })
-        .build()?
-        .run().await?;
+    run_pipeline(grpc_client).await?;
 
     Ok(())
 }
