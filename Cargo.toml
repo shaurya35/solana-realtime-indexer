@@ -23,3 +23,6 @@ clap = { version = "4", features = ["derive"]}
 chrono = "0.4"
 yellowstone-grpc-client = "10.1.1"
 futures = "0.3"
+async-trait = "0.1"
+tokio-util = "0.7"
+solana-signature = "3.0"
