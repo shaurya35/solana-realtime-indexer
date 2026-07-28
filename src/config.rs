@@ -9,6 +9,11 @@ pub const SOLANA_RPC_URL: &str = "https://api.mainnet-beta.solana.com";
 pub const PUMPFUN_PROGRAM: &str = "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P";
 pub const PUMPSWAP_PROGRAM: &str = "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA";
 
+pub const PIPELINE_QUEUE_SIZE: usize = 10_000;
+pub const POOL_LOOKUP_QUEUE_SIZE: usize = 1_000;
+
+pub const WSOL_MINT: &str = "So11111111111111111111111111111111111111112";
+
 pub fn transaction_filters() -> HashMap<String, SubscribeRequestFilterTransactions> {
     let mut filters = HashMap::new();
 

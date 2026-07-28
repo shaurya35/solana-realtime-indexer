@@ -1,155 +1,152 @@
-use std::collections::HashMap;
-
-use solana_pubkey::Pubkey;
-
-use solana_rpc_client::nonblocking::rpc_client::RpcClient;
+use std::collections::HashSet;
 
 use carbon_core::instruction::InstructionProcessorInputType;
-
-use carbon_pump_swap_decoder::{
-    accounts::pool::Pool,
-    instructions::{CpiEvent as PumpSwapCpiEvent, PumpSwapInstruction},
-};
+use carbon_pump_swap_decoder::instructions::{CpiEvent as PumpSwapCpiEvent, PumpSwapInstruction};
+use solana_pubkey::Pubkey;
 
 use crate::identity::{EventId, EventLog};
-
-pub struct PoolInfo {
-    base_mint: Pubkey,
-    quote_mint: Pubkey,
-    base_decimals: u8,
-    quote_decimals: u8,
-}
+use crate::metrics::{inc, EVENTS_DECODED, POOL_CACHE_HITS, POOL_CACHE_MISSES, SKIPPED_FAILED};
+use crate::pools::{PoolInfo, PoolResolver};
 
 pub struct PumpSwapEventProcessor {
-    pub pools: HashMap<Pubkey, PoolInfo>,
-    pub rpc: Option<RpcClient>,
+    pub resolver: Option<PoolResolver>,
+    pub requested: HashSet<Pubkey>,
     pub events: EventLog,
 }
 
 impl PumpSwapEventProcessor {
-    async fn ensure_pool(&mut self, pool: Pubkey){
-        
-        if self.pools.contains_key(&pool){
-            return;
+    fn resolve(&mut self, pool: Pubkey) -> Option<PoolInfo> {
+        let resolver = self.resolver.as_ref()?;
+
+        if let Some(info) = resolver.get(&pool) {
+            inc(&POOL_CACHE_HITS);
+            return Some(info);
         }
 
-        let Some(rpc) = &self.rpc else {
-            return
-        };
+        inc(&POOL_CACHE_MISSES);
 
-        match rpc.get_account_data(&pool).await {
-            Ok(data) => {
-                if let Some(p) =  Pool::decode(&data) {
-                    self.pools.insert(
-                        pool, 
-                        PoolInfo { 
-                            base_mint: p.base_mint, 
-                            quote_mint: p.quote_mint, 
-                            base_decimals: 0, 
-                            quote_decimals: 0 
-                        },
-                    );
-                } else {
-                    println!(
-                        "Decode failed for {} | len={} | first8={:?}",
-                        pool,
-                        data.len(),
-                        &data[..data.len().min(8)],
-                    );
-                }
-            }
-            Err(e) => println!("RPC fetch failed for {}: {}", pool, e),
+        if self.requested.insert(pool) {
+            resolver.request(pool);
         }
+
+        None
+    }
+
+    fn record(&self, meta: &carbon_core::instruction::InstructionMetadata) {
+        let mut log = self.events.lock().unwrap();
+        log.push(EventId {
+            signature: meta.transaction_metadata.signature.to_string(),
+            absolute_path: meta.absolute_path.clone(),
+            event_ordinal: 0,
+        });
+        inc(&EVENTS_DECODED);
     }
 }
 
-impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwapInstruction>> for PumpSwapEventProcessor {
+impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwapInstruction>>
+    for PumpSwapEventProcessor
+{
     async fn process(
         &mut self,
         data: &InstructionProcessorInputType<'_, PumpSwapInstruction>,
     ) -> carbon_core::error::CarbonResult<()> {
-        if data.metadata.transaction_metadata.meta.status.is_err(){
+        if data.metadata.transaction_metadata.meta.status.is_err() {
+            inc(&SKIPPED_FAILED);
+            return Ok(());
+        }
+
+        let PumpSwapInstruction::CpiEvent { data: cpi_data, .. } = data.decoded_instruction else {
             return Ok(());
         };
 
-        match data.decoded_instruction {
-            PumpSwapInstruction::CpiEvent { data: cpi_data, .. } => match cpi_data {
-                PumpSwapCpiEvent::BuyEvent(trade) => {
-                    let meta = &data.metadata;
-                    println!("Trade event found!");
-                    println!("--- event ---");
-                    println!("signature: {}", meta.transaction_metadata.signature);
-                    println!("slot: {}", meta.transaction_metadata.slot);
-                    println!("absolute_path: {:?}", meta.absolute_path);
-                    println!("event_ordinal: 0");
-                    {
-                        let mut log = self.events.lock().unwrap();
-                        log.push(EventId {
-                            signature: meta.transaction_metadata.signature.to_string(),
-                            absolute_path: meta.absolute_path.clone(),
-                            event_ordinal: 0,
-                        });
-                    }
-                    println!("Pool: {}", trade.pool);
-                    println!("User: {}", trade.user);
-                    println!("Token received: {}", trade.base_amount_out);
-                    println!("SOL amount: {}", trade.quote_amount_in);
-                    self.ensure_pool(trade.pool).await;
-                    match self.pools.get(&trade.pool) {
-                        Some(pool_info) => println!("Base mint: {}", pool_info.base_mint),
-                        None => println!("Base mint: UNKNOWN"),
-                    }
-                }
+        let meta = &data.metadata;
 
-                PumpSwapCpiEvent::SellEvent(trade) => {
-                    let meta = &data.metadata;
-                    println!("Trade event found!");
-                    println!("--- event ---");
-                    println!("signature: {}", meta.transaction_metadata.signature);
-                    println!("slot: {}", meta.transaction_metadata.slot);
-                    println!("absolute_path: {:?}", meta.absolute_path);
-                    println!("event_ordinal: 0");
-                    {
-                        let mut log = self.events.lock().unwrap();
-                        log.push(EventId {
-                            signature: meta.transaction_metadata.signature.to_string(),
-                            absolute_path: meta.absolute_path.clone(),
-                            event_ordinal: 0,
-                        });
-                    }
-                    println!("Pool: {}", trade.pool);
-                    println!("User: {}", trade.user);
-                    println!("Token sold: {}", trade.base_amount_in);
-                    println!("SOL amount: {}", trade.quote_amount_out);
-                    self.ensure_pool(trade.pool).await;
-                    match self.pools.get(&trade.pool) {
-                        Some(pool_info) => println!("Base mint: {}", pool_info.base_mint),
-                        None => println!("Base mint: UNKNOWN"),
-                    }
-                }
+        match cpi_data {
+            PumpSwapCpiEvent::BuyEvent(trade) => {
+                self.record(meta);
+                let oriented = self
+                    .resolve(trade.pool)
+                    .and_then(|info| info.orient(trade.base_amount_out, trade.quote_amount_in, true));
 
-                PumpSwapCpiEvent::CreatePoolEvent(pool_event) => {
-                    println!("Pool created!");
-                    println!("Pool: {}", pool_event.pool);
-                    println!("Base mint: {}", pool_event.base_mint);
-                    println!("Quote mint: {}", pool_event.quote_mint);
-                    println!("Base decimals: {}", pool_event.base_mint_decimals);
-                    println!("Quote decimals: {}", pool_event.quote_mint_decimals);
-                    self.pools.insert(
-                        pool_event.pool, 
+                match oriented {
+                    Some(t) => println!(
+                        "pumpswap {} sig={} slot={} path={:?} ord=0 pool={} user={} mint={} sol={} token={}",
+                        if t.is_buy { "buy " } else { "sell" },
+                        meta.transaction_metadata.signature,
+                        meta.transaction_metadata.slot,
+                        meta.absolute_path,
+                        trade.pool,
+                        trade.user,
+                        t.token_mint,
+                        t.sol_amount,
+                        t.token_amount,
+                    ),
+                    None => println!(
+                        "pumpswap ???? sig={} slot={} path={:?} ord=0 pool={} user={} base={} quote={} (unresolved)",
+                        meta.transaction_metadata.signature,
+                        meta.transaction_metadata.slot,
+                        meta.absolute_path,
+                        trade.pool,
+                        trade.user,
+                        trade.base_amount_out,
+                        trade.quote_amount_in,
+                    ),
+                }  
+            }   
+
+            PumpSwapCpiEvent::SellEvent(trade) => {
+                self.record(meta);
+                let oriented = self
+                    .resolve(trade.pool)
+                    .and_then(|info| info.orient(trade.base_amount_in, trade.quote_amount_out, false));
+
+                match oriented {
+                    Some(t) => println!(
+                        "pumpswap {} sig={} slot={} path={:?} ord=0 pool={} user={} mint={} sol={} token={}",
+                        if t.is_buy { "buy " } else { "sell" },
+                        meta.transaction_metadata.signature,
+                        meta.transaction_metadata.slot,
+                        meta.absolute_path,
+                        trade.pool,
+                        trade.user,
+                        t.token_mint,
+                        t.sol_amount,
+                        t.token_amount,
+                    ),
+                    None => println!(
+                        "pumpswap ???? sig={} slot={} path={:?} ord=0 pool={} user={} base={} quote={} (unresolved)",
+                        meta.transaction_metadata.signature,
+                        meta.transaction_metadata.slot,
+                        meta.absolute_path,
+                        trade.pool,
+                        trade.user,
+                        trade.base_amount_in,
+                        trade.quote_amount_out,
+                    ),
+                }
+            }
+
+            PumpSwapCpiEvent::CreatePoolEvent(ev) => {
+                if let Some(resolver) = &self.resolver {
+                    resolver.insert(
+                        ev.pool,
                         PoolInfo {
-                            base_mint: pool_event.base_mint,
-                            quote_mint: pool_event.quote_mint,
-                            base_decimals: pool_event.base_mint_decimals,
-                            quote_decimals: pool_event.quote_mint_decimals,
+                            base_mint: ev.base_mint,
+                            quote_mint: ev.quote_mint,
+                            base_decimals: ev.base_mint_decimals,
+                            quote_decimals: ev.quote_mint_decimals,
                         },
-                    );  
+                    );
                 }
+                println!(
+                    "pool created {} base={} quote={}",
+                    ev.pool, ev.base_mint, ev.quote_mint
+                );
+            }
 
-                _ => {}
-            },
             _ => {}
         }
+
         Ok(())
     }
 }

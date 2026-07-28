@@ -5,6 +5,8 @@ mod datasources;
 mod identity;
 mod pipeline;
 mod processors;
+mod metrics;
+mod pools;
 
 use std::collections::HashMap;
 
@@ -23,6 +25,7 @@ use pipeline::run_pipeline;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     env_logger::init();
+    metrics::spawn_reporter();
 
     rustls::crypto::aws_lc_rs::default_provider()
         .install_default()

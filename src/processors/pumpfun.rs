@@ -2,6 +2,7 @@ use carbon_core::instruction::InstructionProcessorInputType;
 use carbon_pumpfun_decoder::instructions::{CpiEvent, PumpfunInstruction};
 
 use crate::identity::{EventId, EventLog};
+use crate::metrics::{inc, EVENTS_DECODED, SKIPPED_FAILED};
 
 pub struct TradeEventProcessor {
     pub events: EventLog,
@@ -13,6 +14,7 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, Pumpfun
         data: &InstructionProcessorInputType<'_, PumpfunInstruction>
     ) -> carbon_core::error::CarbonResult<()> {
             if data.metadata.transaction_metadata.meta.status.is_err() {
+                inc(&SKIPPED_FAILED);
                 return Ok(());
             };
 
@@ -33,6 +35,7 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, Pumpfun
                                 absolute_path: meta.absolute_path.clone(),
                                 event_ordinal: 0,
                             });
+                            inc(&EVENTS_DECODED);
                         }
                         println!("Mint: {}", trade.mint);
                         println!("User: {}", trade.user);
