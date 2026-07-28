@@ -1,13 +1,13 @@
 # solana-realtime-indexer
 
-Real-time Solana indexer for pump.fun and PumpSwap trades, written in Rust.
+Indexes pump.fun and PumpSwap trades from Solana mainnet, in real time.
 
-Streams mainnet over Yellowstone gRPC, decodes trades with
-[Carbon](https://github.com/sevenlabs-hq/carbon) 1.0, and stores them in Postgres.
+Written in Rust. Streams over Yellowstone gRPC, decodes with
+[Carbon](https://github.com/sevenlabs-hq/carbon), stores in Postgres.
 
-Work in progress. Building in public.
+Work in progress, built in public.
 
-## Quick start
+## Try it
 
 ```bash
 git clone https://github.com/shaurya35/solana-realtime-indexer
@@ -16,90 +16,100 @@ cp .env.example .env
 cargo test
 ```
 
-The tests run off a committed fixture, so you don't need a gRPC endpoint to try it. Three
-tests, a quarter of a second, no network.
+Tests run off a committed fixture. No endpoint, no API key, no network. Three tests, under
+a second.
 
-To run it live you need a mainnet Yellowstone endpoint in `.env`:
+## Run it
+
+Needs a mainnet Yellowstone gRPC endpoint in `.env`.
 
 ```bash
-# decode mainnet trades
-cargo run -- live
-
-# save real traffic to a file
-cargo run -- capture --minutes 5
-
-# replay a saved file
-cargo run -- replay --path fixtures/golden-500.jsonl
+cargo run -- live                                      # decode trades as they happen
+cargo run -- capture --minutes 5                       # record traffic to a file
+cargo run -- replay --path fixtures/golden-500.jsonl   # replay a recording
 ```
 
-## What's interesting here
+## What makes indexing this hard
 
-**It decodes fills, not intents.** The `Buy` instruction is what the user asked for. The
-`TradeEvent` is what actually happened. Prices move between the two, so if you index
-instructions your numbers are wrong. This matches the CPI events.
+Three problems that trip up most naive implementations.
 
-**It finds trades hidden inside other transactions.** A lot of volume goes through routers,
-which call pump.fun as an inner instruction. Read only the top level and you miss the trade
-entirely.
+**1. The trade is usually buried.**
 
-**Every event gets an ID that actually works.** Most indexers key on
-`(signature, instruction_index)`. Here's a real transaction from the test fixture:
+Most volume goes through routers and bots, which call pump.fun from inside their own
+instruction. If you only read the top level of a transaction, you see the router and miss
+the trade completely.
+
+**2. The instruction is not the trade.**
+
+A `Buy` instruction says what the user asked for. The `TradeEvent` the program emits says
+what actually executed. The price moves between those two moments. Index the instruction
+and your numbers are wrong.
+
+**3. One transaction can hold several trades.**
+
+Here is a real one from the test fixture:
 
 ```
 3ud3k16PF71eMbWpUirgaMHaxnxLiZQ87VUKcaYK7VGom8PaqKRXsh2TJ6zSAuJyPi4C6BPb2QFWVLdfDe87M3jV
-  path [3, 5]  sold     1,365,845,649
-  path [6, 5]  received 1,462,977,130
+
+  path [3, 5]   sold     1,365,845,649
+  path [6, 5]   received 1,462,977,130
 ```
 
-One transaction, two trades. A bot buying in one pool and selling in another. With an
-instruction index as the key those collide and you lose one, so the key here is
-`signature + absolute_path + event_ordinal`.
+A bot buying in one pool and selling in another, atomically. Most indexers key rows on
+`(signature, instruction_index)`. Both of these rows have the same instruction index, so
+one of them silently disappears.
 
-**It doesn't assume which side of a pool is SOL.** PumpSwap pools store two mints, and the
-order isn't guaranteed. Read the amounts positionally and every inverted pool reports
-swapped values that still look plausible. This checks both mints against the wrapped SOL
-address. The buy/sell direction flips too, not just the amounts.
+This one keys on `signature + absolute_path + event_ordinal`, where `absolute_path` is the
+full route through the transaction tree. Details in [DESIGN.md](DESIGN.md).
 
-**Nothing gets dropped silently.** An RPC lookup on the hot path was costing 66% of the
-stream, invisibly, because the datasource discards without a counter when the downstream is
-slow. Pool metadata now resolves in a background task and every discard path is counted.
+## Other things it gets right
+
+**Pool direction is not assumed.** PumpSwap pools store two tokens, and which one is SOL
+is not fixed. Read them positionally and half your pools report swapped amounts that still
+look plausible. This checks both against the wrapped SOL address, and flips the buy/sell
+direction too when the pool is inverted.
+
+**Nothing is dropped silently.** An RPC call on the hot path was costing 66% of the stream,
+invisibly, because the datasource discards without a counter when it can't keep up. Pool
+lookups now happen in the background and every discard path is counted.
 
 ```
-5.9 events/sec  ->  118 events/sec sustained
-zero updates discarded across a 190 second run
-92% pool cache hit rate, 457 RPC calls serving 1,486 misses
+5.9 events/sec   ->   118 events/sec
+zero updates dropped over a 190 second run
+92% cache hit rate, 457 RPC calls covering 1,486 misses
 ```
 
-**You can replay it.** `capture` saves the raw bytes off the wire, `replay` feeds them back
-through the same decode path. That's how the tests prove the same input always gives the
-same output, without touching the network.
+**It can replay itself.** `capture` saves raw bytes off the wire. `replay` feeds them back
+through the same decode path live traffic uses. That is how the tests prove the same input
+always produces the same output, with no network involved.
 
 ## Status
 
-Working:
+Done:
 
 - Live pump.fun and PumpSwap decoding
-- Pool to token mint resolution, with orientation handled
+- Pool to token resolution, direction handled
 - Stable event IDs
-- Capture and replay, with deterministic tests
-- Bounded queues with a stated overflow policy, and counters every 10 seconds
+- Capture, replay, deterministic tests
+- Bounded queues with a stated overflow policy, counters every 10 seconds
 - Postgres schema and migrations
 
-Next up:
+Next:
 
-- Postgres sink with batched writes
-- Crash and restart test proving no events are lost or duplicated
+- Postgres writes, batched
+- Crash and restart test proving nothing is lost or duplicated
 - Query API and metrics
 
 ## Notes
 
-Amounts are stored as raw integers (lamports, raw token units), never floats.
+Amounts are stored as raw integers. Lamports for SOL, raw units for tokens. Never floats.
 
-Captures are big, roughly 340 MB for two minutes of mainnet, so they're gitignored.
-`fixtures/golden-500.jsonl` is a small committed slice for tests.
+Recordings are large, around 340 MB for two minutes, so they are gitignored.
+`fixtures/golden-500.jsonl` is a small committed slice used by the tests.
 
-See [DESIGN.md](DESIGN.md) for the reasoning behind each decision, the measurements, and an
-honest list of what this doesn't do yet.
+[DESIGN.md](DESIGN.md) covers the reasoning behind each decision, the measurements, and
+what this does not do yet.
 
 ## License
 

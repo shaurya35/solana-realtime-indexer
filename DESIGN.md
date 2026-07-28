@@ -2,47 +2,33 @@
 
 Why this indexer is built the way it is.
 
-Each section states a decision, the reasoning behind it, and where relevant the evidence
-from real mainnet data that supports it.
+Each section gives a decision, the reason, and where possible the evidence from real
+mainnet data.
 
-## Contents
+## How an event is identified
 
-- [Event identity](#event-identity)
-- [What gets indexed](#what-gets-indexed)
-- [Pool orientation](#pool-orientation)
-- [Backpressure](#backpressure)
-- [Storage](#storage)
-- [Divergence from Carbon's generated tables](#divergence-from-carbons-generated-tables)
-- [Testing strategy](#testing-strategy)
-- [Known limitations](#known-limitations)
-
-## Event identity
-
-Every decoded event is keyed on three fields:
+Every event is keyed on three things:
 
 ```
 signature + absolute_path + event_ordinal
 ```
 
-`absolute_path` is the event's position in the transaction's CPI tree, expressed as a list
-of indices. The length of the list is the depth. A path of `[3, 0, 0]` means outer
-instruction 3, then its first inner instruction, then that instruction's first inner
-instruction.
+`absolute_path` is where the event sits in the transaction, written as a list of positions.
+The length of the list is how deep it is. `[3, 0, 0]` means outer instruction 3, then its
+first inner instruction, then that one's first inner instruction.
 
-`event_ordinal` distinguishes multiple events emitted by a single instruction. For the
-decoders used here one instruction produces one event, so this field is always 0. It is
-part of the key because a future decoder may not have that property, and adding a column
-to a primary key after the fact is expensive.
+`event_ordinal` separates multiple events from a single instruction. With the current
+decoders one instruction produces one event, so it is always 0. It is in the key because a
+future decoder might not behave that way, and widening a primary key later is expensive.
 
-### Why not `(signature, instruction_index)`
+### Why not the instruction index
 
-This is the key most indexers use, and it loses data on real transactions.
+Most indexers use `(signature, instruction_index)`. That loses data.
 
-Carbon exposes an `index` field on instruction metadata. That field is the first element of
-`absolute_path`, which is the outer instruction number. Every instruction nested anywhere
-inside a given outer instruction therefore shares the same `index`.
+Carbon's `index` field is the first element of `absolute_path`, which is the outer
+instruction number. Every instruction nested inside a given outer instruction shares it.
 
-Here is a transaction from the committed test fixture:
+From the test fixture:
 
 ```
 signature 3ud3k16PF71eMbWpUirgaMHaxnxLiZQ87VUKcaYK7VGom8PaqKRXsh2TJ6zSAuJyPi4C6BPb2QFWVLdfDe87M3jV
@@ -51,262 +37,236 @@ signature 3ud3k16PF71eMbWpUirgaMHaxnxLiZQ87VUKcaYK7VGom8PaqKRXsh2TJ6zSAuJyPi4C6B
   absolute_path [6, 5]   received  1,462,977,130
 ```
 
-One transaction, two separate fills. This is a bot buying in one pool and selling in
-another, atomically, which is common on Solana. With an instruction index in the key these
-two rows collide and one is silently discarded. Every arbitrage transaction would lose half
-its volume, and nothing in the system would report an error.
+One transaction, two fills. A bot buying in one pool and selling in another. Both have the
+same instruction index, so one row overwrites the other and no error is raised. Every
+arbitrage transaction would lose half its volume.
 
-`absolute_path` distinguishes them because it describes the full route through the tree
-rather than the entry point.
+The full path distinguishes them because it describes the whole route, not just the entry
+point.
 
 ## What gets indexed
 
-The indexer matches CPI events, not instruction arguments.
+CPI events, not instruction arguments.
 
-A `Buy` instruction records what the user requested. The `TradeEvent` emitted by the
-program records what actually executed. Prices move between those two moments, so the
-amounts differ. An indexer that reports the instruction reports intent, and intent is not
-what happened.
-
-Concretely, the pipeline matches:
+A `Buy` instruction records the request. The `TradeEvent` records what executed. Prices
+move between them, so the amounts differ. Indexing the instruction means reporting intent
+instead of outcome.
 
 | Program | Matched |
 |---|---|
 | pump.fun | `CpiEvent::TradeEvent` |
-| PumpSwap | `CpiEvent::BuyEvent`, `CpiEvent::SellEvent`, `CpiEvent::CreatePoolEvent` |
+| PumpSwap | `BuyEvent`, `SellEvent`, `CreatePoolEvent` |
 
-Failed transactions are excluded at two levels. The subscription filter sets
-`failed: false`, so the server does not send them on the live path. A second check on
-`transaction_metadata.meta.status` covers the replay path, where saved files may contain
-failed transactions.
+Failed transactions are excluded twice. The subscription sets `failed: false` so the server
+never sends them live. A check on the transaction status covers replay, where saved files
+can contain failures.
 
-The status check belongs at the transaction level rather than the event level. Solana
-transactions are atomic, so an event can be emitted and then rolled back when a later
-instruction fails. Only the transaction knows the final outcome.
+That check belongs on the transaction, not the event. Solana transactions are atomic, so an
+event can be emitted and then rolled back when a later instruction fails. Only the
+transaction knows the outcome.
 
-## Pool orientation
+## Pool direction
 
-A PumpSwap pool holds two tokens, recorded as `base_mint` and `quote_mint`. The order is
-not guaranteed. Some pools are created with the traded token as base and SOL as quote.
-Others are the reverse.
+A PumpSwap pool holds two tokens, stored as `base_mint` and `quote_mint`. Which one is SOL
+is not fixed. Some pools are created one way, some the other.
 
 Trade events report `base_amount` and `quote_amount` without saying which is which. Reading
-them positionally produces wrong values for every inverted pool, and the values look
-plausible because both are just integers.
+them by position gives wrong values on every inverted pool, and the values look reasonable
+because they are just numbers.
 
-The indexer resolves this by comparing both mints against the wrapped SOL address
-(`So11111111111111111111111111111111111111112`) and assigning amounts accordingly.
+The fix is to compare both mints against wrapped SOL
+(`So11111111111111111111111111111111111111112`) and assign from there.
 
-The trade direction inverts as well. A `BuyEvent` means the user acquired the base token.
-On a pool where base is SOL, acquiring base means the user was selling. The reported side
-therefore comes from the resolved orientation, not from which event variant fired.
+The direction inverts too. A `BuyEvent` means the user acquired the base token. If base is
+SOL, acquiring base means the user was selling. So the reported side comes from the
+resolved direction, not from which event fired.
 
-Pools with SOL on neither side are reported with raw amounts and no orientation, because
-"SOL amount" has no meaning for a token to token pool.
+Pools with SOL on neither side are reported with raw amounts and no direction, since "SOL
+amount" is meaningless for a token to token pool.
 
 ## Backpressure
 
 ### The problem
 
-Carbon invokes the processor one event at a time and waits for each to complete. The pool
-metadata lookup originally made an RPC call inside that path, taking roughly 300ms. While
-blocked, incoming updates accumulated in Carbon's internal channel, which holds 1,000 items
-by default. Once full, the Yellowstone datasource calls `try_send`, which fails immediately
-rather than waiting, logs at a level that is off by default, and discards the update.
+Carbon calls the processor one event at a time and waits for each to finish. The pool
+lookup used to make an RPC call inside that path, taking around 300ms. While blocked,
+incoming updates piled into Carbon's internal channel, which holds 1,000 by default. Once
+full, the datasource calls `try_send`, which fails instantly rather than waiting, logs at a
+level that is off by default, and throws the update away.
 
-Measured over 25 second live runs:
+Measured over 25 second runs:
 
-| Configuration | Trades observed |
+| Setup | Trades seen |
 |---|---|
 | No RPC lookup | 442 |
-| RPC in the buy path only | 276 |
-| RPC in both paths | 147 |
+| RPC on buys only | 276 |
+| RPC on both | 147 |
 
-Approximately two thirds of the stream was being discarded with no exception, no counter,
-and no visible log line.
+Two thirds of the stream, gone. No error, no counter, no visible log.
 
-### Why a larger queue does not solve this
+### Why a bigger queue does not help
 
-A buffer absorbs a burst, meaning a short spike that then subsides and gives the consumer
-time to recover. It does nothing for a consumer that is permanently slower than the
-producer. At pump.fun volume the stream does not subside, so any fixed buffer fills. Raising
-the capacity to 10,000 delays the first discard by a few seconds and changes nothing
-afterwards.
+A buffer absorbs a burst: a short spike that then settles, giving the consumer time to
+catch up. It does nothing for a consumer that is permanently slower than the producer. At
+pump.fun volume the stream never settles, so any buffer fills. Ten thousand delays the
+first loss by seconds and changes nothing after.
 
-An unbounded channel does not discard at all. It grows until the process is terminated for
-memory use, which is a worse outcome than discarding because it takes the entire indexer
-offline rather than losing a subset of updates.
+An unbounded channel does not drop at all. It grows until the process is killed for memory,
+which is worse, because losing some updates beats losing the whole indexer.
 
-The cause was never the queue size. It was a network call inside a loop that handles one
-event at a time.
+The queue size was never the cause. A network call inside a one-at-a-time loop was.
 
-### The change
+### What changed
 
-Pool metadata moved to a shared in-memory cache. On a cache miss the processor sends the
-pool address to a background task over a bounded channel and returns immediately. The event
-is emitted with the mint marked unresolved. The background task performs the RPC call and
-populates the cache, so subsequent trades on that pool resolve from memory.
+Pool data moved to a shared in-memory cache. On a miss, the processor sends the pool
+address to a background task and returns straight away. The event is emitted with the token
+marked unresolved. The background task does the RPC and fills the cache, so later trades on
+that pool resolve from memory.
 
-`CreatePoolEvent` populates the cache directly when a pool is created on the stream,
-including token decimals, at no network cost.
+`CreatePoolEvent` fills the cache directly when a pool is created on the stream, including
+decimals, at no network cost.
 
-A local set of already requested pools prevents duplicate lookups. A busy pool may produce
-many cache misses in the window before its first lookup returns, and without deduplication
-each would queue a separate request.
+A local set of already-requested pools stops duplicate lookups. A busy pool can miss many
+times in the window before its first lookup returns, and each miss would otherwise queue
+another request.
 
-The processor now performs no awaits at all.
+The processor now performs no waits at all.
 
-### Overflow policy
+### Two queues, two policies
 
-Two queues, two deliberately different policies.
-
-| Queue | Capacity | Policy | Reasoning |
+| Queue | Size | Policy | Why |
 |---|---|---|---|
-| Pipeline events | 10,000 | Does not overflow | The processor no longer blocks, so it drains faster than the stream fills. The buffer absorbs bursts rather than compensating for a slow consumer. |
-| Pool lookups | 1,000 | Discard and count | A discarded lookup request costs nothing. The pool trades again within seconds and the miss re-fires. |
+| Events | 10,000 | Never overflows | The processor no longer blocks, so it drains faster than the stream fills. The buffer handles bursts, not a slow consumer. |
+| Pool lookups | 1,000 | Drop and count | A dropped lookup costs nothing. The pool trades again within seconds and the miss repeats. |
 
-Discard and count is neither correct nor incorrect on its own. It is appropriate for
-anything that repeats and unacceptable for anything that does not, which is why the same
-policy is right for lookup requests and wrong for events.
+Dropping is not right or wrong on its own. It is fine for anything that repeats and
+unacceptable for anything that does not. That is the whole difference between these two
+queues.
 
-Both capacities are set explicitly in `config.rs` rather than left as library defaults, so
-the values are a decision rather than an accident.
+Both sizes are set in `config.rs` rather than left as defaults, so they are a choice rather
+than an accident.
 
 ### Results
 
-A 190 second live run. Raw output is in `docs/gates/week1/drop-fix-stats.txt`.
+A 190 second live run. Raw output in `docs/gates/week1/drop-fix-stats.txt`.
 
-| Metric | Before | After |
+| | Before | After |
 |---|---|---|
-| Events decoded per second | 5.9 | 118 sustained, 201 peak |
-| Updates discarded | Unknown, not instrumented | 0 across every 10 second interval |
-| Pool cache hit rate | Not applicable | 92.1% at 190 seconds |
-| RPC calls | One per uncached trade | 457 total, serving 1,486 cache misses |
+| Events per second | 5.9 | 118 sustained, 201 peak |
+| Updates dropped | Unknown, not measured | 0, every 10 second interval |
+| Cache hit rate | n/a | 92% |
+| RPC calls | One per uncached trade | 457, covering 1,486 misses |
 
-The throughput comparison is indicative rather than controlled. The two measurements were
-taken on different days, so market volume differed. The discard count and cache behaviour
-are not subject to that caveat.
+The throughput comparison is indicative, not controlled. The two runs happened on different
+days, so market volume differed. The drop count and cache numbers are not affected by that.
 
-The cost of this design is that 1,495 of 19,428 PumpSwap fills, or 7.7%, were emitted
-without a resolved mint. This is an acceptable trade because a missing mint is recoverable
-and a missing event is not. The pool address is recorded on every event, so an unresolved
-mint can be filled in later from the `pools` table or a batch RPC pass. An update that the
-datasource discarded was never observed and cannot be reconstructed from anything the
-system holds.
+The cost: 1,495 of 19,428 PumpSwap fills, or 7.7%, were emitted without a resolved token.
+That is an acceptable trade because a missing token can be recovered and a missing event
+cannot. Every event stores the pool address, so the token can be filled in later. An update
+the datasource threw away was never seen at all.
 
 ## Storage
 
-Four tables. Migrations are in `migrations/`.
+Four tables. Migrations in `migrations/`.
 
-### Amounts are BIGINT, never floating point
+### Amounts are integers, never floats
 
-All amounts are stored as raw integers: lamports for SOL, raw units for tokens.
+Lamports for SOL, raw units for tokens.
 
-A `u64` of lamports can exceed the range that a 64 bit float represents exactly, at which
-point arithmetic begins rounding silently. Financial totals computed from rounded inputs
-are wrong in ways that are difficult to detect because no operation fails.
+A `u64` of lamports can exceed what a 64 bit float represents exactly. Past that point
+arithmetic rounds silently, and totals built from rounded inputs are wrong in ways nothing
+reports.
 
-Token decimals are stored separately in the `pools` table and applied at display time.
-Applying them at write time would mean storing a value that cannot be recovered exactly.
+Decimals live in the `pools` table and are applied when displaying. Applying them on write
+would store a number that cannot be recovered.
 
-### `events` and `trades` are separate tables
+### `events` and `trades` are separate
 
-`events` is an append only record of what was decoded, including the full payload as JSONB.
-`trades` is the interpreted subset, flattened into queryable columns.
+`events` is an append-only record of what was decoded, keeping the full payload as JSON.
+`trades` is the interpreted part, flattened into columns you can query.
 
-The separation exists so that improved decode logic does not require re-reading mainnet.
-If interpretation changes, `trades` can be rebuilt from `events`. If both were one table,
-a decode fix would mean refetching historical data.
+They are separate so that improving the decode logic does not mean re-reading mainnet. If
+interpretation changes, `trades` can be rebuilt from `events`. As one table, a decode fix
+would mean refetching history.
 
-`events` carries a `parser_version` column. Any change to decode logic increments it, which
-makes it possible to distinguish rows produced by old logic from rows produced by current
-logic, and to backfill selectively.
+`events` has a `parser_version` column. Changing decode logic bumps it, which makes it
+possible to tell old rows from current ones and to backfill selectively.
 
 ### The checkpoint
 
-`ingestion_checkpoints` holds exactly one row, enforced by a check constraint. It records
-the highest slot for which processing is known to be complete.
+`ingestion_checkpoints` holds exactly one row, enforced by a constraint. It records the
+highest slot known to be fully processed.
 
-The checkpoint advances only when a batch commits, in the same database transaction as the
-events in that batch. This means it can never report progress that was not durably written.
+It advances only when a batch commits, inside the same database transaction as that batch's
+events. So it can never claim progress that was not written.
 
-`SELECT MAX(slot) FROM events` is not equivalent and cannot be substituted. Events are
-written in batches. If the process fails partway through a batch, some rows from that batch
-are present and others are not, and the missing rows are not necessarily the highest ones.
-`MAX(slot)` returns the highest slot that arrived, which may be well above the highest slot
-that completed. Resuming from it skips the gaps below it permanently and silently.
+`SELECT MAX(slot) FROM events` is not the same thing. Events are written in batches. If the
+process dies partway through one, some rows are there and others are not, and the missing
+ones are not necessarily the highest. `MAX(slot)` returns the highest slot that arrived,
+which can be well above the highest that completed. Resuming from it skips the gaps below
+it, permanently and silently.
 
-Resuming from the checkpoint instead means reprocessing part of a batch. The primary key
-combined with `ON CONFLICT DO NOTHING` makes those repeated inserts no-ops, so overlap is
-free.
+Resuming from the checkpoint means redoing part of a batch. The primary key plus
+`ON CONFLICT DO NOTHING` makes those repeats no-ops, so the overlap is free.
 
-## Divergence from Carbon's generated tables
+## Why not Carbon's generated tables
 
-Carbon can generate Postgres tables for a decoder. Those tables are keyed on:
+Carbon can generate Postgres tables for a decoder, keyed on
+`__signature, __instruction_index, __stack_height, __slot`, with one table per instruction
+type.
 
-```
-__signature, __instruction_index, __stack_height, __slot
-```
+That is a good log of which instructions were called. It does not work as the storage layer
+here for two reasons.
 
-with one table per instruction type.
+The key includes the instruction index, which as above is the outer instruction number and
+is shared across a whole subtree. Adding stack height helps but does not fix it, since two
+instructions at the same depth under the same outer instruction still match on both.
 
-That shape is a faithful log of instruction invocations, and it is useful for that purpose.
-It is not suitable as the storage layer here for two reasons.
+More importantly, one table per instruction type answers a different question. It records
+instruction calls. This project records trades, across two protocols, in a shape that
+supports querying by token and by time.
 
-The key includes `__instruction_index`, which as described above is the outer instruction
-number and is shared across an entire CPI subtree. Adding `__stack_height` reduces
-collisions but does not eliminate them, because two instructions at the same depth under the
-same outer instruction share both values.
+Different products, not better and worse versions of the same one.
 
-More fundamentally, one table per instruction type answers a different question. It records
-which instructions were called. This system needs to record which trades occurred, across
-two protocols, in a shape that supports queries by token and by time.
+## Testing
 
-These are different products rather than better and worse versions of the same product.
-Carbon's generated tables are a reasonable raw log. A normalized event store is a different
-artifact with different requirements.
+The test suite runs with no network and no credentials.
 
-## Testing strategy
+`capture` records raw wire bytes to a JSON Lines file, one transaction per line, base64
+encoded, with slot and signature stored in plain text so a transaction can be found without
+decoding the file.
 
-The test suite runs with no network access and no gRPC credentials.
+Raw bytes are stored deliberately. A fixture holding already-decoded events would mean
+replay hands back those events without the decoder ever running, which tests the file
+reader and nothing else.
 
-`capture` records raw Yellowstone wire bytes to a JSON Lines file, one transaction per line,
-base64 encoded, with slot and signature stored in plain text alongside so a transaction can
-be located without decoding the file.
+`replay` implements Carbon's `Datasource` trait and feeds a saved file through the same
+decode path live traffic uses. Both sources satisfy the same trait, so the pipeline cannot
+tell them apart, and anything proven under replay holds for live.
 
-The raw bytes are stored deliberately. A fixture containing already decoded events would
-mean that replaying it returns those same events without the decoder ever running. Such a
-test verifies the file reader and nothing else.
+The main test replays a fixture twice and asserts both runs produce the same set of event
+IDs. `fixtures/golden-500.jsonl` holds 500 real mainnet transactions, including 58 pump.fun
+fills and 214 PumpSwap fills.
 
-`replay` implements Carbon's `Datasource` trait and feeds a captured file into the pipeline
-through the identical decode path used by live traffic. Because both data sources satisfy
-the same trait, the pipeline cannot distinguish them, so results proven under replay hold
-for live.
+The same pair also gives reviewers a way to run the project without a paid endpoint, and
+will later provide input for crash testing and benchmarking.
 
-The primary test replays a committed fixture twice and asserts that both runs produce an
-identical set of event identifiers. `fixtures/golden-500.jsonl` contains 500 real mainnet
-transactions, including 58 pump.fun fills and 214 PumpSwap fills.
+## What this does not do
 
-The same capture and replay pair also provides fixture mode for reviewers without a paid
-endpoint, input for crash recovery testing, and input for benchmarking.
+**Carbon's silent drop is unchanged.** The datasource still calls `try_send` and still
+discards without a counter when the downstream is slow. This project removed the reason its
+downstream was slow. It did not change that behaviour, and any future blocking call in the
+processor would bring the same invisible loss back. Adding a dropped-update counter
+upstream is a proposed contribution to Carbon, not something fixed here.
 
-## Known limitations
+**Decimals are incomplete.** Pools found through `CreatePoolEvent` have correct decimals.
+Pools found through RPC do not, because the pool account stores mints but not their decimal
+precision, which needs a second lookup per mint. This affects display only, since amounts
+are stored raw.
 
-**Carbon's silent discard is unchanged.** The Yellowstone datasource still calls `try_send`
-and still discards without a counter when its downstream is slow. This system removed the
-reason its downstream was slow. It did not change the underlying behaviour, and any future
-blocking call in the processor would reproduce the same invisible loss. Making the loss
-visible upstream, through a discarded update counter on the datasource, is a proposed
-contribution to Carbon rather than something addressed here.
+**Reorgs are not handled.** The indexer subscribes at the default commitment and does not
+track fork choice or handle rollback. Calling this reorg safe would need a passing fork
+replacement test, and there isn't one.
 
-**Token decimals are incomplete.** Pools discovered through `CreatePoolEvent` carry correct
-decimals. Pools discovered through RPC do not, because the pool account records mints but
-not their decimal precision, which requires a second lookup against each mint account. This
-affects display formatting only, since amounts are stored raw.
-
-**Reorg handling is not implemented.** The indexer subscribes at the default commitment
-level and does not track fork choice or handle slot rollback. Describing this system as
-reorg safe would require a passing fork replacement test, which does not exist.
-
-**Coverage is partial.** Instruction and event variants outside those listed above are
-decoded and ignored rather than stored. Unknown variants are logged and never cause a panic.
+**Coverage is partial.** Instruction and event types beyond those listed are decoded and
+ignored rather than stored. Unknown types are logged and never panic.
