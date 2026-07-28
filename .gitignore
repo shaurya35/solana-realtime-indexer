@@ -6,8 +6,9 @@
 # agents
 AGENTS.md
 
-# notes 
+# notes
 notes/UNDERSTANDING.md
+notes/QUESTIONS.md
 
 # fixtures
 fixtures/capture-*.jsonl
