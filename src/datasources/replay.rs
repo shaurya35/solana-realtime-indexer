@@ -13,6 +13,8 @@ use yellowstone_grpc_proto::convert_from::{create_tx_meta, create_tx_versioned};
 use yellowstone_grpc_proto::geyser::SubscribeUpdateTransactionInfo;
 use yellowstone_grpc_proto::prost::Message;
 
+use crate::metrics::{inc, REPLAY_SKIPPED};
+
 pub struct ReplayDatasource {
     pub path: String,
 }
@@ -45,6 +47,7 @@ impl Datasource for ReplayDatasource {
                 Ok(v) => v,
                 Err(_) => {
                     skipped += 1;
+                    inc(&REPLAY_SKIPPED);
                     continue;
                 }
             };
@@ -53,41 +56,49 @@ impl Datasource for ReplayDatasource {
 
             let Some(data) = value["data"].as_str() else {
                 skipped += 1;
+                inc(&REPLAY_SKIPPED);  
                 continue;
             };
 
             let Ok(bytes) = base64::engine::general_purpose::STANDARD.decode(data) else {
                 skipped += 1;
+                inc(&REPLAY_SKIPPED);
                 continue;
             };
 
             let Ok(info) = SubscribeUpdateTransactionInfo::decode(&bytes[..]) else {
                 skipped += 1;
+                inc(&REPLAY_SKIPPED);
                 continue;
             };
 
             let Ok(signature) = Signature::try_from(info.signature) else {
                 skipped += 1;
+                inc(&REPLAY_SKIPPED);
                 continue;
             };
 
             let Some(raw_tx) = info.transaction else {
                 skipped += 1;
+                inc(&REPLAY_SKIPPED);
                 continue;
             };
 
             let Some(raw_meta) = info.meta else {
                 skipped += 1;
+                inc(&REPLAY_SKIPPED);
                 continue;
             };
 
             let Ok(transaction) = create_tx_versioned(raw_tx) else {
                 skipped += 1;
+                inc(&REPLAY_SKIPPED);
                 continue;
             };
 
             let Ok(meta) = create_tx_meta(raw_meta) else {
                 skipped += 1;
+                inc(&REPLAY_SKIPPED);
                 continue;
             };
 
