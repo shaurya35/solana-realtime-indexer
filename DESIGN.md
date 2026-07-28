@@ -6,8 +6,8 @@ Design decisions for solana-realtime-indexer, and the reasoning behind each.
 
 ### Why `absolute_path` + `event_ordinal`?
 
-<!-- 3-5 sentences. What is absolute_path, what does event_ordinal
-     break a tie on, and why is this stable across replays? -->
+absolute_path is the full route through the tree, so no two instructions in a transaction share one.
+event_ordinal covers the case where a single instruction emits multiple events.
 
 ### Why does `(signature, instruction_index)` collide?
 
