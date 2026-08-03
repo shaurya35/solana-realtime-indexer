@@ -7,12 +7,12 @@ use futures::{SinkExt, StreamExt};
 
 use yellowstone_grpc_client::GeyserGrpcClient;
 use yellowstone_grpc_proto::geyser::{
-    subscribe_update::UpdateOneof, SubscribeRequest, SubscribeRequestPing,
+    SubscribeRequest, SubscribeRequestPing, subscribe_update::UpdateOneof,
 };
 use yellowstone_grpc_proto::prost::Message;
 use yellowstone_grpc_proto::tonic::transport::ClientTlsConfig;
 
-use crate::config::{transaction_filters, GRPC_ENDPOINT};
+use crate::config::{GRPC_ENDPOINT, transaction_filters};
 
 pub async fn run_capture(minutes: u64) -> Result<(), Box<dyn std::error::Error>> {
     let stamp = chrono::Local::now().format("%Y%m%dT%H%M%S");
@@ -48,7 +48,9 @@ pub async fn run_capture(minutes: u64) -> Result<(), Box<dyn std::error::Error>>
 
         match msg.update_oneof {
             Some(UpdateOneof::Transaction(update)) => {
-                let Some(info) = update.transaction else { continue };
+                let Some(info) = update.transaction else {
+                    continue;
+                };
 
                 let signature = bs58::encode(&info.signature).into_string();
 

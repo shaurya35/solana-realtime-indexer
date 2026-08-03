@@ -13,10 +13,13 @@ use yellowstone_grpc_proto::convert_from::{create_tx_meta, create_tx_versioned};
 use yellowstone_grpc_proto::geyser::SubscribeUpdateTransactionInfo;
 use yellowstone_grpc_proto::prost::Message;
 
-use crate::metrics::{inc, REPLAY_SKIPPED};
+use crate::metrics::{REPLAY_SKIPPED, inc};
 
 pub struct ReplayDatasource {
     pub path: String,
+
+    // 0 means loop forever. Any other number is a fixed pass count.
+    pub repeat: u32,
 }
 
 #[async_trait]
@@ -27,100 +30,123 @@ impl Datasource for ReplayDatasource {
         sender: tokio::sync::mpsc::Sender<(Update, DatasourceId)>,
         cancellation_token: CancellationToken,
     ) -> CarbonResult<()> {
-        let file = File::open(&self.path)
-            .map_err(|e| carbon_core::error::Error::FailedToConsumeDatasource(e.to_string()))?;
-
-        let reader = std::io::BufReader::new(file);
-
         let mut sent = 0u64;
         let mut skipped = 0u64;
+        let mut pass = 0u32;
 
-        for line in reader.lines() {
+        // Labelled so the inner `for` can break out of both loops at once.
+        // Without the label, `break` would only end the current pass and the
+        // outer loop would immediately start another one.
+        'passes: loop {
             if cancellation_token.is_cancelled() {
                 break;
             }
 
-            let line = line
+            // Reopened every pass. A BufReader is consumed as it is read, so
+            // there is nothing to rewind. Reopening is cheap because the file
+            // stays in the OS page cache after the first pass.
+            let file = File::open(&self.path)
                 .map_err(|e| carbon_core::error::Error::FailedToConsumeDatasource(e.to_string()))?;
 
-            let value: serde_json::Value = match serde_json::from_str(&line) {
-                Ok(v) => v,
-                Err(_) => {
+            let reader = std::io::BufReader::new(file);
+
+            for line in reader.lines() {
+                if cancellation_token.is_cancelled() {
+                    break 'passes;
+                }
+
+                let line = line.map_err(|e| {
+                    carbon_core::error::Error::FailedToConsumeDatasource(e.to_string())
+                })?;
+
+                let value: serde_json::Value = match serde_json::from_str(&line) {
+                    Ok(v) => v,
+                    Err(_) => {
+                        skipped += 1;
+                        inc(&REPLAY_SKIPPED);
+                        continue;
+                    }
+                };
+
+                let slot = value["slot"].as_u64().unwrap_or(0);
+
+                let Some(data) = value["data"].as_str() else {
                     skipped += 1;
                     inc(&REPLAY_SKIPPED);
                     continue;
+                };
+
+                let Ok(bytes) = base64::engine::general_purpose::STANDARD.decode(data) else {
+                    skipped += 1;
+                    inc(&REPLAY_SKIPPED);
+                    continue;
+                };
+
+                let Ok(info) = SubscribeUpdateTransactionInfo::decode(&bytes[..]) else {
+                    skipped += 1;
+                    inc(&REPLAY_SKIPPED);
+                    continue;
+                };
+
+                let Ok(signature) = Signature::try_from(info.signature) else {
+                    skipped += 1;
+                    inc(&REPLAY_SKIPPED);
+                    continue;
+                };
+
+                let Some(raw_tx) = info.transaction else {
+                    skipped += 1;
+                    inc(&REPLAY_SKIPPED);
+                    continue;
+                };
+
+                let Some(raw_meta) = info.meta else {
+                    skipped += 1;
+                    inc(&REPLAY_SKIPPED);
+                    continue;
+                };
+
+                let Ok(transaction) = create_tx_versioned(raw_tx) else {
+                    skipped += 1;
+                    inc(&REPLAY_SKIPPED);
+                    continue;
+                };
+
+                let Ok(meta) = create_tx_meta(raw_meta) else {
+                    skipped += 1;
+                    inc(&REPLAY_SKIPPED);
+                    continue;
+                };
+
+                let update = Update::Transaction(Box::new(TransactionUpdate {
+                    signature,
+                    transaction,
+                    meta,
+                    is_vote: info.is_vote,
+                    slot,
+                    index: Some(info.index),
+                    block_time: None,
+                    block_hash: None,
+                }));
+
+                if sender.send((update, id.clone())).await.is_err() {
+                    break 'passes;
                 }
-            };
 
-            let slot = value["slot"].as_u64().unwrap_or(0);
+                sent += 1;
+            }
 
-            let Some(data) = value["data"].as_str() else {
-                skipped += 1;
-                inc(&REPLAY_SKIPPED);  
-                continue;
-            };
+            pass += 1;
 
-            let Ok(bytes) = base64::engine::general_purpose::STANDARD.decode(data) else {
-                skipped += 1;
-                inc(&REPLAY_SKIPPED);
-                continue;
-            };
-
-            let Ok(info) = SubscribeUpdateTransactionInfo::decode(&bytes[..]) else {
-                skipped += 1;
-                inc(&REPLAY_SKIPPED);
-                continue;
-            };
-
-            let Ok(signature) = Signature::try_from(info.signature) else {
-                skipped += 1;
-                inc(&REPLAY_SKIPPED);
-                continue;
-            };
-
-            let Some(raw_tx) = info.transaction else {
-                skipped += 1;
-                inc(&REPLAY_SKIPPED);
-                continue;
-            };
-
-            let Some(raw_meta) = info.meta else {
-                skipped += 1;
-                inc(&REPLAY_SKIPPED);
-                continue;
-            };
-
-            let Ok(transaction) = create_tx_versioned(raw_tx) else {
-                skipped += 1;
-                inc(&REPLAY_SKIPPED);
-                continue;
-            };
-
-            let Ok(meta) = create_tx_meta(raw_meta) else {
-                skipped += 1;
-                inc(&REPLAY_SKIPPED);
-                continue;
-            };
-
-            let update = Update::Transaction(Box::new(TransactionUpdate {
-                signature,
-                transaction,
-                meta,
-                is_vote: info.is_vote,
-                slot,
-                index: Some(info.index),
-                block_time: None,
-                block_hash: None,
-            }));
-
-            if sender.send((update, id.clone())).await.is_err() {
+            // repeat == 0 is the infinite case, so it never satisfies this.
+            if self.repeat != 0 && pass >= self.repeat {
                 break;
             }
 
-            sent += 1;
+            println!("replay pass {pass} complete, {sent} sent so far");
         }
 
-        println!("replay finished: {sent} sent, {skipped} skipped");
+        println!("replay finished: {pass} passes, {sent} sent, {skipped} skipped");
 
         Ok(())
     }

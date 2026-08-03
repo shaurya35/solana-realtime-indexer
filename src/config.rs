@@ -4,7 +4,9 @@ use std::sync::LazyLock;
 
 use yellowstone_grpc_proto::geyser::SubscribeRequestFilterTransactions;
 
-pub const GRPC_ENDPOINT: &str = "https://solana-rpc.parafi.tech:10443";
+pub static GRPC_ENDPOINT: LazyLock<String> = LazyLock::new(|| {
+    env::var("YELLOWSTONE_GRPC_ENDPOINT").expect("YELLOWSTONE_GRPC_ENDPOINT not set")
+});
 
 pub const PUMPFUN_PROGRAM: &str = "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P";
 pub const PUMPSWAP_PROGRAM: &str = "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA";
@@ -14,10 +16,8 @@ pub const POOL_LOOKUP_QUEUE_SIZE: usize = 1_000;
 
 pub const WSOL_MINT: &str = "So11111111111111111111111111111111111111112";
 
-pub static SOLANA_RPC_URL: LazyLock<String> = LazyLock::new(|| {
-    env::var("SOLANA_RPC_URL")
-        .expect("SOLANA_RPC_URL not set")
-});
+pub static SOLANA_RPC_URL: LazyLock<String> =
+    LazyLock::new(|| env::var("SOLANA_RPC_URL").expect("SOLANA_RPC_URL not set"));
 
 pub fn transaction_filters() -> HashMap<String, SubscribeRequestFilterTransactions> {
     let mut filters = HashMap::new();

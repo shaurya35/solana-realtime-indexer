@@ -5,7 +5,7 @@ use carbon_pump_swap_decoder::instructions::{CpiEvent as PumpSwapCpiEvent, PumpS
 use solana_pubkey::Pubkey;
 
 use crate::identity::{EventId, EventLog};
-use crate::metrics::{inc, EVENTS_DECODED, POOL_CACHE_HITS, POOL_CACHE_MISSES, SKIPPED_FAILED};
+use crate::metrics::{EVENTS_DECODED, POOL_CACHE_HITS, POOL_CACHE_MISSES, SKIPPED_FAILED, inc};
 use crate::pools::{PoolInfo, PoolResolver};
 
 pub struct PumpSwapEventProcessor {
@@ -64,9 +64,9 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
         match cpi_data {
             PumpSwapCpiEvent::BuyEvent(trade) => {
                 self.record(meta);
-                let oriented = self
-                    .resolve(trade.pool)
-                    .and_then(|info| info.orient(trade.base_amount_out, trade.quote_amount_in, true));
+                let oriented = self.resolve(trade.pool).and_then(|info| {
+                    info.orient(trade.base_amount_out, trade.quote_amount_in, true)
+                });
 
                 match oriented {
                     Some(t) => println!(
@@ -92,14 +92,14 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                         trade.base_amount_out,
                         trade.quote_amount_in,
                     ),
-                }  
-            }   
+                }
+            }
 
             PumpSwapCpiEvent::SellEvent(trade) => {
                 self.record(meta);
-                let oriented = self
-                    .resolve(trade.pool)
-                    .and_then(|info| info.orient(trade.base_amount_in, trade.quote_amount_out, false));
+                let oriented = self.resolve(trade.pool).and_then(|info| {
+                    info.orient(trade.base_amount_in, trade.quote_amount_out, false)
+                });
 
                 match oriented {
                     Some(t) => println!(

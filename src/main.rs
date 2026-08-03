@@ -3,10 +3,10 @@ mod cli;
 mod config;
 mod datasources;
 mod identity;
-mod pipeline;
-mod processors;
 mod metrics;
+mod pipeline;
 mod pools;
+mod processors;
 
 use std::collections::HashMap;
 
@@ -17,16 +17,15 @@ use carbon_yellowstone_grpc_datasource::YellowstoneGrpcGeyserClient;
 
 use capture::run_capture;
 use cli::{Cli, Commands};
-use config::{transaction_filters, GRPC_ENDPOINT, SOLANA_RPC_URL};
+use config::{GRPC_ENDPOINT, SOLANA_RPC_URL, transaction_filters};
 use datasources::replay::ReplayDatasource;
 use identity::EventLog;
 use pipeline::run_pipeline;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    
     dotenvy::dotenv().ok();
-    
+
     env_logger::init();
     metrics::spawn_reporter();
 
@@ -42,16 +41,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             return Ok(());
         }
 
-        Commands::Replay { path } => {
+        Commands::Replay {
+            path,
+            repeat,
+            resolve,
+        } => {
             let events = EventLog::default();
-            run_pipeline(
-                ReplayDatasource { path }, 
-                Some(RpcClient::new(SOLANA_RPC_URL.to_string())), 
-                events.clone()
-            ).await?;
-            println!("collected {} events", events.lock().unwrap().len());
-            tokio::time::sleep(std::time::Duration::from_secs(60)).await;
+            let rpc = if resolve {
+                Some(RpcClient::new(SOLANA_RPC_URL.to_string()))
+            } else {
+                None
+            };
 
+            run_pipeline(ReplayDatasource { path, repeat }, rpc, events.clone()).await?;
             println!("Collected {} events", events.lock().unwrap().len());
             return Ok(());
         }
@@ -93,8 +95,8 @@ mod tests {
     use std::str::FromStr;
 
     use carbon_core::instruction::InstructionDecoder;
-    use carbon_pumpfun_decoder::instructions::{CpiEvent, PumpfunInstruction};
     use carbon_pumpfun_decoder::PumpfunDecoder;
+    use carbon_pumpfun_decoder::instructions::{CpiEvent, PumpfunInstruction};
     use solana_instruction::{AccountMeta, Instruction};
     use solana_pubkey::Pubkey;
 
@@ -183,7 +185,10 @@ mod tests {
                         },
 
                         Some(_) => {
-                            println!("Position {} decoded as another Pumpfun instruction", position);
+                            println!(
+                                "Position {} decoded as another Pumpfun instruction",
+                                position
+                            );
                         }
 
                         None => {
@@ -229,6 +234,7 @@ mod tests {
         run_pipeline(
             ReplayDatasource {
                 path: path.to_string(),
+                repeat: 1,
             },
             None,
             events.clone(),

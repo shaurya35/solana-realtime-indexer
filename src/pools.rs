@@ -1,15 +1,15 @@
 use std::collections::HashMap;
-use std::sync::{Arc, RwLock};
 use std::str::FromStr;
 use std::sync::LazyLock;
+use std::sync::{Arc, RwLock};
 
 use carbon_pump_swap_decoder::accounts::pool::Pool;
 use solana_pubkey::Pubkey;
 use solana_rpc_client::nonblocking::rpc_client::RpcClient;
 use tokio::sync::mpsc;
 
-use crate::metrics::{inc, LOOKUPS_DROPPED, POOL_LOOKUPS, POOL_LOOKUP_ERRORS};
 use crate::config::WSOL_MINT;
+use crate::metrics::{LOOKUPS_DROPPED, POOL_LOOKUP_ERRORS, POOL_LOOKUPS, inc};
 
 static WSOL: LazyLock<Pubkey> = LazyLock::new(|| Pubkey::from_str(WSOL_MINT).unwrap());
 
@@ -22,7 +22,12 @@ pub struct Trade {
 }
 
 impl PoolInfo {
-    pub fn orient(&self, base_amount: u64, quote_amount: u64, acquiring_base: bool) -> Option<Trade> {
+    pub fn orient(
+        &self,
+        base_amount: u64,
+        quote_amount: u64,
+        acquiring_base: bool,
+    ) -> Option<Trade> {
         if self.quote_mint == *WSOL {
             Some(Trade {
                 sol_amount: quote_amount,
@@ -70,7 +75,7 @@ impl PoolResolver {
         self.cache.write().unwrap().insert(pool, info);
     }
 
-    pub fn request(&self, pool: Pubkey){
+    pub fn request(&self, pool: Pubkey) {
         if self.requests.try_send(pool).is_err() {
             inc(&LOOKUPS_DROPPED);
         }
@@ -111,5 +116,8 @@ pub fn spawn_pool_resolver(rpc: RpcClient, capacity: usize) -> PoolResolver {
         }
     });
 
-    PoolResolver { cache, requests: tx }
+    PoolResolver {
+        cache,
+        requests: tx,
+    }
 }
