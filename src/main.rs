@@ -24,6 +24,9 @@ use pipeline::run_pipeline;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    
+    dotenvy::dotenv().ok();
+    
     env_logger::init();
     metrics::spawn_reporter();
 
@@ -41,8 +44,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         Commands::Replay { path } => {
             let events = EventLog::default();
-            run_pipeline(ReplayDatasource { path }, None, events.clone()).await?;
+            run_pipeline(
+                ReplayDatasource { path }, 
+                Some(RpcClient::new(SOLANA_RPC_URL.to_string())), 
+                events.clone()
+            ).await?;
             println!("collected {} events", events.lock().unwrap().len());
+            tokio::time::sleep(std::time::Duration::from_secs(60)).await;
+
+            println!("Collected {} events", events.lock().unwrap().len());
             return Ok(());
         }
 

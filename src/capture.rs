@@ -22,7 +22,7 @@ pub async fn run_capture(minutes: u64) -> Result<(), Box<dyn std::error::Error>>
 
     println!("Capturing to {path} for {minutes} minutes");
 
-    let mut client = GeyserGrpcClient::build_from_shared(GRPC_ENDPOINT.to_string())?
+    let mut client = GeyserGrpcClient::build_from_shared(GRPC_ENDPOINT.clone())?
         .x_token(None::<String>)?
         .tls_config(ClientTlsConfig::new().with_enabled_roots())?
         .connect()

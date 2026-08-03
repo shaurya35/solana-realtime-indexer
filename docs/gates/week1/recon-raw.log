@@ -1,0 +1,1086 @@
+[stats] decoded=0 (0.0/s) cache_hits=0 cache_misses=0 lookups=0 lookup_errors=0 lookups_dropped=0 skipped_failed=0 replay_skipped=0
+pumpswap ???? sig=2ivLAN1ZToVmdwTZExEmJPLBxUj6rLHnwMTeWyvFa768WYarD2ebTdUZrHDD3XPBGEGF5mZoLpnjWRJ1v4mC7e2t slot=434292432 path=[8, 2, 6] ord=0 pool=Cz9BNitfFtcdXM93RoSpxpSEQBdoBrCDongvdc7ZPHRR user=ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn base=22421090093460 quote=995000000 (unresolved)
+Trade event found!
+--- event ---
+signature: 2GrbzNFYHY5bYYtD2sxyCg8SebB88RCTr3uUpXtSNaKpDkYtPK1gct3b1hYRKBZzEoJVJm7D7WmcWZMbY1Rf2UKg
+slot: 434292432
+absolute_path: [2, 0, 2]
+event_ordinal: 0
+Mint: 5fPVU3Ux8L5oDFr6BJR8q7suvGjPkiHSgh7wyJW3pump
+User: 9dZVR7Zh6VXrRUsi1XEiL1VXYeeBwCVXQ2wdmTmdTf7t
+Is buy: false
+Token amount: 334851646802
+SOL amount: 45478208
+Trade event found!
+--- event ---
+signature: 33CJWUTReMJKjahqYTLLScRdsEZzr1zrHpeEVeT293C6uvFkmqoWniF6p3b6saqoyJRaG9cFrLdAHSUYUz8YuFNY
+slot: 434292432
+absolute_path: [3, 6]
+event_ordinal: 0
+Mint: HWRiJPnmMS14jttX2mqCRvEANy4NyrjxXWNxkQELVw2U
+User: 6hh9uNdE2idxjZ2SUit4M2z2tGKe14sNsLiN6tZNNfew
+Is buy: true
+Token amount: 219171781369
+SOL amount: 10061058
+pumpswap ???? sig=5fpKWL7qcdYv2xN8BWbCqJsMyhEuqN5q2ZvMkZzTCHzVA3rAsKXiERUUiiDKmZdkDmHQNjpd1LLV1cbNUaVfrtej slot=434292432 path=[1, 1, 3, 6] ord=0 pool=5PTBCwGfpaMdaqaXuLri8mkwBg5V6FDzLwuBm3iUW4cb user=B64M8Pov2p173MbzzY2zabLXttcVeKzCBjA7Md1VHavZ base=324888915868 quote=57340995 (unresolved)
+pumpswap ???? sig=3efTAzAFTfxRPuRpYTHikZa787siXy8Xijy2AEkgzU8MANdTyf4SeWcLfqBhEj1nuxNLEjw3dkpkcTst5DuWfktk slot=434292432 path=[4, 6] ord=0 pool=F2YCZBEAFq2HjaySCX3xNebQJFcMmUTqUFVKuL3t1jdu user=AftGfhAdk1nDJgxoUw6XXRETa3kMAXzavWUJSxzSMLJM base=58644955124 quote=1254235 (unresolved)
+Trade event found!
+--- event ---
+signature: 2PbV8QdrR6YFiGtwvszt3Yb6azqfYxaTNubfRiaLPk4zPb6uW1mH4SScqWmcbWeFvqGcDR7zNjHcarQgzsNaoh14
+slot: 434292432
+absolute_path: [2, 0, 2]
+event_ordinal: 0
+Mint: 4Ka1LpFyQqncYSQZo5Gy82xQLrCh35CdoZcrQY2jpump
+User: HFryd5mKr8MN1JrngMH6LfD5tbYdP1s47YwagK5DrZVS
+Is buy: false
+Token amount: 928497794651
+SOL amount: 235712924
+pumpswap ???? sig=37k7GTnWfiL5hsCZFjGttwZjqUtv6Zpbgwy7giZYwrbWZVEv2gepd3asnd7zNnQSzBM9teiKJYqTKTvaM3hAEKQz slot=434292432 path=[6, 6] ord=0 pool=FBMcx7JNUvenfWjP1aXCBJgxU7Tb7QXVY7G83JbzGbdk user=DXmgBcP8bpt61Q6b78ronaA8hT4yx1NAPMEBvEdABi4Q base=362596 quote=269991 (unresolved)
+pumpswap ???? sig=5kytzwjzKRQsjDC31F1yXmkMcaowWQThVEt3BuDHNw27yaz2Qao5rFNzfeGQTBGorMs48TwBakRuHSAsc4pv4jjn slot=434292432 path=[6, 6] ord=0 pool=EdsYdk5mLkuCDj1euawr9hdauSCVVRR2yvPHCEi1SBHL user=HU83qfBfnVQUfHZsPM3LWm3Z8Fyp9kYaspgyS8HShL1k base=448969 quote=101562 (unresolved)
+pumpswap ???? sig=4sb4X2YRPXbeBE6YPmsxNbGrm42MWGwzTAfzCpEM1V5nxtzkYfAKu2oQSWmR8WuRZH5SMFxbBbhcuhUf6RrYVdaG slot=434292432 path=[6, 6] ord=0 pool=AdckMQxV3BaJQpY8TFeKbqvvqFFNtQFsNCi3VEsGdX3M user=GgWwhCuv5ZJsi2rLAS3FVALbfeTtbzimGfEKLSSRQS5U base=757895373 quote=170904905 (unresolved)
+pumpswap ???? sig=5eboRm9MnSGUdQ6WAzFnJdPXSrMuxuEkCi5C7iLUJHpvstNjkHMABKJeqvt5EX5A4G6LKN4YSt31g9YyGkvdizJV slot=434292432 path=[6, 6] ord=0 pool=EdsYdk5mLkuCDj1euawr9hdauSCVVRR2yvPHCEi1SBHL user=5KVAiRUcyeaY3cwubmd4Ke3yjoZHfDALftDVr4S7gGRC base=574630 quote=129988 (unresolved)
+pumpswap ???? sig=4sS6wgCcGzREPFivupUSVTenaseADs3L53jo1hu3B1WUAMjtHcRRnHhxuYeA19bd7KvG8gEuS63GokqJFBdcqJJN slot=434292432 path=[6, 6] ord=0 pool=4TtCpPqTsgs3BN8PNfeQUpWQEjohtuYMRCfM9pJ8SM7s user=34X9N5eYavDcgdnojAHZzBPbJFjJ5qMU8j53DCHwGJCw base=2329687588 quote=721596366 (unresolved)
+pumpswap ???? sig=5Pi1ga4SX3wN78mLQVXshdSUHdaLgexZzZsAZWngZ3GKLc4rfoZK96svu78V5WV1jswpio4wMgjx29b3pcWsm6JZ slot=434292432 path=[5, 1, 6] ord=0 pool=Gdc11VQJFq6isPtw1AvoQoWxNd7Eq3JeTJWh1LTT4qT8 user=5hd784AztsouErQgcvreVAQF1d2B11rmgm7J74fbr4EL base=119569853093 quote=8473779 (unresolved)
+pumpswap ???? sig=5Pi1ga4SX3wN78mLQVXshdSUHdaLgexZzZsAZWngZ3GKLc4rfoZK96svu78V5WV1jswpio4wMgjx29b3pcWsm6JZ slot=434292432 path=[5, 4, 6] ord=0 pool=6FgvQLZh9T5bqeTbEX2j7MDrMAYMFHpAJvQziJBye75W user=5hd784AztsouErQgcvreVAQF1d2B11rmgm7J74fbr4EL base=44622120223 quote=8264547 (unresolved)
+Trade event found!
+--- event ---
+signature: 37Ki75eio3GXyqitsvH1hcfTUQn5jwgDusGLWiBV8kb1bZX9CtsQoXvDCJVsgCLjqCpMWnYjhZ3qnASAabUfMhA3
+slot: 434292432
+absolute_path: [4, 0, 2]
+event_ordinal: 0
+Mint: FaDPztGNHc1bZ53jQ9yb2dsba4JD4AnZdLPMpNNAc3mM
+User: 6YZaSkJPTTEYpRHpkuqqshf8MAAgmZGRKvVVhupWE11x
+Is buy: false
+Token amount: 3332861575184
+SOL amount: 174529003
+pumpswap ???? sig=2fyhE6Waikf2dFaEGJLiC6anPqEmoa8QCJA552GPpvAvE9315JwNJAhLtE2wdc37aFxN31jZFf36XyTV9n1S6nTx slot=434292432 path=[3, 0, 6] ord=0 pool=2c5DGcaa3sRoACsX4zQXe2sXc5iB9KxebLiRwLQpaBS7 user=GGggxWAU3cYHHqfBKZSjNG7CHQJnLiCLLQyhDUcMcswy base=37033150118 quote=60920134 (unresolved)
+pumpswap ???? sig=5K4vcPkZq1H9H7x4FbYB5GZdJbNSvUaZyvrR8TTKpmPt4kK7frqDGYXnxBKENBcHsRY7ZWr3XfvSDr4zfXEksHjW slot=434292432 path=[5, 6] ord=0 pool=5ByL7MZoLABYnwMPZKPKjf4MGkZ7FeBzrAnos19Pre2z user=DK7zg8V9Tzjv6B3oHGUkkGgPVnwbb85t5V7eJBrx63Ka base=12633899 quote=293837 (unresolved)
+Trade event found!
+--- event ---
+signature: WLFxYz57yNw7PtSCYfMH5yFv9JFsAmQw5ncDNQqJ67eRKdmNAcstajyvcfbtpSc41uNcNt2kwfUGW4LrkgRQPvr
+slot: 434292432
+absolute_path: [5, 0, 2]
+event_ordinal: 0
+Mint: 2qdqePdCSnChfKVXdzHSpHuRMRstikgDuQtGNcRGpump
+User: 4YzHPfpo2nQQhWUasBkqyJmV278GFPeBHpd3PCsFBiQg
+Is buy: false
+Token amount: 2448251646939
+SOL amount: 210935230
+Trade event found!
+--- event ---
+signature: 2kocu8rnRWqRex7cMEQZQeReBzDDbngvqv5CN75i72tb6UDXaJ27ZRNjZdevsiN6j9UcFbkUgV4Q3fMfSnXSfBor
+slot: 434292432
+absolute_path: [5, 0, 6]
+event_ordinal: 0
+Mint: 6K1aDVaky9ozaJwGz2hkxEij57t45pYddmhstHSBpump
+User: DNTSD3E9nYdzF8nzFMXvpdwSLTzzk645k2rT28BP6yeJ
+Is buy: true
+Token amount: 98001787643
+SOL amount: 9876542
+pumpswap ???? sig=62xQaGiqPZFM5Qj4NEy8u1eTyP7nWMvsQ1xd8v5DZuYLGXRGtdo2YogSeRA4Pqemi4bdsZjG7Lhue4bFFpdU3bm9 slot=434292432 path=[5, 5] ord=0 pool=5zvyVcL6yC6uksW5PEpe22oBEwE6s5Ro9pvtkhfV1XZz user=GtjtNGx7SWijVVvHFGhuDNzT2uNhJZqZnCa4r7g25Trj base=884689921 quote=734232557389 (unresolved)
+pumpswap ???? sig=5STvZJzYAXtwqCUjEjsTFTUg189jGiuzL3oqWVKC2oo8DtNM2EYx4kMcw6rLgWjdLiAz3SftWE6MZNCxSkxZDC5P slot=434292432 path=[5, 5] ord=0 pool=5zvyVcL6yC6uksW5PEpe22oBEwE6s5Ro9pvtkhfV1XZz user=5fwW1Ecv2V5rx9m1yA9sJCDEa7ZNyJR3a5UuGFM3zQk3 base=225629785 quote=186140291950 (unresolved)
+pumpswap ???? sig=4YCwYMSexMrvFwCBt4h82t8hAX2wKv3uxd8BB33gDBpVPZB8FA2tfpmnXkX7E7ogR3mioDuwNZp2p9ASnZugMmi3 slot=434292432 path=[5, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=9fCsjtFJmkD8tsK9hVJUFxcqAJWsvrEaNbvTZ7vFXvsM base=18035768914 quote=10961065828630 (unresolved)
+pumpswap ???? sig=4YCwYMSexMrvFwCBt4h82t8hAX2wKv3uxd8BB33gDBpVPZB8FA2tfpmnXkX7E7ogR3mioDuwNZp2p9ASnZugMmi3 slot=434292432 path=[8, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=2jSxD6Pdn3NWTCPFEVrLwYsCvtn5g56BJF9i5cQJRAWy base=17514875657 quote=10642240853474 (unresolved)
+pumpswap ???? sig=muHqvdv89ynTVCFCbfdh5GMJvnGWt3y5B3Y88eE9rRQokHRvzMEnRtkaRHJyi9Zszzz5f93A2hMNrrEfFWL7vSb slot=434292432 path=[7, 7] ord=0 pool=CB3x2bLj5iAgQFfc9fuLcCYrGGarKBmPjtyvW5TUvsKd user=4Z1Fgq3fQif3ka3chZJcqPox5yA3RRndnx685WDaq3nU base=980984 quote=140629 (unresolved)
+pumpswap ???? sig=2rxcf7cqk3TMjwi2GPkLdbTGGScbDMrLN96VrFk7YuH2xNoLeccZ34gZ9DvAY4TfLnRRBzWRCXqo5ru1HUQwNuz2 slot=434292432 path=[3, 5] ord=0 pool=5zvyVcL6yC6uksW5PEpe22oBEwE6s5Ro9pvtkhfV1XZz user=5iExfd8dMhdHe1Xprr7g1DmSVWBPPbX5wakWyEi9BaTR base=1156543762 quote=961818141011 (unresolved)
+pumpswap ???? sig=71tbDihGnWwYQNbnwLYrZAo7XcMbXVi5jXY7ouRbGLYGZQbTBfhSnrbFC9aWxFEkME1ctauS7UdMtkP9hicN8qU slot=434292432 path=[5, 5] ord=0 pool=EficNBxMVfTboJcZfDexNoH4sXuGCvjMUBA61khE5XN6 user=7Vp1coMk5MVNc99gBK4jW9xDdknpafix35X2LfA1cA5A base=540365380 quote=389757383193 (unresolved)
+pumpswap ???? sig=71tbDihGnWwYQNbnwLYrZAo7XcMbXVi5jXY7ouRbGLYGZQbTBfhSnrbFC9aWxFEkME1ctauS7UdMtkP9hicN8qU slot=434292432 path=[8, 5] ord=0 pool=EficNBxMVfTboJcZfDexNoH4sXuGCvjMUBA61khE5XN6 user=CVBx1zJMSBTzFTBWZZhtNZysAnAXBdWWDKzgZotRCa5S base=1016329404 quote=734805022507 (unresolved)
+pumpswap ???? sig=3SMhMMab8ZY2xHtkj8u8iCJVicLq9sD5NGAc9RgHayMQHUK1uQyLYz8L5cQdZVveTmvnShFhyHv9krkhKbD4Vko4 slot=434292432 path=[3, 5] ord=0 pool=9YuavZTJbrgBKTbHtXKu1ojBJT8gFGbibiNCzrAg8d4y user=HpaN4ngvbcZ7mW3sXYbhbLkVsxecNouFHGbf2wY8nduy base=139381 quote=479052174 (unresolved)
+pumpswap ???? sig=4JhCX1xzv9xDEG2k9THDe1a8tbFjz5HKYcqftqga78rS549XyVtT9W7mKYrgPHBqKS9VJ8Nkg2436HzjV9qqDU6v slot=434292432 path=[5, 6] ord=0 pool=1u2YgQK7NyqZovEFXLcR3jMxeyPTaov7RgSbEnQQdVj user=CXucTRLTTv7wYR4C4xht1WdugWLTXrUnYguRXe4ir91g base=188378 quote=136004 (unresolved)
+pumpswap ???? sig=4VWMpsnc8brWosKJrkLG2SKqw186HUEdMpc6VNoriKdP1jQpciDAcfXEytH8obVRYYDVDwNDnXf6ZatpN9w2wz6e slot=434292432 path=[4, 5] ord=0 pool=3xFqBK7WF39vmmXpsjLLqpC9uGRWNZWNEVanzqHapkqM user=36965q99aTqPWiEbNejG257aWHtizJucAn3hdCFM8jQU base=609313025 quote=535241585855 (unresolved)
+pumpswap ???? sig=4isNPDbDZHN59sxA6vMST5ruo3TvLzN5yzZo6Jk5RZ6eK1oZG7WGaZ923AZeNgLNbRp9qfiQYjo2Mr2ocqWfzKCR slot=434292432 path=[2, 5] ord=0 pool=94t54zEswq2M63i1QYn8zypNMgfc1ggfNQYeDW5FS9N6 user=9P6uE8B5Y6JtBqKJy8SqKir74LndZEMLPxD8Dr5QbW91 base=1144811121 quote=31623098683 (unresolved)
+pumpswap ???? sig=5zGRoTc4ecr5pQcpaQKXDsZFiVcADfeceXFmotvaZaKLytyE7v9sE6TQV7oTbeBLENkcJr3Fswx6v979nZL9ZBpP slot=434292432 path=[2, 5] ord=0 pool=14TSJ8PWiGeifNxp8nVmCdMtyrXzYdxBfDdD8XZGowwe user=24jsArmbYSjQqXT7qwddctqN5p9oP5rqhnv4PM5Nq74M base=1077487079 quote=1076790700047 (unresolved)
+pumpswap ???? sig=3ErzQSMdYvGdwzg5UzXhnkjG7XW6rGz4gkWAhRywqRogdW8496reR58knu7vZgkz1ttKYV3sjdJagHoCKHw4C5kE slot=434292432 path=[2, 5] ord=0 pool=3xFqBK7WF39vmmXpsjLLqpC9uGRWNZWNEVanzqHapkqM user=EWCju4RrnhK9NRPxTKVmuerXGY3chqNi2doqpC5ro6qE base=1847204214 quote=1640566449642 (unresolved)
+pumpswap ???? sig=3MBZr2mFGprUqzog3WyjatvhUjUy5CbbUxWYXwdYsCodMxyMLy3HUP91D23i6mjYP16iQMKRgQfpgHwNvjK3F1sZ slot=434292432 path=[5, 6] ord=0 pool=1u2YgQK7NyqZovEFXLcR3jMxeyPTaov7RgSbEnQQdVj user=8Mz4oi65vLxCKVdvdvYdqTRqK2hQev14JG7WiVQBpbyL base=1242806112 quote=897478379 (unresolved)
+pumpswap ???? sig=1iG71yruhLA9BkPxuVniv9AKsGmpR14viEZTzjfrBCshc9sf7tWzX8FpGpUhVtxTLSxjJnStihv8Qq1CMeyXzQ1 slot=434292432 path=[3, 5] ord=0 pool=Bn9CWqJBLnC5stBiAKUTsmSvG9NdSGgdhQxsk5PahAoY user=4kBW1wQuSDGv33mPK8ruMVuDVNvqTVTWWKLZfaxNHXcC base=10662123192 quote=8867386262667 (unresolved)
+pumpswap ???? sig=1iG71yruhLA9BkPxuVniv9AKsGmpR14viEZTzjfrBCshc9sf7tWzX8FpGpUhVtxTLSxjJnStihv8Qq1CMeyXzQ1 slot=434292432 path=[6, 5] ord=0 pool=Bn9CWqJBLnC5stBiAKUTsmSvG9NdSGgdhQxsk5PahAoY user=F6RCsr5WzjzgdDqRWBkDgVEauEyj89SdgH3N6TdhY9kr base=10655483709 quote=8862058799688 (unresolved)
+pumpswap ???? sig=DQ3CzbX8Mgisxy1d27UuwBv3VPkWbcoctDsxs4PLCSVNHFfxsWk2hKJbTb7qDzCn5tjnHUqEnYrjS1z356FkNdp slot=434292432 path=[3, 5] ord=0 pool=4Q9a5CqzeNPHpsPJ5iW7G8i2TUDarbhhmKzVfN9ZhN1L user=9nS7tCYN8FENeRUzEXQLSpNCEkKjZjPvjuxKkBd5G3qT base=10058681955 quote=155640996950840 (unresolved)
+pumpswap ???? sig=DQ3CzbX8Mgisxy1d27UuwBv3VPkWbcoctDsxs4PLCSVNHFfxsWk2hKJbTb7qDzCn5tjnHUqEnYrjS1z356FkNdp slot=434292432 path=[6, 5] ord=0 pool=4Q9a5CqzeNPHpsPJ5iW7G8i2TUDarbhhmKzVfN9ZhN1L user=DSVc3Xj6FqHptDHKq4qHg9jNfi4Y1nkBiFd27q1ZZ7VR base=10243686579 quote=158534533617494 (unresolved)
+pumpswap ???? sig=5uD2g74T5XheVNRVW9HnmSqefvb6Y6Y2a8uxAU5vNmxXNKC2FKo69o9FW6XZTDN9x7vo8tRkimAibK5XNCs5utc7 slot=434292432 path=[3, 5] ord=0 pool=2Eg5yJK7YuJuKNWJ3pg46DU4UaPYsz6B7Vxw1dbtVomJ user=2gkG5g4uVQ3Aby5sS8WAR1LZKJaCRLURV5mngEsCK4am base=10112230120 quote=4581797939280 (unresolved)
+pumpswap ???? sig=5uD2g74T5XheVNRVW9HnmSqefvb6Y6Y2a8uxAU5vNmxXNKC2FKo69o9FW6XZTDN9x7vo8tRkimAibK5XNCs5utc7 slot=434292432 path=[6, 5] ord=0 pool=2Eg5yJK7YuJuKNWJ3pg46DU4UaPYsz6B7Vxw1dbtVomJ user=DycQaqX6GKGNJcrdyMEDiNGAgYeGskY7u4jEYKKBpkoo base=10024905986 quote=4541999048216 (unresolved)
+pumpswap ???? sig=47g5YNZsqQPf8DRwJzaDRgTY7KY9hJMy5dJFM74Hu5yNriVxUoPUMYiN99pH7KUdPJLg9jEPpVqcXj3EfbQCz8M8 slot=434292432 path=[3, 5] ord=0 pool=4Q9a5CqzeNPHpsPJ5iW7G8i2TUDarbhhmKzVfN9ZhN1L user=FbKfLKBtjL1dPDcGCSpmrNJoobws378jZi4HcwQmiFsE base=11692601599 quote=180722002288683 (unresolved)
+pumpswap ???? sig=47g5YNZsqQPf8DRwJzaDRgTY7KY9hJMy5dJFM74Hu5yNriVxUoPUMYiN99pH7KUdPJLg9jEPpVqcXj3EfbQCz8M8 slot=434292432 path=[6, 5] ord=0 pool=4Q9a5CqzeNPHpsPJ5iW7G8i2TUDarbhhmKzVfN9ZhN1L user=7qneVwdJ7DFLEZWF5zPr1NurZbsmqMgD6WSB3yVPEXNA base=12633176688 quote=195435468708216 (unresolved)
+pumpswap ???? sig=3WhoHfsyRa2FFSvBUY3roA5kdH2nTZzNgKxJ8zgqjBsy5xC4hj9d79bFBACT9SLG9nsAm2UYrjLsUkjZmj2kFPE5 slot=434292432 path=[6, 5] ord=0 pool=5ad1bJpnqK84xC2obrw86thAJamfMSQWJBH8aCChnBNs user=9u7N5mKfNnusFzo85P839FUExCjigDNbAsymZ9xQVwWK base=1508489876 quote=1023404057345 (unresolved)
+pumpswap ???? sig=3WhoHfsyRa2FFSvBUY3roA5kdH2nTZzNgKxJ8zgqjBsy5xC4hj9d79bFBACT9SLG9nsAm2UYrjLsUkjZmj2kFPE5 slot=434292432 path=[10, 5] ord=0 pool=5ad1bJpnqK84xC2obrw86thAJamfMSQWJBH8aCChnBNs user=4T7FvJWfDn3Eh6ELBHfcxmrBPabJqjkWd8WamWK8U2qs base=1304942075 quote=885143673225 (unresolved)
+pumpswap ???? sig=UwT378h1yYCE7JmBxYAPYMERQNQL7f79epuJqw2qtn2avZePRTntmXbBnPySzqdVqFpfnhZxNeohgzQ7TgR6Ucn slot=434292432 path=[4, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=LBVTmNQ9L8A8P1DFgbs66og5mustBuD6vAiDjmzvQea base=176638 quote=3526360849 (unresolved)
+pumpswap ???? sig=3P7z3CqRZDecgrte1pBGrwDqp9WToj9FgoA2ckKWMojj4kMvNWxLEUaqZQM6busphbCAecghYJtoieXNqxs9xtDH slot=434292432 path=[4, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=BiSbAL9q8sps71t6yDhU64UaQ56pFzMc5qJveXwj811R base=169741 quote=3388669155 (unresolved)
+pumpswap ???? sig=fxavgo5qzerekGHXKhQcCZkHdsnPYKPsL2dw241EZYh834Z5MVhTXwFyvtUeEvWY5aei39gQEa42dKgVqrgaqYD slot=434292432 path=[2, 5] ord=0 pool=8GaQvFcYSsGwSywqA3i5MCcW4H1ooKLN6sV9fp1636V5 user=27P9ZcPTY8nJkwseKsAQ3rUUEKcsC8xHF4tnn7PZVg1p base=48775943 quote=29468888602 (unresolved)
+pumpswap ???? sig=4vnmAtbhMkdva7s1Z7HU54vmPZmYy4b2fBBm5r3ikA4tBZtWDaxmzUgypXsUJsq2WryDq2JKwWiePL9fRMNRmBAW slot=434292432 path=[2, 5] ord=0 pool=LRkka3W46jPK5VRCwDwh97D2N4fYQyk56ws7mcDrZN1 user=C7v2emTXEXEStWf21XZPXDcMWyBTGeXPjpefPxTC1sjn base=511856099 quote=1970163626 (unresolved)
+pumpswap ???? sig=5oVV3RZcPgomcu8uqzMaX2g4zTMojxaQP2r3oQpNysV3sP9P8hA5Bp2SuESEnGsikmkPXJetm9zz1qSkVC7RG3sP slot=434292432 path=[5, 5] ord=0 pool=4PvwRF2vVmU9tzeHzgQms8UgUWj8PN5993NHUYykqm5Y user=Efmx2JzoL6egiTzE46ipTQsACSPGKHvEv7uoz6DyzaEB base=102416111 quote=101322006132 (unresolved)
+pumpswap ???? sig=3aYEEaf1qzwVi9x6XTQK3rznwedif2cMx1G9RZ4C2EM64WxMLvdwkmeLpdufLnhPN49RP6pAiqm5hPLVymptcNv7 slot=434292432 path=[3, 5] ord=0 pool=6v9heqobcmEMi5NST4sXgt5dHZSq3GmNMVvPNBNXhCod user=26M98DR5v4EACkSuGxu19LKxLTxEfc2GS5LVhnYPKyWy base=8500568544 quote=4676045672343 (unresolved)
+pumpswap ???? sig=3aYEEaf1qzwVi9x6XTQK3rznwedif2cMx1G9RZ4C2EM64WxMLvdwkmeLpdufLnhPN49RP6pAiqm5hPLVymptcNv7 slot=434292432 path=[6, 5] ord=0 pool=6v9heqobcmEMi5NST4sXgt5dHZSq3GmNMVvPNBNXhCod user=6imUroKhX1PF9NbnuZ778wSWd4bVDSEQacA33TZHqrTv base=8216220794 quote=4518683462935 (unresolved)
+Trade event found!
+--- event ---
+signature: 3jsE2XKv7YfEnwEyP4WuS4eUX65c4ppVJQjEPWsQguhvDGDsnZHMHfXfKXvzHCTHGjL6iVh7PSinapSjZ9Kh9S7i
+slot: 434292432
+absolute_path: [2, 0, 3]
+event_ordinal: 0
+Mint: 5PAWfFBzx26DvpyW5pahxdyWyaJG4q1XXtaWHgV9pump
+User: BwWK17cbHxwWBKZkUYvzxLcNQ1YVyaFezduWbtm2de6s
+Is buy: true
+Token amount: 337290139477
+SOL amount: 19938907
+pumpswap ???? sig=59dK19AfZXFPAZv3SSoZ38kKKAgSBJ1G3HtZqizgPAfErHyLQM8wcarTfA1DoNuUGcpqw3A8gr8pzK6ki3KKnDzE slot=434292432 path=[5, 6] ord=0 pool=1u2YgQK7NyqZovEFXLcR3jMxeyPTaov7RgSbEnQQdVj user=DjtduebgMdj7ysgsvPneqQE8n3K5xnZRn623EPmrU2d9 base=244440 quote=176568 (unresolved)
+pumpswap ???? sig=3UNPrZ84iDM1eaMXrhJ9uhx4Vo3iWnrUnTLCNVpX7Rq6ugsEwkWZvg6KKbS3nbzpwo8riTQLTi5fPTYcWqfkJTfd slot=434292432 path=[4, 5] ord=0 pool=8GaQvFcYSsGwSywqA3i5MCcW4H1ooKLN6sV9fp1636V5 user=RPxzEDLXPARJjeQdamx5ddLixnmNtomcvEc34pUzuHc base=138020092 quote=83075737172 (unresolved)
+pumpswap ???? sig=4rgsisKXLAm7NPQQ3t59FTY8i1Q8M6Mwo6hMh9tyf6YFLftBDNHuDJ5tVcz5X91WQjYhQpBSW2dH4skb4ChTWtVa slot=434292432 path=[6, 6] ord=0 pool=EdsYdk5mLkuCDj1euawr9hdauSCVVRR2yvPHCEi1SBHL user=HWDpPWVgAfCRiUSyPpuBqD7JW4pAcxZRWDHTyTeVEBGs base=530432 quote=119990 (unresolved)
+pumpswap ???? sig=yfX6zDGCCaWzG6oAHETvxNNJkxFJysh2TMWyBfxTLndnvu4LewdQuWeACYYrkfPGM9u6e9V19g7rWgrF93meiBv slot=434292432 path=[3, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=3cEZXgQwXgq4VLvferzMD3kmcWi262DyYTk1NSSXN5XF base=626132 quote=383421929 (unresolved)
+pumpswap ???? sig=cvGBJiiDf3ZNxXE95S2McqbxXxd3fugt8SYHec3mQvYT1nYM8WSpu7ToXHFLxDb3tiwkg947GD3dV6Hn9iVuzgf slot=434292432 path=[3, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=BQMgob6fwj311cySNgX1LT1oa3dp5ZN1bkaTSK9jef6u base=7011879555 quote=138693765096525 (unresolved)
+pumpswap ???? sig=cvGBJiiDf3ZNxXE95S2McqbxXxd3fugt8SYHec3mQvYT1nYM8WSpu7ToXHFLxDb3tiwkg947GD3dV6Hn9iVuzgf slot=434292432 path=[6, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=D5KMuBjTvmWVNugZ55kuxqtKySC6qSn5LwDL9HvFHsaH base=7000000000 quote=138459827016913 (unresolved)
+pumpswap ???? sig=3tXGnc6JLty6rjKYciow46YsyXjbHT2UJudrsuFZQWGK3oCJbwUAfrKvSHNsTV6xvjZhxf5txXXYoiJpiY3AuPSF slot=434292432 path=[6, 6] ord=0 pool=FBMcx7JNUvenfWjP1aXCBJgxU7Tb7QXVY7G83JbzGbdk user=EnzZW5w8M2fLTnekLEKmvYeQmAwjukKfJM2V2zaTHhY9 base=3223960390 quote=2402165541 (unresolved)
+pumpswap ???? sig=3bayUH3b3tgh59b8wWJXYFPceRuXBP9Jw6b6B3kgYwUUMtmdcA3u4rzPLXUCd6jfhWCbJbXJCGt5qrvBvpP8ouKB slot=434292432 path=[3, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=HWchrBGLtuWb6NZeyn5YXvwf8MzB8JsgZsBgsyzNXvaj base=15040255971 quote=294392614403198 (unresolved)
+pumpswap ???? sig=3bayUH3b3tgh59b8wWJXYFPceRuXBP9Jw6b6B3kgYwUUMtmdcA3u4rzPLXUCd6jfhWCbJbXJCGt5qrvBvpP8ouKB slot=434292432 path=[6, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=D5KMuBjTvmWVNugZ55kuxqtKySC6qSn5LwDL9HvFHsaH base=15000000000 quote=293603624526824 (unresolved)
+Trade event found!
+--- event ---
+signature: 3PskXe4cnkdxBRPBztJVhAh2Kf59WkLd5F4Hk57VRQ8L6ukaMbJY1rdqaqnknGtSquyDVRBjr1rkRLrTQ3382Koz
+slot: 434292432
+absolute_path: [2, 0, 3]
+event_ordinal: 0
+Mint: 5MapEVECpFGZuKzcYxvUoMvmWrf6juCkk5QiT77epump
+User: BwWK17cbHxwWBKZkUYvzxLcNQ1YVyaFezduWbtm2de6s
+Is buy: true
+Token amount: 6866379417100
+SOL amount: 21837062
+pumpswap ???? sig=2CuGkTitwy3bgpjccfmBJmurBsMeqChZSfqac2YRAqjPiUnTwSvYkej4G2brxbyWqgXzVUCiaXXS8wpuBYLVJk9j slot=434292432 path=[4, 5] ord=0 pool=8iZe5kutqCfj44xNLJz6u4VK4a6dx5DgZuC28iiwjoJS user=B3LbjsqvRBJguLRiCTNQNuRXjDjqktZPcgutAG24BXgG base=2186351366 quote=319216122857 (unresolved)
+pumpswap ???? sig=5uNNXmqKgYf5JFwVBAci9oyTNFTECVSd54w5nPkUKmu3qqLRrPnf8aGkcVgFn4d6wXagkPBFMxVMSoXjM6vEUE4Y slot=434292432 path=[2, 5] ord=0 pool=8iZe5kutqCfj44xNLJz6u4VK4a6dx5DgZuC28iiwjoJS user=2iBE5n6ZPQxB2HP6pGkWcWoqAwNivipPjKVjpi8M9Mpv base=1716856042 quote=250662993998 (unresolved)
+pumpswap ???? sig=8MobjAtMN3g2yD4vpuNvJGZcGc6JSa4AR4vHNSeAE2KLryTJ54YzWDWBVQjdURZT8BDe1Qcrt7u95ZTvi4yPyf1 slot=434292432 path=[3, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=D5KMuBjTvmWVNugZ55kuxqtKySC6qSn5LwDL9HvFHsaH base=7024207147 quote=138936355727564 (unresolved)
+pumpswap ???? sig=8MobjAtMN3g2yD4vpuNvJGZcGc6JSa4AR4vHNSeAE2KLryTJ54YzWDWBVQjdURZT8BDe1Qcrt7u95ZTvi4yPyf1 slot=434292432 path=[6, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=9Ukp73LQsXhbLgFGdFmoqydcSiW7DcyAwVrK2SKC2oZ4 base=7000000000 quote=138456326522625 (unresolved)
+pumpswap ???? sig=2r5k7AMYwnfM1nzYCK31wk8kh6PsMsiJw7WM16SP1Lh5hnW4rSdqL2sYipK2VhUGfTaYy7Wzuu7hyZnNcGAjLeLH slot=434292432 path=[3, 5] ord=0 pool=gSBmL5Ynrh643uTZQKkwtJT3AyzSpGK1JAt5KUEMvAo user=HrgkHuwJtnSMW5XnJLDbk4QYeig45MgGV7uxsLkdbwBu base=292009 quote=2172157085 (unresolved)
+pumpswap ???? sig=2hyyQyoNU8YLKARj4D6BNckQxDk6uZbvec8QYtFrA9FmYUEvNBis89o1dgNcWMydTrdfjJ1iDNuhn6bahjyw2aiN slot=434292432 path=[3, 5] ord=0 pool=HDX2tcRU2U9wjJ3TSwEmVvfF9nMzxme9o4cUe21WgWc9 user=CP962C5QDseQUQHM73hYXDjC4fr7fjQRGC66yAmbeNx7 base=9945998179 quote=6339755659337 (unresolved)
+pumpswap ???? sig=2hyyQyoNU8YLKARj4D6BNckQxDk6uZbvec8QYtFrA9FmYUEvNBis89o1dgNcWMydTrdfjJ1iDNuhn6bahjyw2aiN slot=434292432 path=[6, 5] ord=0 pool=HDX2tcRU2U9wjJ3TSwEmVvfF9nMzxme9o4cUe21WgWc9 user=CPpz4UmS61yuehjeUgWhSLGVUsMw79yrqXijH56vJUns base=9934083451 quote=6332239012167 (unresolved)
+pumpswap ???? sig=3CEKTsCmA7PvKz26gH46o8HHQgxGt9nbQYLfXFNgbNURLcM6tEguyzgva3Zr5TPJ5qwAMTGjhJEmM4tQ5QRwWw8k slot=434292432 path=[2, 5] ord=0 pool=2pwKDxPutkTCTdxa2SaoY4HT3K7hvDv9PjDcAbPytift user=DoinCW2mXYwmbSPGgPHtoQELTmT96LwrVgchJeijXcX9 base=442060092 quote=106387762465 (unresolved)
+pumpswap ???? sig=61xiuGqndw41xnS8Pz4XUi3dvbc2G33vc8zt2LLZfSBmzFxmgfEY9azXK8jZxfGBgLynwV3jsLq1LS2UjFfFbWsu slot=434292432 path=[4, 5] ord=0 pool=3xFqBK7WF39vmmXpsjLLqpC9uGRWNZWNEVanzqHapkqM user=D96sU2xoi4aQmP4SZ3seELotq26sZVXvyUwMDfgw1dWM base=461288393 quote=412124669684 (unresolved)
+pumpswap ???? sig=58UZwNTSNF6CE4J73MtqbAfwCHhy7Kz9vXcumPYhhfUAAkRAoMocutto9DVwA2tNrc6MViFx9t9m2EB6PpMmyYJM slot=434292432 path=[4, 5] ord=0 pool=3u6Snc3atJnWMP1CYtR7C8eT9PvUydgvWKWjr29nHYUq user=75cbCwkNLkVe2rE2yYkfwAN1aQSd4ZGRxpp1X3ViHncy base=1376770173 quote=4064691675402 (unresolved)
+pumpswap ???? sig=3cUFWSW4eqxRE5kiB4MD3eCtmRpkqo9RZdjZQXjAT7eZQRtwVd8faiJ1y4sSFLz8jLRYaYKgdaoGbEh5tn8dpMxB slot=434292432 path=[5, 5] ord=0 pool=5zvyVcL6yC6uksW5PEpe22oBEwE6s5Ro9pvtkhfV1XZz user=2XnDtgqtuxrmauhP6USUit54wBxmLYp2DkHKe3tb4jYV base=2875033763 quote=2362001588114 (unresolved)
+Trade event found!
+--- event ---
+signature: 3Rx8sLjLG82K3RZTaF3r7QDMvhYUMaPK9XZtsq3fnPFqpbK4GbtMjWeJLauL9BkpUMvQCvmzW5ZLPgNYSFSdAXj4
+slot: 434292432
+absolute_path: [3, 2]
+event_ordinal: 0
+Mint: Cpqo5SXq8ktbs5Teg2K9cpfGrTX6fH9VXXJpBx6Npump
+User: 9XXN5q4FYe2NQMfuTWtBZ1RN67ozbxThDfgtaSKgZjFj
+Is buy: false
+Token amount: 2566991673665
+SOL amount: 158116841
+pumpswap ???? sig=3zuozwJE94BY1Tbvdj99gedxLHsaou52y2nSca4m1m5B3p7nCjEzgexZ3BHzVCPZch1jc8AgJF5tcDMZTUjvNNeS slot=434292432 path=[3, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=32qt8KFuawfKVSJGdL3HdGZh7GZbSwTF5SHUxnoUwvEa base=10040464712 quote=197809501196976 (unresolved)
+pumpswap ???? sig=3zuozwJE94BY1Tbvdj99gedxLHsaou52y2nSca4m1m5B3p7nCjEzgexZ3BHzVCPZch1jc8AgJF5tcDMZTUjvNNeS slot=434292432 path=[6, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=D5KMuBjTvmWVNugZ55kuxqtKySC6qSn5LwDL9HvFHsaH base=10000000000 quote=197008283165861 (unresolved)
+pumpswap ???? sig=3NhXJe3g6Kv7PMqi3h5zvocp8chm2AR1M1L7YeAwqLchrMna7kA5RH1wk9ZpV7fxLs6QjEDCZtLFnDHnrBEoCYTE slot=434292432 path=[5, 2, 6] ord=0 pool=2c5DGcaa3sRoACsX4zQXe2sXc5iB9KxebLiRwLQpaBS7 user=3z7RPM9YFpYfQ6khTpHF3gZ3MLjXBou5K3NDx17i856G base=60085534629 quote=100000000 (unresolved)
+pumpswap ???? sig=3htyityCPr22qtyWNS6h84cqdT8RSKSceUj6uhqtwqZyV9hxiA8rF29b1QtsYhezAQ7sTmYA1jPHpbr7Q9wi4sjp slot=434292432 path=[5, 5] ord=0 pool=3xFqBK7WF39vmmXpsjLLqpC9uGRWNZWNEVanzqHapkqM user=2sZLDSoDcKp2cRD5BSKkZFEjbqjny4Sq2Kb2cAsnTkyq base=285366 quote=254194742 (unresolved)
+pumpswap ???? sig=3o99XVfdVNU5bveVNVRwWdCGpwdpnV3faC4rhuouHsmiPb7E4EeuFADZUdPUM2JwqhKcDUHTf4wfzCMgAvuUZmT1 slot=434292432 path=[6, 6] ord=0 pool=AdckMQxV3BaJQpY8TFeKbqvvqFFNtQFsNCi3VEsGdX3M user=HsJNvxLBfKvJxWhE3bEg5shDVwUJhCf4UkEvFYZA8jug base=1281241 quote=288944 (unresolved)
+Trade event found!
+--- event ---
+signature: 5XvXtvPgYmWoaNmrQbBxXcdrdFx5hExCTQ1n8Ui5UCY6gu8wXvgqQYSdzgPNAeRcgTqpeW3wLVCBUcuJfwzpjCg8
+slot: 434292432
+absolute_path: [3, 7]
+event_ordinal: 0
+Mint: HmTZvTVcCpxfkqYdaj22vm4ENdhzEqKtC8k9X1tvpump
+User: AyP28uo2bGN4kg6cGYyvczo9TJszkvb9cjtSvrF96WQk
+Is buy: true
+Token amount: 203732987719
+SOL amount: 25000001
+Trade event found!
+--- event ---
+signature: 62sCcyQ2yYJHWeskC4s6ZXvMSmgmvSZdfmUoqjA1VkrtkA4MwDBqohf2Nq3DL4frWRrwAE3AFWxehqZwQMu4URw7
+slot: 434292433
+absolute_path: [2, 2]
+event_ordinal: 0
+Mint: HWRiJPnmMS14jttX2mqCRvEANy4NyrjxXWNxkQELVw2U
+User: 5e1cvY3avLWzvxScPDdazo3D3TfVxkt7QwsxDwMnuJyh
+Is buy: false
+Token amount: 65885964912280
+SOL amount: 2804587342
+pumpswap ???? sig=2xyQm22zf3rzSHRF7uFqMQG4YVkNrdMmmDNQvjZnNmXmh1ZREZvPfKPMWLwmqGhfbT74kxnRA3fgdMAjb5VH9Txm slot=434292433 path=[6, 6] ord=0 pool=EdsYdk5mLkuCDj1euawr9hdauSCVVRR2yvPHCEi1SBHL user=2qXWvzwxE3xiMdhtvi8ai7mLJmKPQLzbDuLPDYisdJXi base=759196 quote=171740 (unresolved)
+pumpswap ???? sig=3Mr3TBJX6tnSd1cNZiAheCcWTbVSQTBJ7yKGjgWCAVrmdMtvEAGJM89e1bk5S5XyHAj27xDUZwXSfYx4ARmBsvEy slot=434292433 path=[3, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=8Zo8a4q2Z5C7EZXchRAiuzJXDJcEhzBFCqWRC87eKFcr base=157408 quote=3142289252 (unresolved)
+Trade event found!
+--- event ---
+signature: 3gs76aD18UpSM8Eza2wMDCrFFPMrpZxQkiCzHYFBa2VQm2TmWijZUW4dJznRNQeKj75fQfnxipDDprtgLfigfrPj
+slot: 434292433
+absolute_path: [2, 0, 3]
+event_ordinal: 0
+Mint: 23C4Snotd44FsK2jQ7ny7hhkz4w9w7t3sPDgx9Aipump
+User: BwWK17cbHxwWBKZkUYvzxLcNQ1YVyaFezduWbtm2de6s
+Is buy: true
+Token amount: 7186385748819
+SOL amount: 37391297
+pumpswap ???? sig=5cuEh5SY13nQX4M1TE6ZFmQiYGCXJhmfGGH8k9tPZdSaUu65oZG5bxBJmtGY9UfWupfrSJsYRnvzTz6seCVXeSvQ slot=434292433 path=[4, 5] ord=0 pool=2Zo4DHSbmFe3u4K9bwnEgFzoXwVWHTUMRvw8ifXAUQm7 user=9YRUZ7CvjuBWpNoMow8hpL8QYoZzKm2HmB8J9sXkm5tt base=1122115 quote=314661298 (unresolved)
+Trade event found!
+--- event ---
+signature: EXaG4iT25D9FsKPC1C6szAUBvD4Ft1YdZ48CdjLhsyHL2osgaFdSHBhUJ2AH8f5Vg3kaLjYSWhBtpAACckuLiJQ
+slot: 434292433
+absolute_path: [4, 2, 6]
+event_ordinal: 0
+Mint: HWRiJPnmMS14jttX2mqCRvEANy4NyrjxXWNxkQELVw2U
+User: haqqiUUXB5gp7gDbSjpEkw3phAjQb25r86uXJsZQgWq
+Is buy: true
+Token amount: 24353109919230
+SOL amount: 987654320
+pumpswap ???? sig=2mnnV7vb9H3Uo3NYsThftZEFrRn8s3GhqMWwCvb7cJG8iA6YmpYUtR7aoZHyYDVtP93AVWoasLcxLhjwgZpiKh64 slot=434292433 path=[4, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=7hVdeS2dBFVd1ajq3cbzySgYCuE7A2hmNdZy7B7qToTD base=127205 quote=2539354757 (unresolved)
+pumpswap ???? sig=3YRpiQWEyEiBYkBzohRRTukjXDGWLUfxKFzzHVajNX5sAksbJgrd45L1GwLEUqj8cZhKTRV3QCBVbhFu9U1B1nL8 slot=434292433 path=[5, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=Gq9m1oLWW4Cpdqenv5sLobrfi2b4QiSS9xgpNJC5SfHW base=15994125992 quote=9724938333953 (unresolved)
+pumpswap ???? sig=3YRpiQWEyEiBYkBzohRRTukjXDGWLUfxKFzzHVajNX5sAksbJgrd45L1GwLEUqj8cZhKTRV3QCBVbhFu9U1B1nL8 slot=434292433 path=[8, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=v4GA2U1eA1iZkLzJ4f6voe8oyWfBg1ynXst6KpHZ6Ge base=17925013166 quote=10908560326027 (unresolved)
+pumpswap ???? sig=2VohLfw8tDhcS1W13byQUHZebjSWnQUTjC9TDEEj14pJ4UhSUkyHJJvaujRL1RVQmCeJd9hN8NpLnXh7EXW8fU8g slot=434292433 path=[6, 6] ord=0 pool=EdsYdk5mLkuCDj1euawr9hdauSCVVRR2yvPHCEi1SBHL user=2wW3Ebi5pCHZmwcShvX3pPU4EMsUH8C7HeSJV7nxGaw4 base=684549 quote=154854 (unresolved)
+pumpswap ???? sig=59879NU7hKXBiu6iYjWXy3grYwwmvWKQ6FCSQNrNWuKNcHgCANKYXFBaBtmwjS4nz4RJRUWgy9ePuzJQFojpFzEn slot=434292433 path=[4, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=7YZtg4vnzukqpvWunSscNat4M2w6F3BiSfLPxWCMWEHV base=182565 quote=3644488118 (unresolved)
+pumpswap ???? sig=28BzKDxGyPZ6tG2NHexqP6gdMQ47JusURgQhvYmu4dzFHczn2jTfNv5V7Cr8Q79GRKAqTNi69hpJcLK2rweqYinM slot=434292433 path=[6, 6] ord=0 pool=EdsYdk5mLkuCDj1euawr9hdauSCVVRR2yvPHCEi1SBHL user=Eh1cSsqLVeUMpyA71EhNfNm4MDquJLK75SnRzzhJxLFr base=3553353224 quote=804133804 (unresolved)
+Trade event found!
+--- event ---
+signature: 5UtyfVSLtHvXmHJtp2DBC6D5yKQafQtm7DzJk9VyJ8bYwDDgBzHV9CQiWWuiNyM4KMuvK3KnAycC1EyiyT4jxDWh
+slot: 434292433
+absolute_path: [2, 0, 2]
+event_ordinal: 0
+Mint: 6K1aDVaky9ozaJwGz2hkxEij57t45pYddmhstHSBpump
+User: AwRYcJ8ZF4MVWVF5M2i3u8c9xzq1cFbrzDKD7gGEAPAk
+Is buy: false
+Token amount: 3638323438209
+SOL amount: 364384904
+pumpswap ???? sig=2q2TFKo6YvNKi1ezJnE4cn6vrQZ37hPVKuueGfza5AjhVqrSAEFmNfi5Rz2SZXF47JKQ7UmEFT7DzeuNbCsVCsLv slot=434292433 path=[4, 5] ord=0 pool=14TSJ8PWiGeifNxp8nVmCdMtyrXzYdxBfDdD8XZGowwe user=4kpfKiQVvMx7XLGFL1WXysJZ4ZmJRLjtftWHfVn4VKqP base=1853719693 quote=1796360188837 (unresolved)
+pumpswap ???? sig=4beeEMiuGcjJ6BJ4g2jYWCSW8k5rGpVjfViHM6G6gMqfVTT6kBskVrm3yrq3ceoLuVpzppEPpwtuMgE8nBLBUMoP slot=434292433 path=[3, 5] ord=0 pool=G1EBGrDbRbeUjeWyHiTNYeBVVp2LrbwRazs8K7xzwRgV user=AeCmQZHrW7eGLLphSropW2AFXBgHgtE6hfMG3ysF3742 base=5096264133 quote=6176458386619 (unresolved)
+pumpswap ???? sig=4beeEMiuGcjJ6BJ4g2jYWCSW8k5rGpVjfViHM6G6gMqfVTT6kBskVrm3yrq3ceoLuVpzppEPpwtuMgE8nBLBUMoP slot=434292433 path=[6, 5] ord=0 pool=G1EBGrDbRbeUjeWyHiTNYeBVVp2LrbwRazs8K7xzwRgV user=Bno2okhE3YwGoVZuAj1cp7uhzUqbiXueB14a8KJwbexz base=2778008585 quote=3356152129950 (unresolved)
+pumpswap ???? sig=2GsBW2NuoPpMFQspueciNBLhybAbcuSPoDguvDLC28tGenoUrCjqo1CWtupUuYw1nmNgHpHUq1KpfFVyvy4vX6c4 slot=434292433 path=[3, 5] ord=0 pool=5zvyVcL6yC6uksW5PEpe22oBEwE6s5Ro9pvtkhfV1XZz user=9CSvpDPkgSbpKUPcnYk5bRx7smFc1zWEHjPV5ErwVvck base=1987087966 quote=1629626546036 (unresolved)
+pumpswap ???? sig=UAEVNTZn8JhxZEhP6pX8wjFoXmrd3juk9AXjmZ5UtsY8W88kGushXwKB8Dipm3o1iXsjtz4SEzQenEAn6Z9epQs slot=434292433 path=[3, 5] ord=0 pool=gSBmL5Ynrh643uTZQKkwtJT3AyzSpGK1JAt5KUEMvAo user=8dVVgzUrS79qwHx1zvyApZT9fZtzKgchEV3Hnz1qfPMt base=461516 quote=3433060539 (unresolved)
+pumpswap ???? sig=KSC5dLoVBJHHzgk65n5UKCiATAb4GXaVD6pSzmHCjZiGVme8A7vhJoo8wuQiLrvNC2uH9j288PcTSftoGdn8my5 slot=434292433 path=[3, 5] ord=0 pool=gSBmL5Ynrh643uTZQKkwtJT3AyzSpGK1JAt5KUEMvAo user=VpkYJ1MCYKQaCL8JxZQ4EZYNT632aMzq6Jo36Y557xr base=352063 quote=2618875001 (unresolved)
+pumpswap ???? sig=4iUw66iQoawf2NkTENAuwqPdrQanDTsMUzcH78Y1ktVYhVbTRUdakb2TPp5vQDXwoQETRqZ9vCfJkC5s9FUBT1TL slot=434292433 path=[5, 5] ord=0 pool=5zvyVcL6yC6uksW5PEpe22oBEwE6s5Ro9pvtkhfV1XZz user=HsDGppat7bYDexYjU86TYptSrdat6MEvqmEWewxTxfA base=2238635447 quote=1828026949334 (unresolved)
+pumpswap ???? sig=2nsaz2BNwDEmBiUCY47EfcXbZ5ibK1MzRrLe8z63616SEZN7Nkw5WSaAFiAmU1D4Mgn9rKgt94nrtR1LM4HFHvo7 slot=434292433 path=[5, 5] ord=0 pool=EficNBxMVfTboJcZfDexNoH4sXuGCvjMUBA61khE5XN6 user=HA1DCMpUd5PvcH2soMwC497x7t3BBDgsqgEHVeRXd4wM base=1169346646 quote=844806629268 (unresolved)
+pumpswap ???? sig=2nsaz2BNwDEmBiUCY47EfcXbZ5ibK1MzRrLe8z63616SEZN7Nkw5WSaAFiAmU1D4Mgn9rKgt94nrtR1LM4HFHvo7 slot=434292433 path=[8, 5] ord=0 pool=EficNBxMVfTboJcZfDexNoH4sXuGCvjMUBA61khE5XN6 user=CVBx1zJMSBTzFTBWZZhtNZysAnAXBdWWDKzgZotRCa5S base=2280955253 quote=1657094363575 (unresolved)
+pumpswap ???? sig=DruW5z8hqd6wEEYgbXb63AjsqYd5Y2sdvHFCCJv5BFTSBrEw75Y27kuukuaGFZ2BC9musAQ59T37tJhuRun7aYT slot=434292433 path=[3, 5] ord=0 pool=2Zo4DHSbmFe3u4K9bwnEgFzoXwVWHTUMRvw8ifXAUQm7 user=4ACv2XTHXsoYGhaCr6J1JFmB9aTGDGkwYaL2RPh4XSiF base=8367038061 quote=2310914320784 (unresolved)
+pumpswap ???? sig=DruW5z8hqd6wEEYgbXb63AjsqYd5Y2sdvHFCCJv5BFTSBrEw75Y27kuukuaGFZ2BC9musAQ59T37tJhuRun7aYT slot=434292433 path=[6, 5] ord=0 pool=2Zo4DHSbmFe3u4K9bwnEgFzoXwVWHTUMRvw8ifXAUQm7 user=432BPfaeL4BWYZ4oy9r9kQo3CJcqHGv6DQS949sTvUxB base=8407688230 quote=2322402995095 (unresolved)
+pumpswap ???? sig=3vs3L4AD6LJYQoNxGSv8M9VUidyMXCFeat29u5rgoq5bhgNgKaZ5Fe3b9RMRUgVoRgPZvwkUYqequPsCZ7eNDNZ3 slot=434292433 path=[3, 5] ord=0 pool=4Q9a5CqzeNPHpsPJ5iW7G8i2TUDarbhhmKzVfN9ZhN1L user=9zdbv1QRTQeS6MXJuSZpjjn9gGK7sUAWBjuAndVHGYHQ base=13192689998 quote=203992306678637 (unresolved)
+pumpswap ???? sig=3vs3L4AD6LJYQoNxGSv8M9VUidyMXCFeat29u5rgoq5bhgNgKaZ5Fe3b9RMRUgVoRgPZvwkUYqequPsCZ7eNDNZ3 slot=434292433 path=[6, 5] ord=0 pool=4Q9a5CqzeNPHpsPJ5iW7G8i2TUDarbhhmKzVfN9ZhN1L user=2rz1VkrZiGut69DobXfu8vMPYi8w1Dox34VNx896TRHv base=12639941076 quote=195351126945313 (unresolved)
+pumpswap ???? sig=5VaMTQNFXvhP9o6AeiksnY2Wy4X6iYBkeXSdGbs5FwMYs6CZKp28vzBPUWybmNh7C24F73bkHpyGmZR8N4ZZSzDc slot=434292433 path=[4, 5] ord=0 pool=HDX2tcRU2U9wjJ3TSwEmVvfF9nMzxme9o4cUe21WgWc9 user=56tTKa72yYDT9YhAqWdvvydJh1MgsQt9uFPXq32R7eoy base=160623 quote=103355211 (unresolved)
+pumpswap ???? sig=CiWcfRre8SMPe11FYsm8zRV1J3X77RvWVNPkvQKp3naUKcu3hfKZJFooY5EYuw4nQx1AGDFn9KLw16qWVVYUz4t slot=434292433 path=[3, 5] ord=0 pool=27iJ5VEGxukW5T7GFN1TrMS6UV1aqBf2yRaGDP1Eq8dw user=kiwiC4pg5mC4N5AhpXc4Av3V6oV7Sn2p3CqB7NeHbJJ base=15000 quote=79272496 (unresolved)
+pumpswap ???? sig=51bpUste7Q85LUKVHEkX93w7aYDH2pdv2hYdbcLeCh5evNBHYaix8k9kBoZuDRUexj2PaUouyvnAu8fWD38aAzoz slot=434292433 path=[4, 5] ord=0 pool=3xFqBK7WF39vmmXpsjLLqpC9uGRWNZWNEVanzqHapkqM user=7cwxLsNp8yUefZGZzQW2BBBLJGtgtgvNF5aFfWcQ9d3D base=1755899093 quote=1546577686488 (unresolved)
+Trade event found!
+--- event ---
+signature: 36u4cJV3n92cCmXqbUnMa9m1xuKJoPijY5MNhtM6F9NS1szW4yD2sHnpWX1ZGtVoH2V1PFeiaqHxLEsNkWw56KE4
+slot: 434292433
+absolute_path: [2, 0, 2]
+event_ordinal: 0
+Mint: 5PAWfFBzx26DvpyW5pahxdyWyaJG4q1XXtaWHgV9pump
+User: BwWK17cbHxwWBKZkUYvzxLcNQ1YVyaFezduWbtm2de6s
+Is buy: false
+Token amount: 38170540023
+SOL amount: 2791850
+pumpswap ???? sig=2ksmJDuJYGFiFnzFBtmxmyEBmkpEeDCcqtq29i7G2HUcoRfKGajbh6mg7tWj45i92CDNAT6MG7ep8htJK5DSdLar slot=434292433 path=[5, 6] ord=0 pool=1u2YgQK7NyqZovEFXLcR3jMxeyPTaov7RgSbEnQQdVj user=7FUhpXu215vasi9T1zFoBR33SC7Kagq7WfYVoynXJ2sP base=200905 quote=145121 (unresolved)
+pumpswap ???? sig=nE1az1SQxEfqSwQ8mco8UMrGna9uxAiE5xq7tB7AKjJ3HzWYf9PjyWymVLd3ZS8LWQw3Pt86nMDpiDM1s99GZrH slot=434292433 path=[7, 7] ord=0 pool=CB3x2bLj5iAgQFfc9fuLcCYrGGarKBmPjtyvW5TUvsKd user=6eUWi1XgUD12R1VVfy3sZymkpmr1VrM8oJnqTHbfr3s4 base=1253308 quote=179668 (unresolved)
+pumpswap ???? sig=2DiuTja9aKWjzPH9cjEDFt6Rk6Q9FkZVVUp3fCA69tw3dvASQFy92JtLavdT4NU3Abp4hSjXRhFYXD1sNuvQFeaY slot=434292433 path=[4, 6] ord=0 pool=AdckMQxV3BaJQpY8TFeKbqvvqFFNtQFsNCi3VEsGdX3M user=Ed4TqJjqvDw7Eunb4VqeDBTQQrSsfknaBWPMaCRPfNJf base=10772776852 quote=2426518667 (unresolved)
+pumpswap ???? sig=5QoAEazjMxmZmrbXpiP1xJUZqBA1SaVnv5nrsKTyH8Hrqu62ctKM8id3m5yqwRuwaizMhsdjFBEhYzBLaRxn8ZHS slot=434292433 path=[3, 5] ord=0 pool=Bn9CWqJBLnC5stBiAKUTsmSvG9NdSGgdhQxsk5PahAoY user=EocaXpMC9ir9tP1F1aA7KWpccxCAkpoUXqH2xhyNkHru base=8019901176 quote=6689363737453 (unresolved)
+pumpswap ???? sig=5QoAEazjMxmZmrbXpiP1xJUZqBA1SaVnv5nrsKTyH8Hrqu62ctKM8id3m5yqwRuwaizMhsdjFBEhYzBLaRxn8ZHS slot=434292433 path=[6, 5] ord=0 pool=Bn9CWqJBLnC5stBiAKUTsmSvG9NdSGgdhQxsk5PahAoY user=F6RCsr5WzjzgdDqRWBkDgVEauEyj89SdgH3N6TdhY9kr base=8245812618 quote=6879650006074 (unresolved)
+pumpswap ???? sig=4Zvse9tJhyRKcxKDZweipzv2thUU1abTQuJjYU9WzkrTQMuw9HiDLayLD98gg4HW9xsqa5qk8pR5Nm9t2fDdTKMo slot=434292433 path=[3, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=9Ukp73LQsXhbLgFGdFmoqydcSiW7DcyAwVrK2SKC2oZ4 base=10000000000 quote=197014486180876 (unresolved)
+pumpswap ???? sig=4Zvse9tJhyRKcxKDZweipzv2thUU1abTQuJjYU9WzkrTQMuw9HiDLayLD98gg4HW9xsqa5qk8pR5Nm9t2fDdTKMo slot=434292433 path=[6, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=D5KMuBjTvmWVNugZ55kuxqtKySC6qSn5LwDL9HvFHsaH base=10000000000 quote=197021017042703 (unresolved)
+pumpswap ???? sig=233z8eF9f9atNbShNp6NiHAyqmU9MyygS9L75zq19seM4DAsKss1pJshxfB89Nb59NbBxAmXd2hLrJPdARjaLr78 slot=434292433 path=[3, 5] ord=0 pool=7s5nS7hrU357tE7FYrFP7inKcXWM7oXYk9itwk3XZPiV user=7r5gjfbT9h71CPTCncZJPpfvCtJFTb5WYFGLnFS8TonT base=108012 quote=1010338339 (unresolved)
+pumpswap ???? sig=4j9cuNJ2FwfeL63NYpp7nEbb8EW5gizvtDiB2wDfUZhTLLReCBjxKU3cY3iQbUiyVGT6mZDxpNAeT3QckGmAKE1J slot=434292433 path=[5, 5] ord=0 pool=4PvwRF2vVmU9tzeHzgQms8UgUWj8PN5993NHUYykqm5Y user=7Jy3Jbu7h62vou9KMNRJ4ZhNUsXdYB7JNgtgJZVFX3gU base=2461852085 quote=2398235568243 (unresolved)
+pumpswap ???? sig=4j9cuNJ2FwfeL63NYpp7nEbb8EW5gizvtDiB2wDfUZhTLLReCBjxKU3cY3iQbUiyVGT6mZDxpNAeT3QckGmAKE1J slot=434292433 path=[8, 5] ord=0 pool=4PvwRF2vVmU9tzeHzgQms8UgUWj8PN5993NHUYykqm5Y user=A2CvxikWksmm6B47pnQ88vuC1MqePYzVis5bdtH1zviJ base=1673956971 quote=1623005740626 (unresolved)
+pumpswap ???? sig=2w6V4FUaeyYHS9uVpwrZXYsWWJUNJvpkBerMQan7GhnoYxD4LtNZY5vA93x7Cr4uQtd5Wj8SAYSaTaDDLBYv2yZP slot=434292433 path=[3, 5] ord=0 pool=4PvwRF2vVmU9tzeHzgQms8UgUWj8PN5993NHUYykqm5Y user=CKyjwDWYQtoafpKNd3TRKDjKpHmJqAsXaGHLXvuuej8r base=259312452 quote=254364451045 (unresolved)
+pumpswap ???? sig=62CGJH6pBfHn87mop7dYrYLcwesuP2Tr9HfLsgnG3PYRD1wrRSv97pXEwZUNFHw7xaEsv2VwE2ZwkHDfPjWjgtaF slot=434292433 path=[5, 7] ord=0 pool=GkXCXg55MM2sGzBrjqB2sQ12LtXKDepQ6UNaWEFy6ffr user=DTc5c21A2o6nPfQBAbvVBuv4LXvNsxXa2SxPGtoKKPX3 base=41455843831 quote=652412799 (unresolved)
+pumpswap ???? sig=GUigy5LEUKqiDQzodNia2xUyf3tHiSVDsGDbRQii1FWUK7LjhjqnExbr67E9Cx9xuiBwT41pdwz1a1uLyyBvhgc slot=434292433 path=[3, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=32qt8KFuawfKVSJGdL3HdGZh7GZbSwTF5SHUxnoUwvEa base=10000000000 quote=197027462654412 (unresolved)
+pumpswap ???? sig=GUigy5LEUKqiDQzodNia2xUyf3tHiSVDsGDbRQii1FWUK7LjhjqnExbr67E9Cx9xuiBwT41pdwz1a1uLyyBvhgc slot=434292433 path=[6, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=9Ukp73LQsXhbLgFGdFmoqydcSiW7DcyAwVrK2SKC2oZ4 base=10000000000 quote=197033993946398 (unresolved)
+pumpswap ???? sig=6diE7c6a8AxKPZPEvwRmZP8cCBay9U9eDbB33TrCLTAaeSaZkQ72msDCYWcHUHAdYPgwastETXzYzHsAZfnMC2L slot=434292433 path=[3, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=9Ukp73LQsXhbLgFGdFmoqydcSiW7DcyAwVrK2SKC2oZ4 base=7027353613 quote=139008032532386 (unresolved)
+pumpswap ???? sig=6diE7c6a8AxKPZPEvwRmZP8cCBay9U9eDbB33TrCLTAaeSaZkQ72msDCYWcHUHAdYPgwastETXzYzHsAZfnMC2L slot=434292433 path=[6, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=D5KMuBjTvmWVNugZ55kuxqtKySC6qSn5LwDL9HvFHsaH base=7000000000 quote=138465154378696 (unresolved)
+pumpswap ???? sig=M73A9xa3hqDjeqGBTMFLqFtpnTH2puhvMSdAj4avfigAFpzKw5KroNdmhRBxbtYuz3pmdMhTdKKzSMBe4gE3wb1 slot=434292433 path=[2, 5] ord=0 pool=3xFqBK7WF39vmmXpsjLLqpC9uGRWNZWNEVanzqHapkqM user=E6VUUS9xDq5aMeJoXbiCmKQzcsGaVDuQUWvYVRHuM8e8 base=3073811678 quote=2738864049812 (unresolved)
+Trade event found!
+--- event ---
+signature: 2vKxwtyQ8mR3ZEwHoNyDL1Qmkfk7f9GscpaaiHbFkzuHftkTJsiy99fz5XTnBy5tg4ByM5WSkjA37hZaqYqrrV3t
+slot: 434292433
+absolute_path: [2, 0, 2]
+event_ordinal: 0
+Mint: 6K1aDVaky9ozaJwGz2hkxEij57t45pYddmhstHSBpump
+User: FfL2mFWSwVca5DPFYpauJ1fWgsYFSnUa4LMoqqyfs1ze
+Is buy: false
+Token amount: 4774814311433
+SOL amount: 471191745
+pumpswap ???? sig=328Tdka5M9NUcvwtQTaxrddtM1PgdfQcGMrJP1vxR3qsUE9aaytwB9QDsSwmckBYq6RsAd85AHKdGwwg4AL3K5gM slot=434292433 path=[3, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=EHo6gcdzTSdzWiDYbu17NFV2bW9eQyrWaWfGw9fCQ919 base=273964 quote=168061589 (unresolved)
+pumpswap ???? sig=2KgXNKWNih1ZLPP7t6ETPXXJbS5y3Sq5cijKiYG668Sp6a6UU3dW5HUTKJfPMU5XWv6YeA5p1mR8Wg3cNmQZVgBA slot=434292433 path=[6, 6] ord=0 pool=EdsYdk5mLkuCDj1euawr9hdauSCVVRR2yvPHCEi1SBHL user=DR38waNkeanJo7DnmyHDWazuTo2GRzWFwnPWn3yYbUST base=487870 quote=110451 (unresolved)
+pumpswap ???? sig=521CsmAKSi2wwkxjN6yiSTqWXkqyBspZ6SpY3K8CMmZMBacTooS4DiwgTdavAgkhtCbWakmu1gfyKm53njcbVvn2 slot=434292433 path=[2, 6] ord=0 pool=9DrKQC17D6WkvUQkjaheBKWdtFVfo5ykcF9pKXKEMHQw user=Fp4qqmnfrVtk4bTWJNGn5f3HEkU8xVwKRKJJcogxCkdk base=216612251 quote=296433 (unresolved)
+pumpswap ???? sig=2rJhEZdxqep3Lw1dCer4oJVPp3mQhHkQzDanCKj1ko5fbgFN9WfkAxvZFBJuwi9M1Rpxj4g2tUJhnwyY1rPKcGZN slot=434292433 path=[1, 5] ord=0 pool=gSBmL5Ynrh643uTZQKkwtJT3AyzSpGK1JAt5KUEMvAo user=7a4V4RPi3bwutTkANasY3odB8w8nKuPB3VpbzkjRcqF4 base=394304 quote=2933091318 (unresolved)
+pumpswap ???? sig=3NUW1KcSL3hi1bnQGWuvLMHkebmpM9YmLsqmxbyBdLGvPzCiLxdLP4DEz4qYw7CQKodCoonVUrnsYkDhaDvsnoHa slot=434292433 path=[5, 5] ord=0 pool=3xFqBK7WF39vmmXpsjLLqpC9uGRWNZWNEVanzqHapkqM user=3MLVmAfirWBuZR5jWJQWj9koc815GNbZJi7PMhHdNbTf base=453306 quote=410773970 (unresolved)
+pumpswap ???? sig=Z52vVnkSXQdy7iYduvemv6pSCbLDdTCxV2exjwyv3Ppy7CGZ4t6VphwLdsGfxEEZMrppHR9oh1FtiiQoreqnC1T slot=434292433 path=[5, 5] ord=0 pool=9YuavZTJbrgBKTbHtXKu1ojBJT8gFGbibiNCzrAg8d4y user=DxT1a98WXAFFn6YzPV5urPEbktagMMDMVzy2e1ZmmWx6 base=9768246459 quote=33413376155551 (unresolved)
+pumpswap ???? sig=Z52vVnkSXQdy7iYduvemv6pSCbLDdTCxV2exjwyv3Ppy7CGZ4t6VphwLdsGfxEEZMrppHR9oh1FtiiQoreqnC1T slot=434292433 path=[8, 5] ord=0 pool=9YuavZTJbrgBKTbHtXKu1ojBJT8gFGbibiNCzrAg8d4y user=67H8t18BZsn7YSdfEJqPCoWSqA9o2tFYPVNMLaPXw4Xg base=9339327254 quote=31939874463976 (unresolved)
+pumpswap ???? sig=2BNcBNvv9dbxBfatTkZXdGAtwCWf13coxodgesS5n38UGYyx9iH2F3sUVx1i9NpX3f3huMXMZWNesUsGRkFdjS6J slot=434292433 path=[4, 5] ord=0 pool=3xFqBK7WF39vmmXpsjLLqpC9uGRWNZWNEVanzqHapkqM user=318nidHjRmpckfTvgJ4SnRYQNLxHTRSUiwVQUU83ra8C base=2819074153 quote=2508555671875 (unresolved)
+pumpswap ???? sig=6L2yy6YKmkUNb44zaac2Zvc6yUEEg35BpGctbkzSdvyff45MgCXyS5CepJVfWrWGT8TTYunrBr3ARyXsYfujsy1 slot=434292433 path=[4, 5] ord=0 pool=8GaQvFcYSsGwSywqA3i5MCcW4H1ooKLN6sV9fp1636V5 user=C79tUThwDm8V6qSdJosVLcB3PxpyxsKXfiRAU3Fyp4R8 base=6903199 quote=4150061671 (unresolved)
+Trade event found!
+--- event ---
+signature: 3XAxQ2S3jsWZA7FEtTqs7oqRSsmQvgYNnm3qLfHc1BoTw8FWvessecpnJcMDX3WAcyiFiGtTkGKtDRYS3sSB5Lm8
+slot: 434292434
+absolute_path: [4, 0, 6]
+event_ordinal: 0
+Mint: HWRiJPnmMS14jttX2mqCRvEANy4NyrjxXWNxkQELVw2U
+User: GKYnpUoMzetYxMyaA2pG9Y9pWQBw64r6QH4MgddzJc3V
+Is buy: true
+Token amount: 4583445144183
+SOL amount: 192036872
+pumpswap ???? sig=2ZZGmyQb29BkjKVrkn9YTZUfbYts4Y1nn3Du9QEsf3q9kpetcCo5s7qCwgzufVQmLL36kY3heaauuAt8eMRyMymJ slot=434292434 path=[3, 5] ord=0 pool=Fcv17LDMaibuL7BDSVV9YjWwq1f8TthtJooFsNHKdw3o user=ECdkH2VvkQpSz9pn5pAK3MhZ9rbYUeQctBdwE1QrMuay base=1750275736 quote=185816261378 (unresolved)
+pumpswap ???? sig=2ZZGmyQb29BkjKVrkn9YTZUfbYts4Y1nn3Du9QEsf3q9kpetcCo5s7qCwgzufVQmLL36kY3heaauuAt8eMRyMymJ slot=434292434 path=[6, 5] ord=0 pool=Fcv17LDMaibuL7BDSVV9YjWwq1f8TthtJooFsNHKdw3o user=CzVGZdhByn2QeZ1waKcdJCV5UQfNaWhYJPVAEz1MBEW1 base=2157973151 quote=229255892149 (unresolved)
+Trade event found!
+--- event ---
+signature: 2m7YuuMAtJzace6oTnyw6xNL6SE7SFAwNPVZ9LhVZC4zMpy5zCrEbZ7qF2dxP7CU7umLSWAX4S6tdGVFVb79Qyu9
+slot: 434292434
+absolute_path: [2, 1, 2]
+event_ordinal: 0
+Mint: A2J4au7ZaQgpB3qxBZQX2V55bPiY4g4AwV63kPW8pump
+User: 5jV3Hz8vGEjs44CUqCUyi5TaUfBBWanvZWd5juKaQQrJ
+Is buy: false
+Token amount: 432956925974
+SOL amount: 60783411
+pumpswap ???? sig=2zvzamNRUgwPX9wJZZMR8k9vRZneSe9dNxo7FPzqxGusKNmiMW4ZDqcC2mozrvydaq5u7gw7jD1HMhNr9nVo9ydS slot=434292434 path=[4, 5] ord=0 pool=G7dJMbt7T5MTx8GMnfdK2z9V8rXpDJzfHLunGQuckhHQ user=RZL4rBjMPK22bNfwjGJyopgEUnkk6EXTVNeaJr2k7fu base=2164163909 quote=730438966430 (unresolved)
+pumpswap ???? sig=3FV4g2zFD5axv2AW7MFvZpVcbC5yzxYH5befxGJEz24az3iF78cgdMk58nB1zRThXP3zp8wPmxbPjt3GhUTFyeYg slot=434292434 path=[5, 5] ord=0 pool=7s5nS7hrU357tE7FYrFP7inKcXWM7oXYk9itwk3XZPiV user=ApgbhU14bRWHXc3x4dtge97fKodCZ3HFkGzxNNFtbCTe base=9578781390 quote=88974407646647 (unresolved)
+pumpswap ???? sig=3FV4g2zFD5axv2AW7MFvZpVcbC5yzxYH5befxGJEz24az3iF78cgdMk58nB1zRThXP3zp8wPmxbPjt3GhUTFyeYg slot=434292434 path=[8, 5] ord=0 pool=7s5nS7hrU357tE7FYrFP7inKcXWM7oXYk9itwk3XZPiV user=Bja4tQc5V4tDNf8xuf6fRL6Jv6qyKPiTbibiqtsCA7Ln base=9593720747 quote=89115716004729 (unresolved)
+pumpswap ???? sig=5xhnp1SKSS5DjUmordPccR5X8GhM4JXwMQsHwRTa3FNCFBv9Gp52vFvyn5RKSQFVSVqxeVZb37dLKEHRMyQCrk6W slot=434292434 path=[2, 5] ord=0 pool=G7dJMbt7T5MTx8GMnfdK2z9V8rXpDJzfHLunGQuckhHQ user=8GDqFM5zf3gKJetPywgEjVev8ZPr7UJ1ACQvANj1AU2W base=2325619286 quote=789373922313 (unresolved)
+pumpswap ???? sig=2P85To6LgcwxsEMmxba5Z8EagDFVAkqcGar2pyHU4AzLo1gZXvuAZ3rozoGC2punRmmTRynpsrtEE9o4FHYKbuTC slot=434292434 path=[3, 5] ord=0 pool=2Eg5yJK7YuJuKNWJ3pg46DU4UaPYsz6B7Vxw1dbtVomJ user=DwsrdxK8WnpMDB3YCSxT746gxNHUhAce5ykQXAFoaFN5 base=10153921450 quote=4600060528943 (unresolved)
+pumpswap ???? sig=2P85To6LgcwxsEMmxba5Z8EagDFVAkqcGar2pyHU4AzLo1gZXvuAZ3rozoGC2punRmmTRynpsrtEE9o4FHYKbuTC slot=434292434 path=[6, 5] ord=0 pool=2Eg5yJK7YuJuKNWJ3pg46DU4UaPYsz6B7Vxw1dbtVomJ user=2gkG5g4uVQ3Aby5sS8WAR1LZKJaCRLURV5mngEsCK4am base=10057402534 quote=4556066580708 (unresolved)
+pumpswap ???? sig=48fVePH2DTBw2at2CAsRYpcv8onDFkaCb4DrYYec9252fSpHdci7cszGt1bnH1XP5gcRVphHrQRw12Q5RPyudvYo slot=434292434 path=[4, 5] ord=0 pool=G1EBGrDbRbeUjeWyHiTNYeBVVp2LrbwRazs8K7xzwRgV user=419jriPQsxwCJ4tjEaxsiuoyw8GMBXu5QB7q2C5fB1JX base=1106614 quote=1342035938 (unresolved)
+pumpswap ???? sig=2VLDxGuMaTvzaQGzst4rj4rJ15J8Fhg7jWK2hGpSCFybRKHLUVd6CD6dRCfWVKJEAu5jEei77G4X2wSG4QdSmq1U slot=434292434 path=[3, 5] ord=0 pool=Fcv17LDMaibuL7BDSVV9YjWwq1f8TthtJooFsNHKdw3o user=Dj6aw2vN9RCeUAYphePnjNGsrQEJiEvaL61NQse3eiEe base=5920661953 quote=625103294835 (unresolved)
+pumpswap ???? sig=2VLDxGuMaTvzaQGzst4rj4rJ15J8Fhg7jWK2hGpSCFybRKHLUVd6CD6dRCfWVKJEAu5jEei77G4X2wSG4QdSmq1U slot=434292434 path=[6, 5] ord=0 pool=Fcv17LDMaibuL7BDSVV9YjWwq1f8TthtJooFsNHKdw3o user=CzVGZdhByn2QeZ1waKcdJCV5UQfNaWhYJPVAEz1MBEW1 base=4715075715 quote=496834642432 (unresolved)
+pumpswap ???? sig=3ropLhNoTJ2CjmqWDBmLJfLqpuWokZb9TQonjk6aW4xuhBTAMxtnhmBJ94x2Ck5MKgEzAEefXjN66vfdE43ANFSE slot=434292434 path=[5, 5] ord=0 pool=5zvyVcL6yC6uksW5PEpe22oBEwE6s5Ro9pvtkhfV1XZz user=HsNJswEzuXGQu1DQ9ZKef7qnDwvhnDcehgS54Qj5iP4p base=184594838 quote=148797187170 (unresolved)
+pumpswap ???? sig=34ZKNLQ8ScaR5GMFGcnzRfwGPN1JtZB4eeDXc7JBNktGLhhn2veKCzJZsLejnHjYXuMRvTooTxTx1ee2cdscYqC3 slot=434292434 path=[3, 5] ord=0 pool=G1EBGrDbRbeUjeWyHiTNYeBVVp2LrbwRazs8K7xzwRgV user=5s3pZtbMZjUp6jC3MjwFfu2uRBKrPu3Dfnu4PXsw3jTH base=5175026537 quote=6231595149648 (unresolved)
+pumpswap ???? sig=34ZKNLQ8ScaR5GMFGcnzRfwGPN1JtZB4eeDXc7JBNktGLhhn2veKCzJZsLejnHjYXuMRvTooTxTx1ee2cdscYqC3 slot=434292434 path=[6, 5] ord=0 pool=G1EBGrDbRbeUjeWyHiTNYeBVVp2LrbwRazs8K7xzwRgV user=94YQq71S3f8ERutz6JYw9XxJpgDRCBRbEs2JWXsyC4re base=4077278618 quote=4902408015760 (unresolved)
+pumpswap ???? sig=4gpZ45xd3xq8Dy72ngbzcbXDeEP74XS7Ugkfy4w6eh8cbzuZpQgSDeuo1bxyb2Ve9RB32am8skA3VYLWPAFioiVf slot=434292434 path=[3, 5] ord=0 pool=5zvyVcL6yC6uksW5PEpe22oBEwE6s5Ro9pvtkhfV1XZz user=2AWs56TefyyfA3afL7QCL3vtuHEhEVNTRjQ9afnqF68T base=1275448428 quote=1037220673250 (unresolved)
+pumpswap ???? sig=3x8YgkWWcfq5WGoFWk1BFWc3VmvcZEcAHFBeAFmwaD4ENYDkKRw7GHvBebjv72ayERhGXirNP5Wu3ANsg2P9dHKQ slot=434292434 path=[5, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=D7Z9VfqUtKpj8HQbpfhACbo8KChd1aJZ8E3PUxq7UurW base=17922873457 quote=10907482131174 (unresolved)
+pumpswap ???? sig=3x8YgkWWcfq5WGoFWk1BFWc3VmvcZEcAHFBeAFmwaD4ENYDkKRw7GHvBebjv72ayERhGXirNP5Wu3ANsg2P9dHKQ slot=434292434 path=[8, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=v4GA2U1eA1iZkLzJ4f6voe8oyWfBg1ynXst6KpHZ6Ge base=17331062644 quote=10544745889254 (unresolved)
+pumpswap ???? sig=4bMSZJcerscaKSdwAvZsbLAyp1p3kYGdAYuAkt4SF78DT5NL629uijjRh8s22BB61wPHgkXNWzYo13aXyQkxKbwj slot=434292434 path=[4, 5] ord=0 pool=2pwKDxPutkTCTdxa2SaoY4HT3K7hvDv9PjDcAbPytift user=5D94pMcEUML3ZRAShxchURZYQzrSe5YsrdD5yzWJM3kr base=144939923 quote=34855183341 (unresolved)
+pumpswap ???? sig=5nzXJWQDzCEbTw5L9gcMYDpwLFKWE7ZuBzLU6NiQHBceMjKJn6utkwxGGGZPGbKi8XuyBQBd9npnhmqdFjCEtUzn slot=434292434 path=[3, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=9Ukp73LQsXhbLgFGdFmoqydcSiW7DcyAwVrK2SKC2oZ4 base=114679 quote=2289541658 (unresolved)
+pumpswap ???? sig=3bw1aM9AZLsqWsu9Yh3M11g5QFERmB9rTS4kBXQ8tzSU6ZM86ydyTHwp2ZT6LbpHHGQE9wRmJPLZYxCWE6nU8y7c slot=434292434 path=[6, 6] ord=0 pool=EdsYdk5mLkuCDj1euawr9hdauSCVVRR2yvPHCEi1SBHL user=6KJsDo3ipiCVichoGLA4eKPppekXaoFC98fFELq1ymWy base=739161 quote=167342 (unresolved)
+Trade event found!
+--- event ---
+signature: 4yC58LuvtewqHEJvAk83gVP4KxLK9v6q2RTqk5JsDWnjScU7x8EYmE7XJfrxXr3CigrNoM9ZSMDFBpeoD5LBaXKR
+slot: 434292434
+absolute_path: [2, 0, 2]
+event_ordinal: 0
+Mint: Cpqo5SXq8ktbs5Teg2K9cpfGrTX6fH9VXXJpBx6Npump
+User: 79U8GwLhPXcnuUpBVeZ1rSEfVoota888W3qJik48BxoD
+Is buy: false
+Token amount: 1475385368415
+SOL amount: 90371839
+pumpswap ???? sig=iE9zsvpQrPdEnCPibiYLN3RnXB65KJoN1GUEsnC6JRtLrYZaG5AGmKSd6GbXrbmGKLeGC2oq5BosBW4VhiGxLdG slot=434292434 path=[5, 6] ord=0 pool=1u2YgQK7NyqZovEFXLcR3jMxeyPTaov7RgSbEnQQdVj user=4H7i5zfKtZgPbSd47KEp1fQ6z7E9KGLPaPM6sw8zdJz6 base=365127 quote=263741 (unresolved)
+Trade event found!
+--- event ---
+signature: G3EMvAA4Ahg5cf3jvaPDpkWKzp2wKgE73U1diWuGeWDUSespVKaGYHQjZZB2cXq8LEKtwDYbYmeKdVAuLdJ7RVG
+slot: 434292434
+absolute_path: [3, 2]
+event_ordinal: 0
+Mint: 23CLCj1jN82uY21gqLweo5g4NEFgMRZWsCSbD2DKpump
+User: FoZhwdxM8hwM1PGXW5Nie3a8YmWoj7aEqr34rpapgQP2
+Is buy: false
+Token amount: 60869246030342
+SOL amount: 12510463
+pumpswap ???? sig=5Ba9GVdSBu23VL3JEnzjtQLHGEQqprGzwksg1ih71Bma6TnSoTc6fTURB3mv3TbQiTNzJJ6Famy8kx6S1wDd8R6j slot=434292434 path=[4, 6] ord=0 pool=4TtCpPqTsgs3BN8PNfeQUpWQEjohtuYMRCfM9pJ8SM7s user=34X9N5eYavDcgdnojAHZzBPbJFjJ5qMU8j53DCHwGJCw base=903883368 quote=280021370 (unresolved)
+pumpswap ???? sig=6KJjMsbaZnAjJHqLYvsQyHLcDsrssxEgwMHMTFfmYy93DJjXJyPDSnM8SN2xFus9uEZS2DHvs4yunM2dfLV6j25 slot=434292434 path=[4, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=GxmghQBs6sZviVpSRYiW2hZTA6AHU92hmBGK8KUjWxx6 base=197689 quote=3946816884 (unresolved)
+Trade event found!
+--- event ---
+signature: 3vqPtk1dkCguYzoRMM3a8Qra517nwgq9V2et2ezoG35Cn2k9F4L1Ru9FWVRFHBrCDFZ8nDaAjxYxMbhZpRTLruYZ
+slot: 434292434
+absolute_path: [3, 0, 6]
+event_ordinal: 0
+Mint: HWRiJPnmMS14jttX2mqCRvEANy4NyrjxXWNxkQELVw2U
+User: 9tbGNjKTcJiYNE8rnCBxnD9kateC7eeposZrzD35d5wt
+Is buy: true
+Token amount: 17449885383649
+SOL amount: 749915620
+Trade event found!
+--- event ---
+signature: 28XqDfHVB9QWqMgw5idwZ4aA2WtjskVG2QGdXvyuwkhb8Szk8Aom6iGPz1fPpbLkmyTabZCPSXj5cmy51kYoe5tY
+slot: 434292434
+absolute_path: [3, 0, 6]
+event_ordinal: 0
+Mint: HWRiJPnmMS14jttX2mqCRvEANy4NyrjxXWNxkQELVw2U
+User: 5VXEfywc7afkroqUDxVr6KCWNmZpaquwTUvHspXP5edD
+Is buy: true
+Token amount: 16039287289390
+SOL amount: 716751046
+pumpswap ???? sig=PHSETRxSSU7NEQCT35MiKijKu99kSALCbB6p7iNn2UF79BvTGxYkYcQP345jFA7jzQbWkf65amvp5NQwQha1Loc slot=434292434 path=[5, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=632E9KemNAWJDihaxSj714b1RsL2VrPeV4XXZRsHVUG5 base=16196431015 quote=9859540607780 (unresolved)
+pumpswap ???? sig=PHSETRxSSU7NEQCT35MiKijKu99kSALCbB6p7iNn2UF79BvTGxYkYcQP345jFA7jzQbWkf65amvp5NQwQha1Loc slot=434292434 path=[8, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=9fCsjtFJmkD8tsK9hVJUFxcqAJWsvrEaNbvTZ7vFXvsM base=17966104745 quote=10945660471231 (unresolved)
+pumpswap ???? sig=55PpqBUNXiUtdKHJtfEDoyUi7uK6Md4WgCLu6rC4bHw3rUoYuw2YiYHaw9cNheRvYV8bUvPY6aRBWVjVEc7B2q3J slot=434292434 path=[3, 5] ord=0 pool=4Q9a5CqzeNPHpsPJ5iW7G8i2TUDarbhhmKzVfN9ZhN1L user=7qneVwdJ7DFLEZWF5zPr1NurZbsmqMgD6WSB3yVPEXNA base=6425209858 quote=99874327351652 (unresolved)
+pumpswap ???? sig=55PpqBUNXiUtdKHJtfEDoyUi7uK6Md4WgCLu6rC4bHw3rUoYuw2YiYHaw9cNheRvYV8bUvPY6aRBWVjVEc7B2q3J slot=434292434 path=[6, 5] ord=0 pool=4Q9a5CqzeNPHpsPJ5iW7G8i2TUDarbhhmKzVfN9ZhN1L user=9uQbFdHQ79nAgBfKnQSCkE3C8NN8ntMyjEKnkZERuM8c base=6169966215 quote=95885500357773 (unresolved)
+pumpswap ???? sig=U4nSrrvBVhPJmpDXFkfdfcMrAGLr1MtXadLDujQwjet5jm4X6b52RkmUUqYEBrqvRRcipxqHCQZBccihEYDRUAS slot=434292434 path=[6, 6] ord=0 pool=EdsYdk5mLkuCDj1euawr9hdauSCVVRR2yvPHCEi1SBHL user=J51PRwyB7SJmbP82WcBXzkx2LE9CNYA9LHgU1Ezezt5R base=552416 quote=125064 (unresolved)
+pumpswap ???? sig=28mo2x7NvuNP4FZKyUGsAHHxGVQdbbmqys8hQfJ1r8NFGgyxTSihNV8Dcpfk9EsZZpYC9WFWUetZ6AULQz4D2FM5 slot=434292434 path=[4, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=AHJqbwPNjmZ1RFbDSEN1f9kpxucngU2H9Zb6YtjEAq4c base=164968 quote=3293547821 (unresolved)
+pumpswap ???? sig=k7uJU463yzs8XSbcZQaxt6NQmt6cSGx5vSzNnQfpSggEeCkVvYp5M8yxf25eoPUKFij69vYbp5TRU11F7up9HW6 slot=434292434 path=[1, 0, 6] ord=0 pool=G6gFzvpeSPq6W3vQJ3CnJQGUnTmHxWVaZtQPg9V5JJya user=J9huPak5pyZjoM4e2Etqgg16QTFp7ijMhC8JJ3b7y7aw base=4411430784 quote=32722235 (unresolved)
+pumpswap ???? sig=2LvYug9RXe9xoQxxche4pjDKdBoow6BWa7ECi7qqNrHU1vAbSgL8erNYvDsyWsDaaXHY42ypmQD5fhha4mY9XtkF slot=434292434 path=[3, 5] ord=0 pool=gSBmL5Ynrh643uTZQKkwtJT3AyzSpGK1JAt5KUEMvAo user=6JTxWci2Z4dkdkZS1jBESTeZp1bQZMiCWdVduYxDoLsE base=604441483 quote=4498662900829 (unresolved)
+pumpswap ???? sig=3dLTMAqrcHaJZwPREdRYCg67SuHLwW144cRxnMSTfs5MPkeRvcSg4SkfgDCbBEkFSACKXSP1FMqJB5H2G8GJtpfd slot=434292434 path=[3, 1, 5] ord=0 pool=G1EBGrDbRbeUjeWyHiTNYeBVVp2LrbwRazs8K7xzwRgV user=iGhZqmSdMBR8k4Ua3ViwsdXENAd8MTGqZKX9ARVbRkg base=130703 quote=158510507 (unresolved)
+Trade event found!
+--- event ---
+signature: 46inErX4ij29dc6fu6iDNStXdmdSYkCeVku6Mz9CB7ksE81XFrGynXSSeCrEBfMc6k6FEiycgwKJ1i6d4Kmsso5
+slot: 434292434
+absolute_path: [2, 0, 3]
+event_ordinal: 0
+Mint: 5PAWfFBzx26DvpyW5pahxdyWyaJG4q1XXtaWHgV9pump
+User: BwWK17cbHxwWBKZkUYvzxLcNQ1YVyaFezduWbtm2de6s
+Is buy: true
+Token amount: 262421882634
+SOL amount: 18683971
+pumpswap ???? sig=4twkE195LyYcuqRnJ13F182LQBDpLujsyeNum8352STuWgyXQH1ifzGWLpyxmzitBg9p9PzVXGneXGejD9KAR64W slot=434292434 path=[6, 6] ord=0 pool=FBMcx7JNUvenfWjP1aXCBJgxU7Tb7QXVY7G83JbzGbdk user=FshbXoXHyHy6gWKpmbMBFFCSTDdXkp1fiuTPqYVjr42K base=232801 quote=173575 (unresolved)
+pumpswap ???? sig=4fdD9NFi2YZzn934yebxyf1PF6d8ecwYoe7CW9jEnrqBB4aM1B9uSCjPaaWmFLorP7vtfre9XpYaMR5QaPEdtVb8 slot=434292434 path=[3, 5] ord=0 pool=4Q9a5CqzeNPHpsPJ5iW7G8i2TUDarbhhmKzVfN9ZhN1L user=J67RCEsDMMiJkBVbaPbjEaQrL8jvKUDxvS3EkyMmzmLg base=10968482963 quote=169708817929571 (unresolved)
+pumpswap ???? sig=4fdD9NFi2YZzn934yebxyf1PF6d8ecwYoe7CW9jEnrqBB4aM1B9uSCjPaaWmFLorP7vtfre9XpYaMR5QaPEdtVb8 slot=434292434 path=[6, 5] ord=0 pool=4Q9a5CqzeNPHpsPJ5iW7G8i2TUDarbhhmKzVfN9ZhN1L user=9nS7tCYN8FENeRUzEXQLSpNCEkKjZjPvjuxKkBd5G3qT base=10381124403 quote=160537559157162 (unresolved)
+pumpswap ???? sig=2cF9YwtyAJrzqkuGWps1rdYvbwoMUupHd6uaYp6tZv6nnVYUJ6d5ZnZHFNXifCxMRhT6vcBksRBUdr7UbSvCEsXY slot=434292434 path=[3, 5] ord=0 pool=9YuavZTJbrgBKTbHtXKu1ojBJT8gFGbibiNCzrAg8d4y user=Fb5vvtgm9UC7593R8AzvYXg2HvxTmpt44giTjSMZr99B base=162631 quote=558740274 (unresolved)
+pumpswap ???? sig=5K9RX5kkVWWyRKrw5YGJ5WiL1CHbsM9K9JKbypjb2fT9e8aMcv3LdVafitptt9xJb62Q9Jfk2J4J9CkFxourqHHT slot=434292434 path=[3, 5] ord=0 pool=FJnVMXM6E7MqurLypsmJJVHRrmnhQNAow9XXmWNScKXZ user=BnNQqkBsCtLWUutgSmx6NvRTypjrbmzWZ3PzAwobVETx base=5957882634 quote=148960266718406 (unresolved)
+pumpswap ???? sig=5K9RX5kkVWWyRKrw5YGJ5WiL1CHbsM9K9JKbypjb2fT9e8aMcv3LdVafitptt9xJb62Q9Jfk2J4J9CkFxourqHHT slot=434292434 path=[6, 5] ord=0 pool=FJnVMXM6E7MqurLypsmJJVHRrmnhQNAow9XXmWNScKXZ user=Ejnzz68FTVbL5rWDk2KPFRabS9nfowVpd3uV5mpvusUr base=3015027180 quote=75114595742205 (unresolved)
+pumpswap ???? sig=1DNBqYwDDJu913DHL3gStCqyyFUZK1F1eygntVG2WBW75qaz6W2xKVxtxNu6dGrPwWJmRzMPhrXZhoo71GUVrCv slot=434292434 path=[4, 5] ord=0 pool=3xFqBK7WF39vmmXpsjLLqpC9uGRWNZWNEVanzqHapkqM user=34FtKFFph361iC8f3d5wRKe9hrePX8pE1d8psPgJLTzS base=768011364 quote=667861190582 (unresolved)
+pumpswap ???? sig=3G1d4hmquutZKWN15Mewu2pxqUGQdFHY4Bqp8bp3Epw3YoxwPrmFqgGyd3xrSANoTGBGt95mi6j3h45EbuNYs1F4 slot=434292434 path=[5, 5] ord=0 pool=EficNBxMVfTboJcZfDexNoH4sXuGCvjMUBA61khE5XN6 user=9jZ66d7tzwHa2T1dLwRTvd2WXqYc9mHN6MWjk4JsR5v3 base=272156882 quote=199710916416 (unresolved)
+pumpswap ???? sig=3G1d4hmquutZKWN15Mewu2pxqUGQdFHY4Bqp8bp3Epw3YoxwPrmFqgGyd3xrSANoTGBGt95mi6j3h45EbuNYs1F4 slot=434292434 path=[8, 5] ord=0 pool=EficNBxMVfTboJcZfDexNoH4sXuGCvjMUBA61khE5XN6 user=DAYZw7wse9noFvgSGrjEgQFZQ1o3egpav9gS5SLxVKGp base=1737483014 quote=1284405411665 (unresolved)
+pumpswap ???? sig=3thJj4PB6VD6W8qEzXywhwxi3xpKTEqM7jXysjbmWTo7jGnzqqPTBniQh8gymN3NAxG8EQ9daF6cyp6AvHQE4AtB slot=434292434 path=[5, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=FkrVkgeoJXNGtYV1iexz2PjnJZMVoRjWCc1WdKhZMYox base=9140804325 quote=5590894069043 (unresolved)
+pumpswap ???? sig=3thJj4PB6VD6W8qEzXywhwxi3xpKTEqM7jXysjbmWTo7jGnzqqPTBniQh8gymN3NAxG8EQ9daF6cyp6AvHQE4AtB slot=434292434 path=[8, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=9fCsjtFJmkD8tsK9hVJUFxcqAJWsvrEaNbvTZ7vFXvsM base=13177049230 quote=8074254390993 (unresolved)
+pumpswap ???? sig=2818UccRW1wuJAwQmH6i9nLb5ZqAErNTJSK22JmzQCmLUucuHPZH1dzgxBtLqRUtzfYhM1ck6RpWA8LxMN5XdcSj slot=434292434 path=[2, 2, 6] ord=0 pool=5YsszVi1235tJSdoxLRz5dXKuXX7cS5D2vLLWqL3jdS user=2MFoS3MPtvyQ4Wh4M9pdfPjz6UhVoNbFbGJAskCPCj3h base=574795456226 quote=1269129860 (unresolved)
+pumpswap ???? sig=5DvQsvHMKbND1hFj3j4TC9rDC4Hw5uFM31cGuzboyH5rwcEe8XJcrBXJiYm24Cfk82YFTQzVJqNqt5N4piKp46XX slot=434292434 path=[6, 6] ord=0 pool=AdckMQxV3BaJQpY8TFeKbqvvqFFNtQFsNCi3VEsGdX3M user=Ed4TqJjqvDw7Eunb4VqeDBTQQrSsfknaBWPMaCRPfNJf base=7114876239 quote=1601937287 (unresolved)
+pumpswap ???? sig=5PJGeGgfhSiRdCVVX7QEtMMVN7Ucu24cfoE5gC2xv6i7PAynUC3gdJL81Z5NMKArxLZe2UtjTknRfSzH6Ku7iuiZ slot=434292434 path=[3, 6] ord=0 pool=1u2YgQK7NyqZovEFXLcR3jMxeyPTaov7RgSbEnQQdVj user=EmjvZgEJjBArQhhL4p61V8j6qbdhDSGM2V4DegZ5W7Vx base=964444428 quote=694418759 (unresolved)
+pumpswap ???? sig=5gmM8eAov9crDscGzVYkpDEqqntZapAA4D7YFpDXYR11qhfw8T1y4Fo71YsPwVQ3aGonb8vnkFxbY9UAyk5BARe3 slot=434292434 path=[2, 6] ord=0 pool=9DrKQC17D6WkvUQkjaheBKWdtFVfo5ykcF9pKXKEMHQw user=Fp4qqmnfrVtk4bTWJNGn5f3HEkU8xVwKRKJJcogxCkdk base=72204659 quote=100000 (unresolved)
+pumpswap ???? sig=5gmM8eAov9crDscGzVYkpDEqqntZapAA4D7YFpDXYR11qhfw8T1y4Fo71YsPwVQ3aGonb8vnkFxbY9UAyk5BARe3 slot=434292434 path=[6, 6] ord=0 pool=9DrKQC17D6WkvUQkjaheBKWdtFVfo5ykcF9pKXKEMHQw user=Fp4qqmnfrVtk4bTWJNGn5f3HEkU8xVwKRKJJcogxCkdk base=72204570 quote=100000 (unresolved)
+pumpswap ???? sig=67WEAhvoz5a23Y993nENaKCtBDZSpx1FaizY49Nxn8gwM2CcjfLq1sMv2uz1QgzX7Fs1bJ5nJDLZXi3kxMH2kmRW slot=434292434 path=[2, 6] ord=0 pool=9DrKQC17D6WkvUQkjaheBKWdtFVfo5ykcF9pKXKEMHQw user=Fp4qqmnfrVtk4bTWJNGn5f3HEkU8xVwKRKJJcogxCkdk base=72204482 quote=100000 (unresolved)
+pumpswap ???? sig=67WEAhvoz5a23Y993nENaKCtBDZSpx1FaizY49Nxn8gwM2CcjfLq1sMv2uz1QgzX7Fs1bJ5nJDLZXi3kxMH2kmRW slot=434292434 path=[6, 6] ord=0 pool=9DrKQC17D6WkvUQkjaheBKWdtFVfo5ykcF9pKXKEMHQw user=Fp4qqmnfrVtk4bTWJNGn5f3HEkU8xVwKRKJJcogxCkdk base=72204393 quote=100000 (unresolved)
+pumpswap ???? sig=29gDZfJGiMf6Aqjof1aBazxRZ6YFP7HH5JwhyQAsAwYVEFhGZNzHEzPpmYgiuy2xhfwwfMJmzQGTZswrLRfDv61C slot=434292434 path=[2, 6] ord=0 pool=9DrKQC17D6WkvUQkjaheBKWdtFVfo5ykcF9pKXKEMHQw user=Fp4qqmnfrVtk4bTWJNGn5f3HEkU8xVwKRKJJcogxCkdk base=36102927 quote=49407 (unresolved)
+pumpswap ???? sig=29gDZfJGiMf6Aqjof1aBazxRZ6YFP7HH5JwhyQAsAwYVEFhGZNzHEzPpmYgiuy2xhfwwfMJmzQGTZswrLRfDv61C slot=434292434 path=[6, 6] ord=0 pool=9DrKQC17D6WkvUQkjaheBKWdtFVfo5ykcF9pKXKEMHQw user=Fp4qqmnfrVtk4bTWJNGn5f3HEkU8xVwKRKJJcogxCkdk base=36102927 quote=49406 (unresolved)
+pumpswap ???? sig=3bPhuwnMpt4H9NQh8V42C2Xp737ma32tGGeWtGFyNSRfkGj4F2MpAMaXvoCnpReD8T18QxTTWFysx5MXH2okrCr5 slot=434292434 path=[3, 5] ord=0 pool=Bn9CWqJBLnC5stBiAKUTsmSvG9NdSGgdhQxsk5PahAoY user=J4kBhTzyyJrPUe6WSnnRPXPAkyxvCMoVDCA7QB3C6wjG base=10312447365 quote=8584802750152 (unresolved)
+pumpswap ???? sig=3bPhuwnMpt4H9NQh8V42C2Xp737ma32tGGeWtGFyNSRfkGj4F2MpAMaXvoCnpReD8T18QxTTWFysx5MXH2okrCr5 slot=434292434 path=[6, 5] ord=0 pool=Bn9CWqJBLnC5stBiAKUTsmSvG9NdSGgdhQxsk5PahAoY user=4kBW1wQuSDGv33mPK8ruMVuDVNvqTVTWWKLZfaxNHXcC base=11006705894 quote=9169990390130 (unresolved)
+pumpswap ???? sig=3FcqjWRbrAMJjj5UvtzoUQ2bhmmHjKgGW1faGPLzwDNjHsJroWG2jBMoa5UWzuzJyBuUH47MbCHtWvXjarEBjPkX slot=434292434 path=[3, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=HWygAs9PNgMPXwGJiQbiumHYQUBMQ1CUHWrFephdkrQC base=15000000000 quote=293631488071917 (unresolved)
+pumpswap ???? sig=3FcqjWRbrAMJjj5UvtzoUQ2bhmmHjKgGW1faGPLzwDNjHsJroWG2jBMoa5UWzuzJyBuUH47MbCHtWvXjarEBjPkX slot=434292434 path=[6, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=9Ukp73LQsXhbLgFGdFmoqydcSiW7DcyAwVrK2SKC2oZ4 base=15003233753 quote=293710652583174 (unresolved)
+pumpswap ???? sig=4F55cQRY8UB5gE4Dwd1iSG9k9nuGX7TgwsBKE873CqwBUemykUhNL4QbMJKS5pU1tSUiZiRxxbJnCYosi9LwZqj5 slot=434292434 path=[3, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=E5dL3xTpm3J4KDpN8o6iskuiY9Zg3gEtQZx7SnxxeaWg base=10000000000 quote=197056197208467 (unresolved)
+pumpswap ???? sig=4F55cQRY8UB5gE4Dwd1iSG9k9nuGX7TgwsBKE873CqwBUemykUhNL4QbMJKS5pU1tSUiZiRxxbJnCYosi9LwZqj5 slot=434292434 path=[6, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=9Ukp73LQsXhbLgFGdFmoqydcSiW7DcyAwVrK2SKC2oZ4 base=10000000000 quote=197062729239936 (unresolved)
+Trade event found!
+--- event ---
+signature: 127cQ4N39FojeTdEdrcXaPBjQEV5Ca69Quqa2TtyT7Ze5xikbvGMsxhEbiw7X7Tdfo5T8fTn4C2ejDttFokks2cW
+slot: 434292434
+absolute_path: [3, 0, 5]
+event_ordinal: 0
+Mint: 4W4x6JFLhKrkq9uCosx5AyLtra1rcJhqUhj4BDdXpump
+User: FHBB8DN1eE9gyzyNarWPDP311ZUuMhReNTB8px9JASiM
+Is buy: true
+Token amount: 24057921332393
+SOL amount: 2444444
+pumpswap ???? sig=4mH3gbJLxikAyXHoZhScks5M2xTQPjVwGxUffWvgLrbBASFvtp9Vb4auNdsb3KfFpyfZ8s28qTra9rHQP7wtvtmm slot=434292434 path=[5, 5] ord=0 pool=4PvwRF2vVmU9tzeHzgQms8UgUWj8PN5993NHUYykqm5Y user=6QuwadchVfAUFLdKCLef7zsCVLtT9UQ2RjTPZqFGVpa base=678574213 quote=663948544968 (unresolved)
+pumpswap ???? sig=26URWVh9QpF2zJUAJgmMm56MFJ4qzhkNV1vADxmQSN9NzZ79yEm32kb6hMtnAm7YExDXurE2ho7M8pUh7snJcgiL slot=434292434 path=[3, 5] ord=0 pool=FJnVMXM6E7MqurLypsmJJVHRrmnhQNAow9XXmWNScKXZ user=6iden6mZLmpcFDQxpNangSV72XV37f9d58tBcurABTZt base=2503370762 quote=62406655877215 (unresolved)
+pumpswap ???? sig=26URWVh9QpF2zJUAJgmMm56MFJ4qzhkNV1vADxmQSN9NzZ79yEm32kb6hMtnAm7YExDXurE2ho7M8pUh7snJcgiL slot=434292434 path=[6, 5] ord=0 pool=FJnVMXM6E7MqurLypsmJJVHRrmnhQNAow9XXmWNScKXZ user=Ejnzz68FTVbL5rWDk2KPFRabS9nfowVpd3uV5mpvusUr base=687052403 quote=17090036437046 (unresolved)
+pumpswap ???? sig=3FCDSATTWeX7cDFgepNSBqrY4unUVDckzGYWVfLuQ1afptdSkxQaoYUtmxh8Qr14oF3FEB9z2KZrWdyTw56KFxuS slot=434292434 path=[3, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=AanZNEHwiRBcPRcCGQPZyG8D5zz9nvF1gxNyb8x6uxn8 base=869988 quote=536234421 (unresolved)
+pumpswap ???? sig=3n9cDSb4KP4DUeeHEdf5JUe5cXz6FjgxjqbdMtc6M3KuVcEbkT5njhKguh4UqoJzWPhGfqA6KPCwf3EhkgjZT4EU slot=434292434 path=[2, 10, 7] ord=0 pool=6fNWjfFN6kDKybWK5PFLWqZnpTmoBAswUWvxiG3g5D2D user=6pU2STMSwzABVz8Qc8dJJdxB23aiHvEmUVRD62amgtzG base=75840637368 quote=100394456 (unresolved)
+pumpswap ???? sig=2HARkzYQRmtgTKMzaACjyDKDF4FM3HGT71nW2cqRpJxwmBu45BL2ZgGRZieCbfUe8KsP1XzycnKMmQDi6gBpzykG slot=434292434 path=[3, 5] ord=0 pool=6v9heqobcmEMi5NST4sXgt5dHZSq3GmNMVvPNBNXhCod user=3SkQYowCLnctYTyvVpjv1pJT2YeQ91F1rFt1DnjT4Xue base=8757715024 quote=4814506329361 (unresolved)
+pumpswap ???? sig=2HARkzYQRmtgTKMzaACjyDKDF4FM3HGT71nW2cqRpJxwmBu45BL2ZgGRZieCbfUe8KsP1XzycnKMmQDi6gBpzykG slot=434292434 path=[6, 5] ord=0 pool=6v9heqobcmEMi5NST4sXgt5dHZSq3GmNMVvPNBNXhCod user=26M98DR5v4EACkSuGxu19LKxLTxEfc2GS5LVhnYPKyWy base=8994384995 quote=4945632139869 (unresolved)
+pumpswap ???? sig=5TasPX55BKmxiZaq4DpZyyATQGH7QXxrVsp1ZvaV28rab2JvZkRyeqdxdwJEHzE6REJEmGVdnd3XdGM1ymENichv slot=434292434 path=[6, 6] ord=0 pool=EdsYdk5mLkuCDj1euawr9hdauSCVVRR2yvPHCEi1SBHL user=BwWfJMmh84KUo5g5XMCPznXn6VkFwjP5ZN56ktWPKjn base=454596 quote=102918 (unresolved)
+pumpswap ???? sig=43ybmv1zvHf4DZoCLPwT5Ygfk29MTCFdBrYVthGK9W8NBH6qDTqUJD5NxH3a5zjNksNDK7zCiw9sF3QtiiKQC24H slot=434292434 path=[4, 6] ord=0 pool=FBMcx7JNUvenfWjP1aXCBJgxU7Tb7QXVY7G83JbzGbdk user=EnzZW5w8M2fLTnekLEKmvYeQmAwjukKfJM2V2zaTHhY9 base=4270964600 quote=3181606994 (unresolved)
+pumpswap ???? sig=CH9GHrqtkMC2EBMApEDpQGFbzTWMkaarTrKtzQgSJUSj7T2LwKxhcibTG4V3yvVhmdkhC5AvgaMB6S7KjXnGdaM slot=434292434 path=[4, 5] ord=0 pool=BLeHnZ18ukhUSVPXj53ZWHFqaUDeFmT2ouKSx6HH1wa7 user=Ccsue3rPDcTa2e3uQ4P844cyGmcDYDu8pwYsam17RJPH base=1614617207 quote=585532130828 (unresolved)
+pumpswap ???? sig=4Nt6q24Uj2rLtPHBF8h7S4WoxtYVnBpdp88F1g8EacWaS74LizS8c2FedB7mUoCAZiXes4i9C1Qq9QKoev8YkZN4 slot=434292434 path=[3, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=Dp94qyd5VgtvDDSypkooq1bTZTZDT87bkYHHkvCvkt3Q base=509761 quote=314201145 (unresolved)
+pumpswap ???? sig=2dXB9bmwG3U9eDNPuRF1RgBRUMEH6kSPfq8qC9fA9P41fHNm4pZyQUX4zEy4bSEhrBznwdvPYnSxqDLXcuMKmjr2 slot=434292434 path=[2, 5] ord=0 pool=BLeHnZ18ukhUSVPXj53ZWHFqaUDeFmT2ouKSx6HH1wa7 user=9NfDuhmQKpwHVfDazLqxEvQbA8fvegkyxNoyqEKhqQ61 base=442794890 quote=159208202505 (unresolved)
+pumpswap ???? sig=5pitKtpmqMTsY1vzsZqupsSnFbJtijk7fBHXmtiW2Rx1FPwegDFYWCCV9ss667EoUBQC882VBWpN2tMLJZQ7b5Nb slot=434292434 path=[5, 5] ord=0 pool=gSBmL5Ynrh643uTZQKkwtJT3AyzSpGK1JAt5KUEMvAo user=DbcK8mY2MCo7JXiAzzc1XZzyjWg3p1axseTS5gUvfSy7 base=10131808564 quote=74771318193771 (unresolved)
+pumpswap ???? sig=5pitKtpmqMTsY1vzsZqupsSnFbJtijk7fBHXmtiW2Rx1FPwegDFYWCCV9ss667EoUBQC882VBWpN2tMLJZQ7b5Nb slot=434292434 path=[8, 5] ord=0 pool=gSBmL5Ynrh643uTZQKkwtJT3AyzSpGK1JAt5KUEMvAo user=EAJzxwLvSxJccNneBu4A4TUic7FYuvbDgaAqLQXqxaCo base=10019128751 quote=73933983180463 (unresolved)
+pumpswap ???? sig=2WypSbJZHg26oxms8hySH2TeHC2rfuV4zXJzez2cZdnVsGcvESBimWXEUa7FZbExEiE6vme7BRgJUa4pBMkXNqUh slot=434292434 path=[5, 5] ord=0 pool=5zvyVcL6yC6uksW5PEpe22oBEwE6s5Ro9pvtkhfV1XZz user=HGiTvaacikxXKNDpLzAuvUDrcDp9SzNZN7L1kEsrfwJB base=285154446 quote=232428686943 (unresolved)
+pumpswap ???? sig=4bERjQt6SXzsf5piaLTWsfNffMV5kz1CYuJTx2cLg8324fEnDG1qGboEcDg6Af1qo1PKmDX1LchvUXf6SxYnf4rW slot=434292434 path=[3, 4, 7] ord=0 pool=9xn5mc2HEQHjoRT6TqMfVBXDW9vz2zJyubZVscKgnWTd user=DKQq7ZRx1mXy6Geqi29LMrdovyJnQy5Gy3nTbM2b3tiR base=147892807221 quote=245056845 (unresolved)
+pumpswap ???? sig=2yaVRshDeja97fY5a4bXevh65L3PZL3XkMGYgju5H22hqHYGUKTqNRNxJ2iYCBC6XaFGRpmJrZgXs4U9W73hzSXG slot=434292435 path=[4, 6] ord=0 pool=6LtBM9GxMtmff1VY6jEV5U3UrMCSGtSuquhfnwWTmTLi user=EtPpkJfEP7XKofs3KRuGJwQxz7K75MZ9h8p5rxZ4wB8X base=366882224 quote=88613532 (unresolved)
+pumpswap ???? sig=2ySbbaEYsLvdcYX7o3D3Ltombznx5hEh9UfLBX3YRRbUoG6aVvzsCT8BskCG4wHzhsYmdBbjWchYRmbfiButzTyW slot=434292435 path=[2, 6] ord=0 pool=6LtBM9GxMtmff1VY6jEV5U3UrMCSGtSuquhfnwWTmTLi user=3aTmE98BAT4fXd3n3fdLbtjC5P8dj4rZEcpCKUHUW28X base=359023934 quote=86456199 (unresolved)
+pumpswap ???? sig=3YiRXeKYazvpmeNiBrXiTsGdoa5VrTXghCsY2LnKEKoKd8ZvAegesrXxzhQTdszFBgBE3QCo7TjzWmrqwTXSofS5 slot=434292435 path=[2, 5] ord=0 pool=3xFqBK7WF39vmmXpsjLLqpC9uGRWNZWNEVanzqHapkqM user=Eoxv8eMv537rzPT2hSyW4WWSkxHTUN4MzRtnGhwHKoKs base=2143889651 quote=1886520618121 (unresolved)
+pumpswap ???? sig=yLJkQkQbKhMU9gHjURxCNdvMY8ZD74pesCbD9D3rSZNmmnfd9BtL8xciVBd5tJK8iwtYtKoGqVa6H71igEzSYHx slot=434292435 path=[5, 5] ord=0 pool=9YuavZTJbrgBKTbHtXKu1ojBJT8gFGbibiNCzrAg8d4y user=Di8jRdtPRwBG6CiA89Cyu9HNxnkk6xsV75Uvo2ikWF3 base=9493637011 quote=32465523261454 (unresolved)
+pumpswap ???? sig=yLJkQkQbKhMU9gHjURxCNdvMY8ZD74pesCbD9D3rSZNmmnfd9BtL8xciVBd5tJK8iwtYtKoGqVa6H71igEzSYHx slot=434292435 path=[8, 5] ord=0 pool=9YuavZTJbrgBKTbHtXKu1ojBJT8gFGbibiNCzrAg8d4y user=67H8t18BZsn7YSdfEJqPCoWSqA9o2tFYPVNMLaPXw4Xg base=9516806261 quote=32545503897350 (unresolved)
+pumpswap ???? sig=5jvsNX5W17H6JaUHYrQH8QFqLtPWBCVSj3v82KSGN9tWuZNXnrKXoa3w3MBAQL5uej3ubDdCMvEqniUr4d298trJ slot=434292435 path=[3, 5] ord=0 pool=HDX2tcRU2U9wjJ3TSwEmVvfF9nMzxme9o4cUe21WgWc9 user=CLWRbugaQUBdSQ4sCDUzeZNMt39QUh3cQUU5hPNL5LxP base=10126432227 quote=6453826253754 (unresolved)
+pumpswap ???? sig=5jvsNX5W17H6JaUHYrQH8QFqLtPWBCVSj3v82KSGN9tWuZNXnrKXoa3w3MBAQL5uej3ubDdCMvEqniUr4d298trJ slot=434292435 path=[6, 5] ord=0 pool=HDX2tcRU2U9wjJ3TSwEmVvfF9nMzxme9o4cUe21WgWc9 user=7gvvDfnvQYrVd1d4mSKLFzfLzjq5WrYpiez9FrzEjzJu base=9882772768 quote=6297228038820 (unresolved)
+pumpswap ???? sig=ZwKiJ4wTsSGzBHeWgRi63ycvYiYixKwCiUVpA86bqx8adYPaZyHKr4MRnicVMmqijQqUMSoFey9NYg4RMtf73W6 slot=434292435 path=[4, 5] ord=0 pool=3xFqBK7WF39vmmXpsjLLqpC9uGRWNZWNEVanzqHapkqM user=CjX5ATq2WoQgvpg1mCj6qFifzrRSUGTDFto6V1hcfATL base=2172391234 quote=1905602654377 (unresolved)
+pumpswap ???? sig=3XGVYvtrqcyfpwYHU7E9iMJrpVEhFW9jkZe1yaNgujj8zJrJn8SP7XkenVeNgXEMttBiPx5ryXfExj1WghL2vjBf slot=434292435 path=[3, 5] ord=0 pool=gSBmL5Ynrh643uTZQKkwtJT3AyzSpGK1JAt5KUEMvAo user=G8sCQd2vewJufUg6kmeQBtutxEZgRWGviSrp57L6YS7w base=228988 quote=1704939676 (unresolved)
+pumpswap ???? sig=55hE2xfEZDHy8wuqhYuUyKYL1csCwhJbVWLeNhh67VwdCEMzUTzghr83QvLdyvriy2Y2fMFME3mUhTXjwsGGaS3W slot=434292435 path=[3, 5] ord=0 pool=5zvyVcL6yC6uksW5PEpe22oBEwE6s5Ro9pvtkhfV1XZz user=GqwpnxvPyvhxJbM9cLmUYxrUj3J9jfgv9FYYG1R43nks base=2784041254 quote=2306971240474 (unresolved)
+pumpswap ???? sig=4aVnBdaqN71FJ76FBc5zGWV8ZxmH8fENxqsNfcFqSDyXctKaSr9gMNjiXbCMspJErKECBbAZazyLyYm6ZmR2frvi slot=434292435 path=[2, 1, 0, 6] ord=0 pool=2DVbU5h8JCd37gaXAJUZ4t77HsjJW22LLduTZk7GSa43 user=e8BdAnWE97fzcR1KHAjsSd2UAWvW7DP9eP9ro4EbYsS base=657116132 quote=119598632 (unresolved)
+pumpswap ???? sig=2cxYrwa6QyJmu9injjgHr9zVwBKJkFqVFovG5GVCM8fwPRu3WaNKDc6ND96FgbtRYHXjPNmMJqdVbLcXpQDhJWPQ slot=434292435 path=[5, 6] ord=0 pool=1u2YgQK7NyqZovEFXLcR3jMxeyPTaov7RgSbEnQQdVj user=5wA8vsLfsj5i8c3k6Qu3t99uTPh6R17JYyErNKFGgw1z base=206450 quote=149069 (unresolved)
+pumpswap ???? sig=bYFz1zA1z1M8viVPErzd9bep3CxwYYK1Lo1zcog4fYp3uPAGDevbQHarDbeck3HAEhqzv2ZkPCCcbfT8hrwYQeN slot=434292435 path=[3, 1, 6] ord=0 pool=5PGhKctym6odbHGo2tKMST2AjmJsb2uZBQrKkn4ZuFT5 user=6U91aKa8pmMxkJwBCfPTmUEfZi6dHe7DcFq2ALvB2tbB base=12059955002 quote=2749263190 (unresolved)
+pumpswap ???? sig=1SkmVrJ39R6vGfgGMcicJcGCc7ZtiitQkrVxUNmVa8WF6fouxSVFHcNqRN8BrcZSW2xAGPjbAmzFVxXv8pSqbU slot=434292435 path=[5, 1, 8] ord=0 pool=BtUWzuu4zsdrUcHXmHL3hhcCw3Zf29pzeXYKQF3yWaRe user=2ACH3WJcKn6p2tZGzytQxtD3tcdPCiQUzXRGvCBKUWxb base=413440708382 quote=99800000 (unresolved)
+pumpswap ???? sig=2wqYRVprcJjFMsYrgCoCkGimbbnpFrKo9CLJfE9s7WFkaAciNgmPhwTE5N5ou6haK57qcPfZsqXPaBjGed1xUb1N slot=434292435 path=[2, 6] ord=0 pool=5ByL7MZoLABYnwMPZKPKjf4MGkZ7FeBzrAnos19Pre2z user=43eMdstN15MzM5hRWsWoXj5Kej4z2EF7RmsQPVedUsUS base=40198062 quote=934918 (unresolved)
+pumpswap ???? sig=3VrhUtqdXkEJxmPB77nV5kbAAQxJtm6euneCM6d4cNndBPBYqRExn5JrbXGpv5a4izKf9th5ZJn6XENc1GiaWmbo slot=434292435 path=[4, 5] ord=0 pool=LRkka3W46jPK5VRCwDwh97D2N4fYQyk56ws7mcDrZN1 user=GSUinfvdaxTdyLJHcxFRm4WGsAU2WjVF5tFbgZbqhS5b base=1219925224 quote=4670736387 (unresolved)
+pumpswap ???? sig=54JSRHMnPHdC9QiBZLJzDkRpBGznMB8szmxAB4Ak8MnatKKefC5znidMLTjh9N19oDYH6rGTw6XfFW9LgEwyDvy3 slot=434292435 path=[6, 5] ord=0 pool=5ad1bJpnqK84xC2obrw86thAJamfMSQWJBH8aCChnBNs user=8nLd2NbuoGnj4YKKjwRo7Xkhw55V2dhhR1RQqWo7fYeA base=1137877188 quote=771947776467 (unresolved)
+pumpswap ???? sig=54JSRHMnPHdC9QiBZLJzDkRpBGznMB8szmxAB4Ak8MnatKKefC5znidMLTjh9N19oDYH6rGTw6XfFW9LgEwyDvy3 slot=434292435 path=[10, 5] ord=0 pool=5ad1bJpnqK84xC2obrw86thAJamfMSQWJBH8aCChnBNs user=8Y9m1pjpXJX9wFhgwJfZGCLpjBrbvLDuogMhNcYvceo6 base=936683707 quote=635336636495 (unresolved)
+pumpswap ???? sig=5qoULAaSz9yVNrvXzHyhSuH7wNUJsbQv9Ej3mzRsnA336b4siBUVSMC6oJzBzwUaQhvRcnhm2c7LkQUFtTgZ2KgU slot=434292435 path=[2, 5] ord=0 pool=8GaQvFcYSsGwSywqA3i5MCcW4H1ooKLN6sV9fp1636V5 user=4aQLwbWhcSdNLLp7EaLsB7e7BJW3mARNvAiHCbwsfzGR base=133166786 quote=80382580853 (unresolved)
+pumpswap ???? sig=2i1xxuA3LQTf5cFXi3A863D7uDWdzgFf1PAEpByYyyVfNzgkvXCP9B22y9ut5HENGcuWYQNFL6g8xSsuyhUo1isj slot=434292435 path=[4, 5] ord=0 pool=8GaQvFcYSsGwSywqA3i5MCcW4H1ooKLN6sV9fp1636V5 user=ARHHJT6RvC83GFcvsCpAhirf14V2kdvgL1ETABt1jjHA base=194861477 quote=117210710370 (unresolved)
+pumpswap ???? sig=3rQUu7jSzUg2ZdwNufrZsmk5iHVkMPX4WJKYmLTbfdpeybGh878cQjCaTP2Xja14XLKc45oK7s1RuTk4PWwKcxjo slot=434292435 path=[4, 5] ord=0 pool=GUQXK6eSeCrZ2DGT5xpimEeDcTwqKsC6pC4J1mmi8JdK user=CgiAWUkLaQGTKdi9aBYRetuVAp6bM4Z5fMRHL5PxmhMP base=1078819534 quote=1555182799087 (unresolved)
+pumpswap ???? sig=5KRqA81hbWLDtwp1VJDzHpHsCq5RhwJRT5J1NCnNuyUYKvKPF2ejpfA2ronwoLUKXEi7yw6FWK1SFL8X4xUNMF7b slot=434292435 path=[5, 5] ord=0 pool=5zvyVcL6yC6uksW5PEpe22oBEwE6s5Ro9pvtkhfV1XZz user=4cxsHHERC7hrcbMQbkhYEt8TLLiKiobBJm9Gi2GqZvaB base=2211265984 quote=1832549143105 (unresolved)
+pumpswap ???? sig=3EFNpxfFSNwQQY5NU3U3TtYkH3XddrcYxBoJDXP9EEvycQ6tHhijcbLDwLjxDXPmK1yPCKLLRG6ys5nMT1aV5T72 slot=434292435 path=[6, 6] ord=0 pool=EdsYdk5mLkuCDj1euawr9hdauSCVVRR2yvPHCEi1SBHL user=7iRdcvAN4bXg13vJk1QvYBJnUCDyW7YhyDVwrxiJRWy7 base=718221 quote=162602 (unresolved)
+pumpswap ???? sig=m8CDUfB3rLNwfCTwAPiyoP4Hk5MFfTDLfM8KRw8bfvHGFSfEEPn5ZjUfDYMV7EY23JBm1xrEZQACAHNaftYNX8c slot=434292435 path=[3, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=D5KMuBjTvmWVNugZ55kuxqtKySC6qSn5LwDL9HvFHsaH base=7086943066 quote=140196223265071 (unresolved)
+pumpswap ???? sig=m8CDUfB3rLNwfCTwAPiyoP4Hk5MFfTDLfM8KRw8bfvHGFSfEEPn5ZjUfDYMV7EY23JBm1xrEZQACAHNaftYNX8c slot=434292435 path=[6, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=HWchrBGLtuWb6NZeyn5YXvwf8MzB8JsgZsBgsyzNXvaj base=7000000000 quote=138463578139847 (unresolved)
+pumpswap ???? sig=5mCqf7TbFy7bXoYodRcAU6mPj1EGeZMDeLLbwXq8HQZgAg49GJCTJpeTEhzZ9z3cszCS55UkQpYVEihSx4syse5b slot=434292435 path=[4, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=BrZY7X1uQYNmmwHecdAkq1Hkx5fqoAVq4yNHXzrDSSM base=121545 quote=2426589733 (unresolved)
+pumpswap ???? sig=5oSn4FjBPP8GMHEoc1m8CsaSnJ4377GqDxHK8ZHyg8YHSh9YVZmZn7c91muewfZS3j4imrQcW7ycL6T5xvFaesWP slot=434292435 path=[6, 6] ord=0 pool=EdsYdk5mLkuCDj1euawr9hdauSCVVRR2yvPHCEi1SBHL user=46kbcaCdv3e8SEKrc5wtQdWU65BPzni7pGZ6mzwdGobv base=837830 quote=189680 (unresolved)
+pumpswap ???? sig=3rSrvCP5o7vcMheS1umn6Do7a6MVSXFRtQgbmgsJEpbvhgEFCDy6qGFgZ5Bg5hddSdajDuAJssA2roQ4KmnaEFHw slot=434292435 path=[5, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=6doYgt7rYc1ffUyHxvuGHgLEuSFsL8DepZs7MHLCgJz1 base=19994067561 quote=12214547313548 (unresolved)
+pumpswap ???? sig=3rSrvCP5o7vcMheS1umn6Do7a6MVSXFRtQgbmgsJEpbvhgEFCDy6qGFgZ5Bg5hddSdajDuAJssA2roQ4KmnaEFHw slot=434292435 path=[8, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=G6EUUtXBDKZxJR6oQ3WRqv6eHmuMm56m6KLaQN4WrR6n base=16242601824 quote=9906351695525 (unresolved)
+pumpswap ???? sig=af5qgYash59XArK3g3sGxo1DtWvSVUcth51VfarU6PdVmpjbgDwFakTAX2rs7iKzRG5Z5ftLx8tRVcvAabxn55X slot=434292435 path=[2, 5] ord=0 pool=GUQXK6eSeCrZ2DGT5xpimEeDcTwqKsC6pC4J1mmi8JdK user=A49JqJQGCaDidaE5kpkac5om8AF3wLEbju36mXL4QJAP base=92216433 quote=132548028796 (unresolved)
+pumpswap ???? sig=3NouLZy8pVtZy4RyJXYacapXoeFnXwZuJUT2cNjW5BikLZvrLydJQhUxtpKHJUDw6JmtqXMX8msSPx9dM72DJGQv slot=434292435 path=[3, 5] ord=0 pool=G1EBGrDbRbeUjeWyHiTNYeBVVp2LrbwRazs8K7xzwRgV user=Bno2okhE3YwGoVZuAj1cp7uhzUqbiXueB14a8KJwbexz base=2706095948 quote=3259887347715 (unresolved)
+pumpswap ???? sig=3NouLZy8pVtZy4RyJXYacapXoeFnXwZuJUT2cNjW5BikLZvrLydJQhUxtpKHJUDw6JmtqXMX8msSPx9dM72DJGQv slot=434292435 path=[6, 5] ord=0 pool=G1EBGrDbRbeUjeWyHiTNYeBVVp2LrbwRazs8K7xzwRgV user=AeCmQZHrW7eGLLphSropW2AFXBgHgtE6hfMG3ysF3742 base=6017686477 quote=7282372765334 (unresolved)
+Trade event found!
+--- event ---
+signature: g9A7hr73gQ18LB3SitZ58qtEcannqLJdjG8fdGAFsVHtWjjfauFJZs9jdjRQiEy2JV9EsSVAmf9QA5wb3pyJntT
+slot: 434292435
+absolute_path: [2, 0, 2]
+event_ordinal: 0
+Mint: 5PAWfFBzx26DvpyW5pahxdyWyaJG4q1XXtaWHgV9pump
+User: BwWK17cbHxwWBKZkUYvzxLcNQ1YVyaFezduWbtm2de6s
+Is buy: false
+Token amount: 598620966469
+SOL amount: 50456417
+Trade event found!
+--- event ---
+signature: 3xV9FmgirpXHoHxfokhPfbrBtkAGzTBupweHNujztA1LS2h7dDNRkcwCSoKQmSgqrTX7K6kEpiCgJkbHjBwY4iGq
+slot: 434292435
+absolute_path: [3, 0, 6]
+event_ordinal: 0
+Mint: 9fLAJoeyFrXhtLvM6pDBLGmk12FXtNKF9ecv6z3Fpump
+User: B3ZHmZ9gALJT3AXe2GpvvYGmBZmCFpxBbPVDPV3zHBqB
+Is buy: true
+Token amount: 692832341868
+SOL amount: 48888888
+pumpswap ???? sig=LL88SBua9cUcdvrhxaj1w7aYmygabFuMWSAovRx7nYrvQJvgswDS626zNUirep33zGda89ctDtSEMrdo8E5nNTE slot=434292435 path=[1, 5] ord=0 pool=gSBmL5Ynrh643uTZQKkwtJT3AyzSpGK1JAt5KUEMvAo user=7a4V4RPi3bwutTkANasY3odB8w8nKuPB3VpbzkjRcqF4 base=207664 quote=1546170920 (unresolved)
+pumpswap ???? sig=jbMDsf8SGbY5RoPkZfduuWY6nHtbcd7QwENvbiB1csN7dkQR6KpVp9FYBaBfvxSkBNKDr6dRzmS8JJSvZGWdqJd slot=434292435 path=[4, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=H2HUEDZuhxibgC5D52QGPSLsiV7Dt1fBxVyPYf2Vxa94 base=102188 quote=2040135573 (unresolved)
+pumpswap ???? sig=4xmPjB22imAG7HHdzCVf9C6xnQ6xikKBybgM6xqocKnvth8edUmjQMXTprSxEmz6idxTb9Ctve61PnZh4d3rYcVU slot=434292435 path=[3, 5] ord=0 pool=G1EBGrDbRbeUjeWyHiTNYeBVVp2LrbwRazs8K7xzwRgV user=HuqZ74kVSsZt9zXQQL4M1xL5EmgE4NojsEg2n8zGC5UA base=5315256240 quote=6438640139419 (unresolved)
+pumpswap ???? sig=4xmPjB22imAG7HHdzCVf9C6xnQ6xikKBybgM6xqocKnvth8edUmjQMXTprSxEmz6idxTb9Ctve61PnZh4d3rYcVU slot=434292435 path=[6, 5] ord=0 pool=G1EBGrDbRbeUjeWyHiTNYeBVVp2LrbwRazs8K7xzwRgV user=4XcRF86BiFL2xMrtQRGTxw9Yg7XAqmvANNjz4j8fGqMX base=6169793984 quote=7482745008183 (unresolved)
+pumpswap ???? sig=jM8SRPRGKwSkk1UXNaws5ZEa1ecnDQFS7rjo2QbWXyWw2hdJECe6pvP8EDjzBaYK6FV8m2fFvE9LsYNitQiLV51 slot=434292435 path=[3, 5] ord=0 pool=gSBmL5Ynrh643uTZQKkwtJT3AyzSpGK1JAt5KUEMvAo user=5qZM5XKDXuXCSUMQpB1JxhQTznzzjp3ckAtA7vbUPDei base=112868 quote=840363443 (unresolved)
+pumpswap ???? sig=2KKN2NR3cdj6iip6dvtWdLMgBgtvGHeNV2eEgXm2jZapnnPJKVjzJgi7HwxayjnUh5qHgSyvBj4M4LiARJZHU5cF slot=434292435 path=[3, 5] ord=0 pool=2Zo4DHSbmFe3u4K9bwnEgFzoXwVWHTUMRvw8ifXAUQm7 user=8FCm4KCbcdh6twi9tDdsUJ8fpDx6GkPgCGcNTDd4ZFxe base=11749069117 quote=3226084106141 (unresolved)
+pumpswap ???? sig=2KKN2NR3cdj6iip6dvtWdLMgBgtvGHeNV2eEgXm2jZapnnPJKVjzJgi7HwxayjnUh5qHgSyvBj4M4LiARJZHU5cF slot=434292435 path=[6, 5] ord=0 pool=2Zo4DHSbmFe3u4K9bwnEgFzoXwVWHTUMRvw8ifXAUQm7 user=432BPfaeL4BWYZ4oy9r9kQo3CJcqHGv6DQS949sTvUxB base=10425653565 quote=2855941207709 (unresolved)
+pumpswap ???? sig=2MffgUoJMhnpEZ7vuFtDua4s5JxUPBC6gdRcqu7BXuwLJtK3G9r8LgC7izoUmgKMBJmqBAhFkcLu4jQufiFyhxaF slot=434292435 path=[0, 5] ord=0 pool=GUQXK6eSeCrZ2DGT5xpimEeDcTwqKsC6pC4J1mmi8JdK user=AM7U4P8Puxgq9CD8TnHn3XX8wa7L7sCbNKpcCJZvEazH base=5168130 quote=7432800426 (unresolved)
+pumpswap ???? sig=26xvjcHbo1GfMynqFVEWjypKYQumkWsSrFvH3MKv9kw3aSBhZad6PhPCZQShjUVJiDr67WzhjAKuknWF86QoQBP7 slot=434292435 path=[4, 5] ord=0 pool=3xFqBK7WF39vmmXpsjLLqpC9uGRWNZWNEVanzqHapkqM user=BYH6EKmiZnuStfeGTJbcqTof3CTcxewxpMecbG3UmpSi base=2170059782 quote=1851795606428 (unresolved)
+Trade event found!
+--- event ---
+signature: 3uSKdj9KtFRicmjjuLdFCCLC9dxLty87DbuDc1FSrzzWD9CRPvnVL6wzfkbKpJ6TAYt6obZXv2BtTyhUzSAuGJy3
+slot: 434292435
+absolute_path: [2, 0, 2]
+event_ordinal: 0
+Mint: 5MapEVECpFGZuKzcYxvUoMvmWrf6juCkk5QiT77epump
+User: BwWK17cbHxwWBKZkUYvzxLcNQ1YVyaFezduWbtm2de6s
+Is buy: false
+Token amount: 9055517065957
+SOL amount: 33256067
+pumpswap ???? sig=4eAH9S7teTxBSshfmeidwj9EUKpUVLAncAyJpzTJyC7BwM35Y61cKwuFo4VTqTUGa7mPYZL4xq4UkcpCVjH7iA7X slot=434292435 path=[3, 5] ord=0 pool=G1EBGrDbRbeUjeWyHiTNYeBVVp2LrbwRazs8K7xzwRgV user=94YQq71S3f8ERutz6JYw9XxJpgDRCBRbEs2JWXsyC4re base=6677515697 quote=8093054222933 (unresolved)
+pumpswap ???? sig=4eAH9S7teTxBSshfmeidwj9EUKpUVLAncAyJpzTJyC7BwM35Y61cKwuFo4VTqTUGa7mPYZL4xq4UkcpCVjH7iA7X slot=434292435 path=[6, 5] ord=0 pool=G1EBGrDbRbeUjeWyHiTNYeBVVp2LrbwRazs8K7xzwRgV user=AMvUYMm9EQuM2o9ddZYfq4yReFHbb2ZqVTTxRLavKLgo base=4753034955 quote=5745469246259 (unresolved)
+Trade event found!
+--- event ---
+signature: 6HE3YDskfk2bDoTTzrTputMSFE76CL1172ww6jcvwyt73AZtxptDe2dndJgJFgcLgMhYq9jgMBE3TgdLHXZy5eU
+slot: 434292435
+absolute_path: [2, 0, 6]
+event_ordinal: 0
+Mint: 6K1aDVaky9ozaJwGz2hkxEij57t45pYddmhstHSBpump
+User: DCqspVmPjVE55RsYEqTqD2oErXAoAvdtBxn54Zd7D15M
+Is buy: true
+Token amount: 997410237713
+SOL amount: 97777777
+pumpswap ???? sig=kgW5XZFQVUz7ueyaT6PQ8omqLVfb4mpunFhbZhkYgHrC9QE2ZpUTeTeVQbZGJXXPPS9fbdxHrEnRsU15kFCy1AC slot=434292435 path=[5, 5] ord=0 pool=5zvyVcL6yC6uksW5PEpe22oBEwE6s5Ro9pvtkhfV1XZz user=Ez3JpF2AtjGurst11t9hPMQcvZQZv14RZq4Ho4fsNZ6v base=1211598859 quote=985796680820 (unresolved)
+pumpswap ???? sig=GsbXSjAX9j8r6Dv1iT5iiPSG1TuABGNHU1WGz1GGqXYgEfVmFZtxZM8yzcfaRoUw6Sp2N6egtBC4eAMYxEN1m1h slot=434292435 path=[7, 7] ord=0 pool=CB3x2bLj5iAgQFfc9fuLcCYrGGarKBmPjtyvW5TUvsKd user=GkMBYrhqrVyr79jgoBs25AB9wy1b6vJsxa7cVSFtLgsR base=796456 quote=114176 (unresolved)
+pumpswap ???? sig=2yCQsGsfQDZ2E7NjU4LznmBe8N9RPg98p7GLyUQdVqvbxz2RUVRuu7infvMPTB8mksNKXHZ9jA62gGcLyf4jEF9r slot=434292435 path=[3, 5] ord=0 pool=7s5nS7hrU357tE7FYrFP7inKcXWM7oXYk9itwk3XZPiV user=EBinSkKmiDofnwkA2QsUkcvbq9yGm5iqqM7ra7ddiB1M base=109099 quote=1020564021 (unresolved)
+pumpswap ???? sig=2EP6Lja1fb8Ee6EvX44u8ipADq3vxyAhd24LUhcHFJ2PvhkL5WZ1GWKngL8sTFnuiV254KY8hHpMFSCARo9MqtxZ slot=434292435 path=[5, 0, 6] ord=0 pool=CmRJPWZrcLFrw3iyi2dT7s5osXqdSTW5z2dybTbuXq7a user=FgG15yf8y8Gr1wmSYLodprzjF8QMcY2KtM2CU1zwAQwK base=1200520425 quote=4884816 (unresolved)
+Trade event found!
+--- event ---
+signature: 24NfRUdMzfXWrU9zoE3HdgjeixborDmTZS5vhaW7QjyDjDmrPouSr7bWJnkGPgXDE2QFQgcJAAGa4kET5NLtHnJD
+slot: 434292435
+absolute_path: [2, 0, 2]
+event_ordinal: 0
+Mint: 23C4Snotd44FsK2jQ7ny7hhkz4w9w7t3sPDgx9Aipump
+User: BwWK17cbHxwWBKZkUYvzxLcNQ1YVyaFezduWbtm2de6s
+Is buy: false
+Token amount: 15605989671169
+SOL amount: 91239415
+pumpswap ???? sig=4wRbMKT18PufZi4Rsty8qZoJhtoXoDmBSqePHAjTdk9mf1eMrs9r62djjXzsYviimf36BsLKEi3BRtCCneJ47WGJ slot=434292435 path=[3, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=J2e11xGkQWk4D7xXrQafYB1CZf7ZN7QByeza72ifPyau base=10000000000 quote=197033086569872 (unresolved)
+pumpswap ???? sig=4wRbMKT18PufZi4Rsty8qZoJhtoXoDmBSqePHAjTdk9mf1eMrs9r62djjXzsYviimf36BsLKEi3BRtCCneJ47WGJ slot=434292435 path=[6, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=HWchrBGLtuWb6NZeyn5YXvwf8MzB8JsgZsBgsyzNXvaj base=10000000000 quote=197039617080495 (unresolved)
+pumpswap ???? sig=2UC8onWwgJSmQRMTo8w5uU63ur9JafN6XNimEaVYUpn1AtgkTZ53sPMdEZdXDtoBUPS2k7ghNBQbGBVqoGecySau slot=434292435 path=[6, 6] ord=0 pool=FBMcx7JNUvenfWjP1aXCBJgxU7Tb7QXVY7G83JbzGbdk user=FP6uGcARE7jQH25Q7GoWEWGhMDSX4PkgzYJERkeNCdVr base=42474110 quote=31613219 (unresolved)
+pumpswap ???? sig=3BATxwHqCkbnPUu1GnTSQq3nX8FPqTDj4ToZTj6P8NZtp77yTaiNgAcLSqAbVjCj5h9sCrYdwDPJnURsNFABtARZ slot=434292435 path=[4, 0, 0, 6] ord=0 pool=3GcHVzZVTfN63ow8Q2149xMWV6uJRfxYk6bbCFGtYZfL user=CRkiUJ3xRqic6xHVejmXp7xHivfk9rAYo76MkW2AeZJM base=883097283058 quote=268085880 (unresolved)
+Trade event found!
+--- event ---
+signature: 5dD8cpynGeCzfwT511qVJcKNAxsPzpmY35JG6hB9ZVskoHwhDTwA72HYmENPj5mCM9vMpn54qws3HLYzk6XHgmUh
+slot: 434292435
+absolute_path: [3, 7]
+event_ordinal: 0
+Mint: FW5YXmoTY9sWMqr5wQ1xGjoxvY6MyyMgNNcXSTbEpump
+User: BYLSgjEJSZiiG9uMHe4zJvtJhnhEZYaYig8ubd86WF5B
+Is buy: true
+Token amount: 297337568136
+SOL amount: 60000001
+pumpswap ???? sig=2Ygxm9yX6PGwSB8sGQGrb59uLgrpYi5yuouKFa8DULoviwfetUZm7tQj2Lgq9AsaiAbxWYFxcdnFy9mashabg1Pq slot=434292435 path=[3, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=9PWKL7SXowhhZzq7z4P9yJikvu1F31XBTNnB1uxR3HL1 base=7036923838 quote=139199483616446 (unresolved)
+pumpswap ???? sig=2Ygxm9yX6PGwSB8sGQGrb59uLgrpYi5yuouKFa8DULoviwfetUZm7tQj2Lgq9AsaiAbxWYFxcdnFy9mashabg1Pq slot=434292435 path=[6, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=HWchrBGLtuWb6NZeyn5YXvwf8MzB8JsgZsBgsyzNXvaj base=7000000000 quote=138465533522909 (unresolved)
+pumpswap ???? sig=d67eCvoHtWBAqEEY9CBbzr4EWS6Jvfc8pwBfw4NoRiGj8Kb2gxvCJKYkbgNiGdhEAXfwdm7Gi3c7x5HXS3nC2NY slot=434292435 path=[3, 5] ord=0 pool=4PvwRF2vVmU9tzeHzgQms8UgUWj8PN5993NHUYykqm5Y user=3fE5o2iVv5g6zK5BTwWA5YyLk2ivKeXNJ7kiyvZEN333 base=667276808 quote=652856745749 (unresolved)
+Trade event found!
+--- event ---
+signature: 2KfF2cMe1HYfinC4ZhVTEgUoAdG25sW35dJVt1MbKo32Vu88AeiQ5jzuxKxvdZum1gBovD5yr7ZVh8UxEt1MbzUU
+slot: 434292436
+absolute_path: [2, 0, 2]
+event_ordinal: 0
+Mint: 9fLAJoeyFrXhtLvM6pDBLGmk12FXtNKF9ecv6z3Fpump
+User: J9ZFuAdfNAcWiP5kPtv6VxrxxqKsFrJ8pbWT24RGtHyi
+Is buy: false
+Token amount: 24442650220471
+SOL amount: 1666207012
+Trade event found!
+--- event ---
+signature: 5HqrJSZMpDqJ9vzwkcscHZ31jz5VR5Cr2cdhua3eQP4zTHvmZnKMNuLbSJg7tAZNZEBQc88R1inhaHWbm626u42P
+slot: 434292436
+absolute_path: [2, 0, 2]
+event_ordinal: 0
+Mint: 9fLAJoeyFrXhtLvM6pDBLGmk12FXtNKF9ecv6z3Fpump
+User: 4G74Ci5QVvPUiGK2CkZ21bHwoU4uh7qgGEhmsp7wMC8S
+Is buy: false
+Token amount: 29797753519847
+SOL amount: 1880184352
+Trade event found!
+--- event ---
+signature: 5ExVxK1v1ucK8TdUwfQK1ZBnmZKVccqScwQWCZACeZUvonsuXGA1Z78PZyZbrjwohYaws3SisYLuoaEfpUvyDePX
+slot: 434292436
+absolute_path: [2, 0, 2]
+event_ordinal: 0
+Mint: 9fLAJoeyFrXhtLvM6pDBLGmk12FXtNKF9ecv6z3Fpump
+User: 54xrJ798DGwH1UA2H35QtAzKT55t8pL8bjBs9Arz3eoP
+Is buy: false
+Token amount: 27835838662995
+SOL amount: 1622694897
+Trade event found!
+--- event ---
+signature: 2pJwq7NiFisXyAxF6v5RprRH4H1nicUSTrZ2yAyfLFj9WNsP2WUYfhVf8MYEeJX8D4yo5UYF8DAWetjpjpDajtJe
+slot: 434292436
+absolute_path: [3, 2]
+event_ordinal: 0
+Mint: 9fLAJoeyFrXhtLvM6pDBLGmk12FXtNKF9ecv6z3Fpump
+User: H2GX1vAE3VGSKxjZpvgfULpcpdqReeJ73bp6g38H1RnM
+Is buy: false
+Token amount: 4426202850687
+SOL amount: 247095581
+Trade event found!
+--- event ---
+signature: 3TSp5ND97KNUy8c7ehDyeCWhKU5hkydWtQyHy6AjX8aNUFHxehDnXMc2uWD3ib1znTQo3G4k4pvTDbppzULeLShB
+slot: 434292436
+absolute_path: [3, 0, 2]
+event_ordinal: 0
+Mint: 4uYZxSEGro2bD8A8M4Ae7Zp1nf7Srcrz15NufxD2pump
+User: EJYijDT1N2UKhUVUm1thw1X2J9Mq2grWcRewBUNC4GYc
+Is buy: false
+Token amount: 22685088112338
+SOL amount: 730313286
+Trade event found!
+--- event ---
+signature: 9aCt5c2qj3E3ffSdpQ6acSb6S8Vbq7kt3fxiy28Cvs3KfuQH8php5Hpc43Q1bdUuieGE77e6yzS73i5chHN2V1V
+slot: 434292436
+absolute_path: [4, 0, 6]
+event_ordinal: 0
+Mint: FaDPztGNHc1bZ53jQ9yb2dsba4JD4AnZdLPMpNNAc3mM
+User: J7CB4MCXfyZYvZ9q3o6XHdVF9GQummF2r8TVSt7xk6Ky
+Is buy: true
+Token amount: 693886581545
+SOL amount: 36213992
+Trade event found!
+--- event ---
+signature: Tf8L3godwTPLfBLmSKL6npgNXtFDmXikJXvceiiHsDkb7gh7M85gn7sGEQA5dXNSzXPeHMekW4KwmF3jKyJTkZN
+slot: 434292436
+absolute_path: [4, 0, 6]
+event_ordinal: 0
+Mint: FaDPztGNHc1bZ53jQ9yb2dsba4JD4AnZdLPMpNNAc3mM
+User: ANXsCN8szfsLGZhzMfrb9yGnnscvNLQkegCbk2Y3Tprw
+Is buy: true
+Token amount: 692662063439
+SOL amount: 36213992
+Trade event found!
+--- event ---
+signature: 4Svni2xSiYRE1Vy4CXY3zFMRF5AVdsZhuV7VUEQBQcXw4UuioEqJaVsySBeZbj4xaW6bSe1XUVeAYsFRHf8MdYTF
+slot: 434292436
+absolute_path: [4, 0, 6]
+event_ordinal: 0
+Mint: FaDPztGNHc1bZ53jQ9yb2dsba4JD4AnZdLPMpNNAc3mM
+User: 89HbgWduLwoxcofWpmn1EiF9wEdpgkNDEyPjzZ72mkDi
+Is buy: true
+Token amount: 691440783880
+SOL amount: 36213992
+pumpswap ???? sig=342HZd2bYHKJL7LMCC1PppbtGsCbxAsv3PKoFVkm654NgWPeGRdV3GX9EzMQ6JC9iwiBmw6dT4ZbCbCohiSiXWbR slot=434292436 path=[3, 1, 6] ord=0 pool=Fr8astXNXz2dJDfvwCQnmqGprADkH89GSbHT5eRwfwMy user=R32xAccFis3YzBzGwZ1C4QkGiehLxSao7gDmErA3kjk base=6871777488 quote=7813911 (unresolved)
+pumpswap ???? sig=bMDT5wuVkKYPL45f4NguNh8iN3xACzwJstzz6pWHJeKCX1HfQEHZwbAmRBrnk7P8viYkbKxcZyeuxNqcfWYDV1h slot=434292436 path=[3, 6] ord=0 pool=9nbVEMyVgqhDkATKGaQrW3vVuSprQjZo24oaLYA7nchi user=FcPxbdVuRyaPTn98VMXfw6FJ7P2D9QqnZ87Bus3ATmgD base=333303606441 quote=1441741631 (unresolved)
+pumpswap ???? sig=2EU875pSEfu8S7Gv8kYGF28Dz5rgfXd2Ze7f2zgMZhbANadXwcKPjpngGfKtvTZ9Y1kMPvzLvXBXABE8TbKAaFCM slot=434292436 path=[2, 6] ord=0 pool=354XpsR6qNQxYntpVMiL3UW6rE85KPQcVLZRWzn7aA7o user=2tgUbS9UMoQD6GkDZBiqKYCURnGrSb6ocYwRABrSJUvY base=424009299954 quote=138271600 (unresolved)
+pumpswap ???? sig=2qJNw9GPn9qRWA7CjSJmnkGSkx9EjZntKnrXyAU9ZRfFzxmALkxhzuk9SZoZHWTwAi3C5A52FhgfUoG4cDsj2LSo slot=434292436 path=[3, 5] ord=0 pool=27iJ5VEGxukW5T7GFN1TrMS6UV1aqBf2yRaGDP1Eq8dw user=5GwZLWnQZo6pXurXzeTB2xzxVD6WrTVRvM5j2uHixPCi base=2000000 quote=10569595214 (unresolved)
+pumpswap ???? sig=3sAzuiUXDkUxc4ufYdrSwqLyCLjHpnahnXKskX2PEiUNqHPgmUG1XVn7Dz6EAGyjEfpdNTJ7uCXC1Sx3p2W331SC slot=434292436 path=[6, 6] ord=0 pool=AdckMQxV3BaJQpY8TFeKbqvvqFFNtQFsNCi3VEsGdX3M user=8AGHpisX7Yg5WkBrh33RmcdvuoA9CfnJTZkZCU2fLYzK base=70499939 quote=15886153 (unresolved)
+Trade event found!
+--- event ---
+signature: 4fNZj7Ers2jo2xa2XFAxmDS4nKbdQjnHsvEaRsVwFQVf5n5fb7tnKAzoyGERXYcPcFuxEiuCQ1XEmbBopNnoPrks
+slot: 434292436
+absolute_path: [2, 2]
+event_ordinal: 0
+Mint: 23CLCj1jN82uY21gqLweo5g4NEFgMRZWsCSbD2DKpump
+User: 9mcnceC2vRSpfFKWRCGg1TgTaKqYqBhnSApqMNHNmcdb
+Is buy: false
+Token amount: 38286645277463
+SOL amount: 7138202
+Trade event found!
+--- event ---
+signature: 3JsZEsWCxE5ZXfAPXYu3JvFrwu9ERQ9jd9F4eFmSRR753JWXPpBwTcwGrR5V3qChbWkpFonQFhm9DmJMxXDPQAdg
+slot: 434292436
+absolute_path: [3, 6]
+event_ordinal: 0
+Mint: BWN7cMhZ2WvHnpYRbEMBwND2py2twpkDtVXWcvFnpump
+User: 8ACGagACmtKmvHSpFGmW6tnKgARtg1igsELYMTaZaQ2T
+Is buy: true
+Token amount: 16807712693
+SOL amount: 471592
+pumpswap ???? sig=3M54jwzXPZKUSQXxwEcQDjMnMcu2YxJnAMcdtuKD4LQ6t2gukP4Q3HJJB7KLJW4eaUZDDknv6eF8rWK8gsFXGaBc slot=434292436 path=[7, 7] ord=0 pool=CB3x2bLj5iAgQFfc9fuLcCYrGGarKBmPjtyvW5TUvsKd user=EyuDHUa4xc1rxJu9rqH1wpYgn2y4xWxYeNTrsfSv8UW6 base=844365 quote=121045 (unresolved)
+pumpswap ???? sig=4LCC9JQtRjn4Jefd3W8UmbxAuUCMjspCiUjzt3LdNLYhjnSriAmxypMGov3vrYz7uz6YSphg8wwwwFkfiKewQJjA slot=434292436 path=[6, 6] ord=0 pool=FBMcx7JNUvenfWjP1aXCBJgxU7Tb7QXVY7G83JbzGbdk user=EnzZW5w8M2fLTnekLEKmvYeQmAwjukKfJM2V2zaTHhY9 base=2969261749 quote=2211369555 (unresolved)
+Trade event found!
+--- event ---
+signature: 38f9j5A1yxwxcDjjsrxbE2iKNv91PSWR3FBtCnupySBvnQA9xRL6gzH172n5Tst7uXPkgz4rMcmbdpkpyxn35ncm
+slot: 434292436
+absolute_path: [3, 6]
+event_ordinal: 0
+Mint: 9WWTYVw42pvVs7Wg2VyaZfvrx3u4neGt2ejJpxeHpump
+User: D7K9ixKJkWFCWxWU9m9tdWeeP8aj2EyEMxs2i2rgqgHM
+Is buy: true
+Token amount: 14329707679
+SOL amount: 400653
+pumpswap ???? sig=4zNfnNZTFXfHYSXuAorJPEUwcbboiwBicaAxYLSZ5JNsuJqQb3FbES8tyCqf2aD4aFAHip5tSY2DDM4qW1LTXQ5s slot=434292436 path=[6, 6] ord=0 pool=AdckMQxV3BaJQpY8TFeKbqvvqFFNtQFsNCi3VEsGdX3M user=EvU8n2URf2khheBQFpqa6RAyKGnX6kpjb92CLuJ7eL4t base=1122849 quote=253021 (unresolved)
+pumpswap ???? sig=43FdQudxcBHdPChhAxVxtd4CfnsDXVTctdnJnpyDMc14SV3unEqkwphnp53WqGnGfyn2ptS2EuBTgX4R3ty5nF5R slot=434292436 path=[2, 6] ord=0 pool=354XpsR6qNQxYntpVMiL3UW6rE85KPQcVLZRWzn7aA7o user=2tgUbS9UMoQD6GkDZBiqKYCURnGrSb6ocYwRABrSJUvY base=656343004663 quote=213059001 (unresolved)
+pumpswap ???? sig=38rZxDHfmWWwHK8hNgMm4jM73aNa6CswRQh3Mkwcqy5nGSJLJ96fkkYGJ2Aiy425j46fjayj8iUMUpEvdYGiP5BK slot=434292436 path=[6, 6] ord=0 pool=EdsYdk5mLkuCDj1euawr9hdauSCVVRR2yvPHCEi1SBHL user=FDXet5v6KopgkCnB7xk7gtEtrTBKmv3y3aXBJLKtvMdE base=557973 quote=126322 (unresolved)
+pumpswap ???? sig=4JmYhbzAbxMTqYL1vH2aHxfdLDh7iyf3z8ma7ZpbRD4Z8jcR9NL2UG2ESEDEz7wpWL7uoGvnhSMK9Cmhi7xaKKhi slot=434292436 path=[3, 6] ord=0 pool=9xn5mc2HEQHjoRT6TqMfVBXDW9vz2zJyubZVscKgnWTd user=1FsPMF2dCqBzvm57ba87bmGpPswAFGL2BbZ3w6F1HKy base=1838351930327 quote=2998053986 (unresolved)
+pumpswap ???? sig=2i3ZjUtYiKBrVnthobaLuzQoQhjdmNmtsAVhi4JN6yXZimTnmVtBetzdvDhUnHwvrbR6KE78RxjpHRicX16mUPSm slot=434292436 path=[3, 0, 6] ord=0 pool=Fr8astXNXz2dJDfvwCQnmqGprADkH89GSbHT5eRwfwMy user=3AoQmpHaVTV3tcZqWAFrYgtCPqkMkdgxib9MjtvDRsom base=366317768561 quote=415426914 (unresolved)
+Trade event found!
+--- event ---
+signature: 7DMbwrfS5vqyA9RxGoVejGN5xPFiFUiPvvEEYhJmo4d2mR5wg9Fw3Fowmwj7t5Jdd5LqZumje7HkY22b2UGk3zJ
+slot: 434292436
+absolute_path: [2, 0, 3]
+event_ordinal: 0
+Mint: 5PAWfFBzx26DvpyW5pahxdyWyaJG4q1XXtaWHgV9pump
+User: BwWK17cbHxwWBKZkUYvzxLcNQ1YVyaFezduWbtm2de6s
+Is buy: true
+Token amount: 50936242969
+SOL amount: 2485069
+pumpswap ???? sig=3aNvPQeWzk5sZwJTqwmj7nDxsCgvpFEi48JGzJYpcbmVpnXMcNCgiovi5kGHiPqtPLEN2v6HiamywEJz3soLWEvs slot=434292436 path=[2, 2, 6] ord=0 pool=DCZLnE5pnSiLipEtgcLuLJZaHnRxjiqygkb4JBYTDiPq user=8fLaTbDriNArsPAjDzCKUe3J66NGV1KWKTqFUBvBzPgv base=10320253023 quote=3102440 (unresolved)
+pumpswap ???? sig=3aNvPQeWzk5sZwJTqwmj7nDxsCgvpFEi48JGzJYpcbmVpnXMcNCgiovi5kGHiPqtPLEN2v6HiamywEJz3soLWEvs slot=434292436 path=[2, 7, 7] ord=0 pool=EqMxjt3vQvFuWamr5DUYajMALRKHogF4N3Yxaa7RGZak user=8fLaTbDriNArsPAjDzCKUe3J66NGV1KWKTqFUBvBzPgv base=5466115346 quote=38887095 (unresolved)
+pumpswap ???? sig=5LxhRcjq6vqNqaTD3hBeUGrSBSf8BqCzmoSq1JrCh2ai5pWZMv2qVca1sMs9D7dVzpLeurvA8R9x2yFj5JjhHN3Y slot=434292436 path=[4, 6] ord=0 pool=AdckMQxV3BaJQpY8TFeKbqvvqFFNtQFsNCi3VEsGdX3M user=Ed4TqJjqvDw7Eunb4VqeDBTQQrSsfknaBWPMaCRPfNJf base=7638722731 quote=1719812177 (unresolved)
+pumpswap ???? sig=4giMgPkBPbdnEbsZdrnb8FTug4RirmJv24SKaZyDBp4M5Xv3LQbLScytfuS6PF2X1MKrSWe4eSGwqfg8V73fDRHC slot=434292436 path=[3, 0, 6] ord=0 pool=6jWdPRRKmW986vSimwHAcY8ssiNXFFZKzHp8pYdiTwJZ user=45Sn4KL1MHqwnpvcyjLnQnCtJDmw6zDeBnPevs5b4ZyG base=517836117785 quote=370483687 (unresolved)
+pumpswap ???? sig=3qm3ep3rHWfStrmWGtnHz531ENs5UqJH5NKvw1JZiANYvWpsrUsPPKgq6goJA4DfL52onwoFTGhJbxdjS2LMbd4L slot=434292436 path=[5, 4, 8] ord=0 pool=AksihdkvTg4jBYyv8V7gEWyPiaU6c7mS9KRNdcFJBs76 user=BvxdyKE4coifNaVn2iRrG4Rg8SD1MQA9fSU3JF88tAUA base=10166586816 quote=37937978 (unresolved)
+pumpswap ???? sig=4szoyZHpfD7rdrvmq5fgMf8dUszCs7P7yCwDfQ8PCjtUSiahKthtuc6oCp6nZtQF2qbq3mtbN2Ch6iQkCm8fyBMT slot=434292436 path=[3, 0, 6] ord=0 pool=Fr8astXNXz2dJDfvwCQnmqGprADkH89GSbHT5eRwfwMy user=DZcyYa9aPRFnbkDPn3HYvfpiRH9GBz3EjTB5fLjk8Vge base=350686512486 quote=395664215 (unresolved)
+pumpswap ???? sig=6DYbQ5DuyHZebqz15bKFkTkSCf3jswZUUKdZnYNnHDUmvqho1ggso9xL2h8Wa4mAhg4iUeW8xmeAdb3j38SVuki slot=434292436 path=[2, 6] ord=0 pool=46ej3HpJ75eBxxyXahj2Artzr5mbBcU3ruT52ZKXwd1Y user=2tgUbS9UMoQD6GkDZBiqKYCURnGrSb6ocYwRABrSJUvY base=1440187600929 quote=115280688 (unresolved)
+Trade event found!
+--- event ---
+signature: 3fq7BgUuP2ckwAmbF8zApqFyR4J9DLisSB1Gb6SDu7RAHFjBzXEPP6qDpa2gK2T1e6JiZf7BkthvDK6HyaV4h1bh
+slot: 434292436
+absolute_path: [3, 6]
+event_ordinal: 0
+Mint: DK8xezj6Q4yqsnjkvodBPwGJy5HWmM9gvDySoTkzpump
+User: AobXLDfbFX72nRCL563deQXeYD5YbUAH9wejnFoXVBZy
+Is buy: true
+Token amount: 11110366731
+SOL amount: 310664
+pumpswap ???? sig=3e3CF5mefkEwY1X27XPMoJpz4c5dsVpbTYEeVT1zEnXPCe1eHvgzkTvaX7cbeJEXUHQCzhrDfmXKb2X44gNDgrNj slot=434292436 path=[6, 6] ord=0 pool=EdsYdk5mLkuCDj1euawr9hdauSCVVRR2yvPHCEi1SBHL user=V6xojUWP4MGbfjpjckgE9R3cgauqTBuNq51eLsxWeF3 base=837336 quote=189569 (unresolved)
+pumpswap ???? sig=3w6b3FaZsMkWTc3bwBs4MMV1KbY1TKHMt87J53xdFXvguG8V7cS8SFx5nBTNGdqQcrEbrBXhQprioZxVXcuqX1cc slot=434292436 path=[4, 6] ord=0 pool=4mdJwjXaVHQ2CkBQ5JEzCowbLvwcGx3UFTjp4Ts8rnmw user=hnu5iBK8UoHb51UFsH1RYTUAYdrhjHvV5YMTf9T1CYN base=45378840947 quote=117819800 (unresolved)
+pumpswap ???? sig=2GRzEmvz1EbJbp5yVNrP6Cz5g4zHfPKGUL2aDAdiHbpqqiR7UHkT9XKNGAUHiez8mTUZJp9q6zQGMtpUXvEZozLY slot=434292436 path=[2, 6] ord=0 pool=46ej3HpJ75eBxxyXahj2Artzr5mbBcU3ruT52ZKXwd1Y user=2tgUbS9UMoQD6GkDZBiqKYCURnGrSb6ocYwRABrSJUvY base=1440187258390 quote=114596484 (unresolved)
+pumpswap ???? sig=5juteqMJtmYipAdQH9xn3gBfkkS1DQbfWG6kN6jpuEdVHtPig3q1nqtGVmVt42RTCZAJMwrA5uNFRhccEsiBiyaE slot=434292436 path=[5, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=2jSxD6Pdn3NWTCPFEVrLwYsCvtn5g56BJF9i5cQJRAWy base=10577815035 quote=6467753193012 (unresolved)
+pumpswap ???? sig=5juteqMJtmYipAdQH9xn3gBfkkS1DQbfWG6kN6jpuEdVHtPig3q1nqtGVmVt42RTCZAJMwrA5uNFRhccEsiBiyaE slot=434292436 path=[8, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=D7Z9VfqUtKpj8HQbpfhACbo8KChd1aJZ8E3PUxq7UurW base=12868592195 quote=7876583816383 (unresolved)
+pumpswap ???? sig=21xH4UGcK8DcPhKUtCVL8wAuvXdvkyStgNcA43FNzr1vZ8Y8TVgTcykhghpp1vWK2Jg2jWh2GhuevtAGkdKPFJZJ slot=434292436 path=[5, 5] ord=0 pool=8g41wFoHjpJHBRADWa19pNrXw2tdudRCoz29mn9JMqKR user=Be4SZLX5pQK2CAVep2HSZnRgpxcbicvWF4bDVfwAfBa2 base=14625179250 quote=138597788569365 (unresolved)
+pumpswap ???? sig=21xH4UGcK8DcPhKUtCVL8wAuvXdvkyStgNcA43FNzr1vZ8Y8TVgTcykhghpp1vWK2Jg2jWh2GhuevtAGkdKPFJZJ slot=434292436 path=[8, 5] ord=0 pool=8g41wFoHjpJHBRADWa19pNrXw2tdudRCoz29mn9JMqKR user=Be4SZLX5pQK2CAVep2HSZnRgpxcbicvWF4bDVfwAfBa2 base=14442115881 quote=136851105248137 (unresolved)
+pumpswap ???? sig=64HXgzN3MGMedtNX7Xni4Mg9r3Z1uto41GobEbcWeF8enuU7kBJ7vKJP79QNYuEcpmshgYCC7AubUyKoPsy67tzr slot=434292436 path=[6, 6] ord=0 pool=EdsYdk5mLkuCDj1euawr9hdauSCVVRR2yvPHCEi1SBHL user=48TFofSZqcD9Kvuev6d1D5Y1xRdGpk9rKgJwfuFPnq3D base=649182 quote=146972 (unresolved)
+pumpswap ???? sig=3bWTMsfnzwxpBzq97paJXFESm9GSHtsUsSzkgPSvdHwGPqihAf1DrJWQa45r3Nwin36kKyiENH5rRhWMj7kZb9vx slot=434292436 path=[6, 6] ord=0 pool=3xSuTPPAUk2udfdTXzHiEd7taQfCaBdGd38H8hkt1gjp user=6Z5ne5kk6o1ueSKA8749HMwk56X1qETBUJP1DbvMP8wv base=14022201 quote=9640491747 (unresolved)
+pumpswap ???? sig=4EBKqJpe6MxzUwez9A2VqrE2SrwZ8pLTLFz4PBR3d7S265FGJ6hks8tguvDyKNG7jtRAUSLjpDvEag5tcrTKw4Y3 slot=434292436 path=[2, 6] ord=0 pool=354XpsR6qNQxYntpVMiL3UW6rE85KPQcVLZRWzn7aA7o user=2tgUbS9UMoQD6GkDZBiqKYCURnGrSb6ocYwRABrSJUvY base=432133303123 quote=139632636 (unresolved)
+pumpswap ???? sig=5NooJxAakkM57fdp3D8ZqWDfakCeXjRFvbufFowV9iidUP1xDYgJLMZQPzRtyDAXHq92oihBxVpkCwG83FhGxwsS slot=434292436 path=[2, 6] ord=0 pool=354XpsR6qNQxYntpVMiL3UW6rE85KPQcVLZRWzn7aA7o user=2tgUbS9UMoQD6GkDZBiqKYCURnGrSb6ocYwRABrSJUvY base=656343003473 quote=211108487 (unresolved)
+pumpswap ???? sig=3SYgfDmph79ZUMqRi5x8Rr6KxysqV4ZHXDbG7fJBbZzoXLsBxxd5iWTp1uS1WbqidQTUvuvYMeAGfK7WiTEz7sBV slot=434292436 path=[8, 5] ord=0 pool=bm5rugL2NE9KboRSoQXbjY7WWMw7DgAriUr4Pc7Vqcw user=3dHfPQLSYfnXVmxuEJ6Meywepj7W5dkjiYTKfzbe7nQe base=8656293459 quote=37827934472017 (unresolved)
+pumpswap ???? sig=3SYgfDmph79ZUMqRi5x8Rr6KxysqV4ZHXDbG7fJBbZzoXLsBxxd5iWTp1uS1WbqidQTUvuvYMeAGfK7WiTEz7sBV slot=434292436 path=[14, 5] ord=0 pool=bm5rugL2NE9KboRSoQXbjY7WWMw7DgAriUr4Pc7Vqcw user=WoZwHfwsYVyZKKhp2saLQXEJdh9tkk6Jf6agRaLg2Ts base=4533326495 quote=19308126922069 (unresolved)
+pumpswap ???? sig=pagpn7kgTA8qRJzz1XBYtpFxAZ6LTZ3DYEbLdNdL6bVQt2xAZfEPiVa3SqpfhrDpJhWGzXDmQc8adbxPyqHXgbi slot=434292436 path=[8, 5] ord=0 pool=5KMzk3qsApiRQbgkYfn5kfrY7AVAGDX5vKBVNgsDjgEh user=3cNyJZvEfmjuqoN5EvCCjkpFDwsntLvAh9gtU5Vx2ykC base=6425506501 quote=11866914370259 (unresolved)
+pumpswap ???? sig=pagpn7kgTA8qRJzz1XBYtpFxAZ6LTZ3DYEbLdNdL6bVQt2xAZfEPiVa3SqpfhrDpJhWGzXDmQc8adbxPyqHXgbi slot=434292436 path=[14, 5] ord=0 pool=5KMzk3qsApiRQbgkYfn5kfrY7AVAGDX5vKBVNgsDjgEh user=6yxRpBGev7Adf5WRsbw1MgkG2TBBJYkuhQAHdE126RTT base=5255309346 quote=9681274068617 (unresolved)
+Trade event found!
+--- event ---
+signature: 2HNs42BJCWN8gsWP2ZqWQ7vRW8bAbSvCgwotJti4U3x16SWXnTtHmemKrgjCnou4CUgbxxXQCrqtgXaWNZBBHLLp
+slot: 434292436
+absolute_path: [2, 2]
+event_ordinal: 0
+Mint: 5PAWfFBzx26DvpyW5pahxdyWyaJG4q1XXtaWHgV9pump
+User: 8mkTJWXBmiL3u1T4ZTTwNWMcwZKDnhYJAbCsbyJWGgNn
+Is buy: false
+Token amount: 152347568072
+SOL amount: 7697772
+pumpswap ???? sig=feydbFLRC3frsA8PFzWeUuohMxubVrLSJvxRFtievsByckDaY3nJVNDPeUhH453oqhMW4sxNA2dFEaNMKkdfqHY slot=434292436 path=[6, 7] ord=0 pool=9xn5mc2HEQHjoRT6TqMfVBXDW9vz2zJyubZVscKgnWTd user=GiyTas3j2G59LEkMgtdD9e5CE2Xw1Y1VCRfbfC8qziuf base=4426630922 quote=7177335 (unresolved)
+pumpswap ???? sig=63qE9STR9LcbJT2LCqJhQU4NHhJqU6xW12BUhyTEXe3bewa2Kh25xcovjp32FWcxRUNtR5gJQC7CF23JvEww1isD slot=434292436 path=[5, 5] ord=0 pool=5zvyVcL6yC6uksW5PEpe22oBEwE6s5Ro9pvtkhfV1XZz user=HSAXgNmbN8NvgmXMYDRZ29RWxMoJiheXYiHegwvnYMkX base=2900474900 quote=2309006050855 (unresolved)
+pumpswap ???? sig=5Rcm4FdnkhaoFVboFWRBQ3KEvoEpqq4HzcTEf8EY3nVemj4LFzdDqK5fNFAgRQDapiEHFDCRpgqsjHD4Q19QSuuH slot=434292436 path=[2, 6] ord=0 pool=5eSaHCAfmoj1zTxd4DGFZxb5impkzQnJMafNHXRcrPqZ user=2tgUbS9UMoQD6GkDZBiqKYCURnGrSb6ocYwRABrSJUvY base=952572059497 quote=100201925 (unresolved)
+pumpswap ???? sig=kCxE4xmbjfbLK1qu1vJ1rHua7S8eXjZwamcRErZyF2qafnNJ65A8De7jRPhZdpzDwtoae5JXSHPnuTLuSwJWyVx slot=434292436 path=[5, 5] ord=0 pool=4PvwRF2vVmU9tzeHzgQms8UgUWj8PN5993NHUYykqm5Y user=HRPcqwLxwnCCAqnjikUGpQjoQiV6gkaqNRnvL9d461w5 base=1762043740 quote=1712693731287 (unresolved)
+pumpswap ???? sig=kCxE4xmbjfbLK1qu1vJ1rHua7S8eXjZwamcRErZyF2qafnNJ65A8De7jRPhZdpzDwtoae5JXSHPnuTLuSwJWyVx slot=434292436 path=[8, 5] ord=0 pool=4PvwRF2vVmU9tzeHzgQms8UgUWj8PN5993NHUYykqm5Y user=HEErVtqbLURpvyvz9QT7xPEEo8XEtpScpVEXoUroGCat base=2151541864 quote=2096274554229 (unresolved)
+pumpswap ???? sig=29iHMuKdZWWQUEY3wUCLsAEREieRbBNT3dSX9eNsKERPsgmUbxNS5TFx5TAWvf7TKPGwTD3XW7ZXNkacc7G19jRF slot=434292436 path=[3, 6] ord=0 pool=H1Fd99MShUcNsKQaXMWCA8kVKSK6mw6UqURto99YA3Qc user=3xMjfoT8bXjwoKaVf2epTghDYzfeMdQqRQBPMpi5pxjx base=24516315398 quote=115583308 (unresolved)
+pumpswap ???? sig=5ieUpP7Kbo9b5DkYXrGU9LLUDsU15hRdxpcL6XaasK7fMdpC5ukRNyBAUTAY5LEyVfzvEK5PkBAnqsjx5pUvpFbL slot=434292436 path=[3, 5] ord=0 pool=5zvyVcL6yC6uksW5PEpe22oBEwE6s5Ro9pvtkhfV1XZz user=A5kjs627eJHaCC7Xq8QHx7sJLTJBd3gy9gndGhX5bx68 base=648593533 quote=511755957603 (unresolved)
+pumpswap ???? sig=2xub5pK9rB8MXR7yaUGBA88fZNAYUFqrbAbYgN5UzpcbyXPWeiWLe3ueYXdh8XJK6KiPGPY79xJBnjKnLRX6uMaM slot=434292436 path=[5, 5] ord=0 pool=EficNBxMVfTboJcZfDexNoH4sXuGCvjMUBA61khE5XN6 user=HgUEvBhbvKKCgdtDTyKGegDcsateJorHkyfcGP5Kvc4m base=953142567 quote=707383889385 (unresolved)
+pumpswap ???? sig=2xub5pK9rB8MXR7yaUGBA88fZNAYUFqrbAbYgN5UzpcbyXPWeiWLe3ueYXdh8XJK6KiPGPY79xJBnjKnLRX6uMaM slot=434292436 path=[8, 5] ord=0 pool=EficNBxMVfTboJcZfDexNoH4sXuGCvjMUBA61khE5XN6 user=B7kb59wzMBog8gGZnKtaL1n2Fmj1gzFt7NMvcxX6BVxc base=400824092 quote=296652706151 (unresolved)
+pumpswap ???? sig=NaBDvsb6EPkp2Vdi3Jcf8dbcfeBc8DTSrYP9hkMd9nBmryEZ7Yu2bN3m2ZHGzjRZKC1z86nUarppf3r1YBG2XD4 slot=434292436 path=[8, 5] ord=0 pool=J1DtceFKfKJGwmcWxSSpQk3nx4K4iCtHfF7KLYM59w1i user=A23Y9WnLk2gj9wH7HKMiwe5nUcZW4k9ZU4cGvW2Gfiqq base=1823318452 quote=1926015254113 (unresolved)
+pumpswap ???? sig=NaBDvsb6EPkp2Vdi3Jcf8dbcfeBc8DTSrYP9hkMd9nBmryEZ7Yu2bN3m2ZHGzjRZKC1z86nUarppf3r1YBG2XD4 slot=434292436 path=[14, 5] ord=0 pool=J1DtceFKfKJGwmcWxSSpQk3nx4K4iCtHfF7KLYM59w1i user=2A5RsFHG53b5LF7L6ECjvpNrnZaNnDLJojV7Qrw2MBJz base=1817552488 quote=1919921386728 (unresolved)
+pumpswap ???? sig=4otzKBwCqyd2cLuTWY9B7JAgxt5iNtsPubHdM1p2FyiSnP14AanN712oQPy6StxzPQYR1fH4XLXvbgAYwKPsynaS slot=434292436 path=[8, 5] ord=0 pool=7a2DEduaGMnw2sMeqpPjpocZGs8kgkzWQ2tfT2UYUEH8 user=EuwivMGzXUmLP5Jx8fTrJVJuV8gVCAvFoSZFyBCb5C6h base=2085133770 quote=951468346510 (unresolved)
+pumpswap ???? sig=4otzKBwCqyd2cLuTWY9B7JAgxt5iNtsPubHdM1p2FyiSnP14AanN712oQPy6StxzPQYR1fH4XLXvbgAYwKPsynaS slot=434292436 path=[14, 5] ord=0 pool=7a2DEduaGMnw2sMeqpPjpocZGs8kgkzWQ2tfT2UYUEH8 user=FD7EsyoKohKdbtBJF1dCadmywc6ntpSoNTTEUnXVEKok base=2080219094 quote=949225886623 (unresolved)
+pumpswap ???? sig=3ZPNA4vDC24trJ8UphxY9EHUzNNBw4KUuwGVvbzGU1TjrSGxLVMd9q6zufHbvhEGLh8HV2HucMEj1ZdSqJE2ensc slot=434292436 path=[8, 5] ord=0 pool=GVXn4pjn2L7cYaVp1oPFErUJa376ATxJyQMaswWbPQmr user=BgB8wnb5dNcH246VVzvKeKPXMFH77Zphe3LuHfFpghmJ base=5339606439 quote=5863016886018 (unresolved)
+pumpswap ???? sig=3ZPNA4vDC24trJ8UphxY9EHUzNNBw4KUuwGVvbzGU1TjrSGxLVMd9q6zufHbvhEGLh8HV2HucMEj1ZdSqJE2ensc slot=434292436 path=[14, 5] ord=0 pool=GVXn4pjn2L7cYaVp1oPFErUJa376ATxJyQMaswWbPQmr user=7zTs6AuLWtaHnFP1PxAVUHoRVQs1kZvm5n5b92Z13JiU base=5323103292 quote=5844867413180 (unresolved)
+pumpswap ???? sig=5rumGtpzcyB12ni1xrCr96Dz1J7Q6ztGky1xLBvHECwThE3Nz83awTUa4mjJJHuW6KrrwdWqPVeWZkKf3Ccb8r2H slot=434292436 path=[8, 5] ord=0 pool=7jVqcQATYoDMjvQwCT3BYeKiapTGwMNVDkYEKtZwKkaq user=FVnEn48Qsnh6dVafxcBxJcCS2KGHTVLeAhiSixkvH3MX base=9865209 quote=5909582420 (unresolved)
+pumpswap ???? sig=5rumGtpzcyB12ni1xrCr96Dz1J7Q6ztGky1xLBvHECwThE3Nz83awTUa4mjJJHuW6KrrwdWqPVeWZkKf3Ccb8r2H slot=434292436 path=[14, 5] ord=0 pool=7jVqcQATYoDMjvQwCT3BYeKiapTGwMNVDkYEKtZwKkaq user=2KyEKwKvGGg6QY9Bj8zT5y7uBp1SraF6996uLJUpLrYQ base=9837290 quote=5892858013 (unresolved)
+pumpswap ???? sig=3sLp9xaAy6GcUadYnDdVxxkW8UXQHALsyuWmSzPn6bitor5S2CVapRaQkr7Hhi76xUsFhbcn5yGLH5suAUM5N9Cf slot=434292436 path=[8, 5] ord=0 pool=HhJB2APPqqZFezHtAcZBdhxwEYRgLD9gnpzMWB1Rwd7e user=5YeLrcxZNcSGodbk438xh9gcNn9KPqQBTEdMiuFcJ2MG base=9607964129 quote=8467083735236 (unresolved)
+pumpswap ???? sig=3sLp9xaAy6GcUadYnDdVxxkW8UXQHALsyuWmSzPn6bitor5S2CVapRaQkr7Hhi76xUsFhbcn5yGLH5suAUM5N9Cf slot=434292436 path=[14, 5] ord=0 pool=HhJB2APPqqZFezHtAcZBdhxwEYRgLD9gnpzMWB1Rwd7e user=8SMwCoSG2eFETa2EaxyATpeVhbBC1GRpezLS7pb2M4Di base=9694939429 quote=8545324694310 (unresolved)
+pumpswap ???? sig=3jPDNDb3Cc5cB7TeHBHzCammE2zgxbhNVY9JMHeFdymxCGy7sNPCcHKjvhBydpTXjNMdaezGdL1XPqZMpQMHuyrr slot=434292436 path=[8, 5] ord=0 pool=vyBHA7vea6NmPz6wuo6iBE8yuD4KTEwFgo1LhPF7i9d user=FT3Hpvo31NSTAdyfpi6SUJyEqsfsCLASYC2BZDtg5xje base=7545238642 quote=9026432891515 (unresolved)
+pumpswap ???? sig=3jPDNDb3Cc5cB7TeHBHzCammE2zgxbhNVY9JMHeFdymxCGy7sNPCcHKjvhBydpTXjNMdaezGdL1XPqZMpQMHuyrr slot=434292436 path=[14, 5] ord=0 pool=vyBHA7vea6NmPz6wuo6iBE8yuD4KTEwFgo1LhPF7i9d user=2zTR8BfQJA9GxBF3JHj664QSarKMd6wV8pnmAR4aWobD base=8098811641 quote=9698571720462 (unresolved)
+pumpswap ???? sig=2HdbMVQKspNmY1rm84hEnCrGV3GX4c77R1EvE7EMxrnKFC7HxA5jeCKkGcE4Pa7apB4f3ZfoUH8x2vDimSJyY6h9 slot=434292436 path=[8, 5] ord=0 pool=7JyZwagJEgiosX1nh4ij5zdh61mjcH1tiYMz5AadWoLf user=HYZbz85Mwi7YEik1WCGPUt6rgJCBGFA5rZZsVxrdPDUZ base=1907860111 quote=1966866500262 (unresolved)
+pumpswap ???? sig=2HdbMVQKspNmY1rm84hEnCrGV3GX4c77R1EvE7EMxrnKFC7HxA5jeCKkGcE4Pa7apB4f3ZfoUH8x2vDimSJyY6h9 slot=434292436 path=[14, 5] ord=0 pool=7JyZwagJEgiosX1nh4ij5zdh61mjcH1tiYMz5AadWoLf user=FgP3y7dPaqNTmoSJJZv1W8PUQt3vqzwu2ZLLriyZRZj9 base=1903602141 quote=1962478242937 (unresolved)
+pumpswap ???? sig=3GHWXobboG9iYAU5kVZFyaVeWEmUVS1utuvEaLKuqsbATU9jrKbkLACjnrwMmhbKiC5Cm19HmggwoAC3Y89wTmrB slot=434292436 path=[8, 5] ord=0 pool=GpuQUBeUiRhPQgU8AS88BJgXyHXxv6BFnvy9npmZ4eqq user=8NwT38edRAaA6oxojxw8KN2YeBTh9DcKFaysJDnkjpYs base=5774548885 quote=4756732991284 (unresolved)
+pumpswap ???? sig=3GHWXobboG9iYAU5kVZFyaVeWEmUVS1utuvEaLKuqsbATU9jrKbkLACjnrwMmhbKiC5Cm19HmggwoAC3Y89wTmrB slot=434292436 path=[14, 5] ord=0 pool=GpuQUBeUiRhPQgU8AS88BJgXyHXxv6BFnvy9npmZ4eqq user=93rPLKmUQThyR3V5e9wv9eTcbAjLnGqrF3tUcJDiNtxb base=2410295286 quote=1977028711734 (unresolved)
+pumpswap ???? sig=4dGg4TmGSeehzV8K2BV3wqh7VCEpFETkuV9aqDJeuTQ8cDjT3tFkBo2jyB8aXhRCv6PmzLw8gLprgEwPczbMuagv slot=434292436 path=[8, 5] ord=0 pool=Cq3mte9pHBXF6Zjknx43GHdAstUqFQZZTfXMJk96cv4h user=2Uu35JBRzcgumgNNTdVWpEn2GtiEDCFD6XHxd9kTQ2Aw base=9506584604 quote=7313813670829 (unresolved)
+pumpswap ???? sig=4dGg4TmGSeehzV8K2BV3wqh7VCEpFETkuV9aqDJeuTQ8cDjT3tFkBo2jyB8aXhRCv6PmzLw8gLprgEwPczbMuagv slot=434292436 path=[14, 5] ord=0 pool=Cq3mte9pHBXF6Zjknx43GHdAstUqFQZZTfXMJk96cv4h user=EJ8SBgT7MHhmEBYg993mUDrq8NxCdu9eAMtyGph14deH base=8996934100 quote=6918322500680 (unresolved)
+pumpswap ???? sig=4ABUZZ28ATeC1bVwtqfAWkJbU6HbsvK6kRynYV5fRfNejXBjbJekUtv6nC6WNJeKxsXhDTQyJWeWdyFj4eSzW8aM slot=434292436 path=[8, 5] ord=0 pool=4CEnvMrvDpkc7KKsSzeu8h3Pf72gjGXgWMjeGPT4WYMz user=F2RyFMB8LQEK5ToeMYRRm6z6K8iSMaqdABE6W3fGgau1 base=3666328694 quote=4693495662176 (unresolved)
+pumpswap ???? sig=4ABUZZ28ATeC1bVwtqfAWkJbU6HbsvK6kRynYV5fRfNejXBjbJekUtv6nC6WNJeKxsXhDTQyJWeWdyFj4eSzW8aM slot=434292436 path=[14, 5] ord=0 pool=4CEnvMrvDpkc7KKsSzeu8h3Pf72gjGXgWMjeGPT4WYMz user=rFY2vAEAoccD1TX87EhoaF1iUPM85hhFtpE66qGLWwh base=3059236486 quote=3910791226385 (unresolved)
+pumpswap ???? sig=srykRpJtK6iEzg4TJEF6RqeZPSa9bbTLs81QduLBEXK178FrVW7jQs7VRv3aHM28yZ9tpBUKM9RUNi4Ff3CSkMc slot=434292436 path=[8, 5] ord=0 pool=78wJa342QmxfJWAwvKy96R2yMv31XpJr4vLZ4r3RJgkS user=9RvBLiaf9WLxUSTq6SYFqQWEXyNUL7mPgYJompj3oY7U base=21731585 quote=21437829040 (unresolved)
+pumpswap ???? sig=srykRpJtK6iEzg4TJEF6RqeZPSa9bbTLs81QduLBEXK178FrVW7jQs7VRv3aHM28yZ9tpBUKM9RUNi4Ff3CSkMc slot=434292436 path=[14, 5] ord=0 pool=78wJa342QmxfJWAwvKy96R2yMv31XpJr4vLZ4r3RJgkS user=Bxgd8x1LSSQSKMwa8GaKG63Q49EhVj65uJqmBPQsaTNj base=21703163 quote=21409791876 (unresolved)
+pumpswap ???? sig=gXEu6EQ85YgdyY42DHZFmkog7gV9C5NkXhymVCyyxhs79mnGVuFq9aM7q4Skqi7MfrHfJVdrPpqNpUfrdVYUPk4 slot=434292436 path=[8, 5] ord=0 pool=Cq3mte9pHBXF6Zjknx43GHdAstUqFQZZTfXMJk96cv4h user=BSF8K81E8DQZAEimUAquFL6nKtPajgj16Ts7zrPCX9uF base=10945067597 quote=8400183048400 (unresolved)
+pumpswap ???? sig=gXEu6EQ85YgdyY42DHZFmkog7gV9C5NkXhymVCyyxhs79mnGVuFq9aM7q4Skqi7MfrHfJVdrPpqNpUfrdVYUPk4 slot=434292436 path=[14, 5] ord=0 pool=Cq3mte9pHBXF6Zjknx43GHdAstUqFQZZTfXMJk96cv4h user=A1h13i2RxkKW4D6PDLPthbCivQYc99P4RwcEFaiUoUvi base=8006985448 quote=6127240221571 (unresolved)
+pumpswap ???? sig=32aVUULd6eDKoFLoKczcj7kbs8DUcz6bE6Si9GgSWqo3R7LSH244va388wqYu4nWYDt87AzjW2n4rs8VqvCXuqUC slot=434292436 path=[8, 5] ord=0 pool=GVXn4pjn2L7cYaVp1oPFErUJa376ATxJyQMaswWbPQmr user=C9i2TeHfQ6TxCpKtZDH6Xn4ceCNuQSHT4z88xaynnGLc base=5339742507 quote=5863107511139 (unresolved)
+pumpswap ???? sig=32aVUULd6eDKoFLoKczcj7kbs8DUcz6bE6Si9GgSWqo3R7LSH244va388wqYu4nWYDt87AzjW2n4rs8VqvCXuqUC slot=434292436 path=[14, 5] ord=0 pool=GVXn4pjn2L7cYaVp1oPFErUJa376ATxJyQMaswWbPQmr user=5hh5EBG2xgRVJWt63yW56K3EnCH8P5pMTp3UdnL6NKWh base=5323802902 quote=5845582110554 (unresolved)
+pumpswap ???? sig=358jiLWr3v56ANfuNyzS4VGUnHMRdz6HQH5cAkCDMSYiikmoo7oxvrVrgDiJpfgU61H4umfXQ1jdjurAibKJrKoM slot=434292436 path=[8, 5] ord=0 pool=vyBHA7vea6NmPz6wuo6iBE8yuD4KTEwFgo1LhPF7i9d user=Az3z6x9cPkTQU6GVW2fepDRuTdZSTQ1Bcz8pCZsau3RB base=8737206199 quote=10451706687614 (unresolved)
+pumpswap ???? sig=358jiLWr3v56ANfuNyzS4VGUnHMRdz6HQH5cAkCDMSYiikmoo7oxvrVrgDiJpfgU61H4umfXQ1jdjurAibKJrKoM slot=434292436 path=[14, 5] ord=0 pool=vyBHA7vea6NmPz6wuo6iBE8yuD4KTEwFgo1LhPF7i9d user=6zEcGRtwqE3ja2mYd82q2x4Y6CKBFhztJAApZKgqDjiB base=8471505330 quote=10129460616122 (unresolved)
+pumpswap ???? sig=4gvG5Dvpagx9BeaKnJJdx3WesFPnf3L77zvJkWyqKaPbsSiQ8DnoYMxPq56PNhKSnaKeBRhnBQcJbohhYXmBP5yr slot=434292436 path=[8, 5] ord=0 pool=8AGfk6sgwtncvEGUakJwxZAK5N9b6XcvtcDavBwv65rg user=3vqCfKn22TWfv22a8UHNA8Cu7ByTMjJ9CbZaMjWU1QEB base=10949230921 quote=13425980110982 (unresolved)
+pumpswap ???? sig=4gvG5Dvpagx9BeaKnJJdx3WesFPnf3L77zvJkWyqKaPbsSiQ8DnoYMxPq56PNhKSnaKeBRhnBQcJbohhYXmBP5yr slot=434292436 path=[14, 5] ord=0 pool=8AGfk6sgwtncvEGUakJwxZAK5N9b6XcvtcDavBwv65rg user=hbebsC8ieWXjRjcSkPkabTHvSgEggQ57EYdiFMgF4aj base=7747275880 quote=9455050712990 (unresolved)
+pumpswap ???? sig=33xu2FGaPM9cfEAexfMUNcvk7W5CjE8vxTog7e24WPLJ4saqymAKwZEjnPn8pQsqBcUQfad4kChu8uMFwUtcwAVi slot=434292436 path=[3, 5] ord=0 pool=9fmpYNbFdkqaiQdGXzfA8U5Ah7ED582AxTJ93aJbqWZz user=3m3igGFVq6dq1dgRd8kSwAi4NHtxoCoG5R3f61XrJumy base=1068000000 quote=1118052543649 (unresolved)
+pumpswap ???? sig=53yhsvNDQLEVkgGn8Y3NHHDPpEPbbe8ED7fP4iUSk35F5iN6ZQduF467niVzkobNoGS53sMMdXp7BJqpyiraemAR slot=434292436 path=[8, 5] ord=0 pool=7a2DEduaGMnw2sMeqpPjpocZGs8kgkzWQ2tfT2UYUEH8 user=cfJ1qYJ8kcsiKcm2FSc5nSBa9XXsxUStUGKHocFjp3P base=2085141984 quote=951472400661 (unresolved)
+pumpswap ???? sig=53yhsvNDQLEVkgGn8Y3NHHDPpEPbbe8ED7fP4iUSk35F5iN6ZQduF467niVzkobNoGS53sMMdXp7BJqpyiraemAR slot=434292436 path=[14, 5] ord=0 pool=7a2DEduaGMnw2sMeqpPjpocZGs8kgkzWQ2tfT2UYUEH8 user=5HssboUzxAfPV4hPiDXdi91GnTCFakp5vzHNu1Xp51wi base=2080754984 quote=949471004259 (unresolved)
+pumpswap ???? sig=28HhmZ8TosY4r31MrvUyRA53PUq5FMrhj2qw3xAAapREsNyG7QyfemBPYQgRNQtWYSoix1T4DeNJwt95jacfLpzF slot=434292436 path=[8, 5] ord=0 pool=4JmbRE2KojCS8FgP7iLVdhB3mk52phkwyg4h1jTmFF84 user=C6P1GDzi3JaGB8QLZQ6zzcnFPranhMHVzzpwAVTmknZe base=11768854851 quote=12766575969707 (unresolved)
+pumpswap ???? sig=28HhmZ8TosY4r31MrvUyRA53PUq5FMrhj2qw3xAAapREsNyG7QyfemBPYQgRNQtWYSoix1T4DeNJwt95jacfLpzF slot=434292436 path=[14, 5] ord=0 pool=4JmbRE2KojCS8FgP7iLVdhB3mk52phkwyg4h1jTmFF84 user=489HwTeZq47BVWReCqMtNHU3iFePW7D5NMVMpVnVnqXh base=11342276628 quote=12297586154860 (unresolved)
+pumpswap ???? sig=4xa3pWNDHaE1uSBUvCX52e2ziPJitmWnr1HSx5ATbaBXa9SRrMsWEPxGxVDBfuuMRAJjmSWLUaLTDkXRLsERAqZ4 slot=434292436 path=[8, 5] ord=0 pool=7JyZwagJEgiosX1nh4ij5zdh61mjcH1tiYMz5AadWoLf user=EhyTz6574Sf9RWA4vzVEnNUFuYMiyGt53CGLXYsggCaP base=1908987004 quote=1968027936404 (unresolved)
+pumpswap ???? sig=4xa3pWNDHaE1uSBUvCX52e2ziPJitmWnr1HSx5ATbaBXa9SRrMsWEPxGxVDBfuuMRAJjmSWLUaLTDkXRLsERAqZ4 slot=434292436 path=[14, 5] ord=0 pool=7JyZwagJEgiosX1nh4ij5zdh61mjcH1tiYMz5AadWoLf user=2pT1LMMm317yuRHBQ8L7kwFGW7jdFkUrnsvzjrPnuL8T base=1903819640 quote=1962699673570 (unresolved)
+pumpswap ???? sig=2nUDPeJ4Lq8qShWcTZ7o8cNdZesgLe22aBzSd13E289GKsPDDb5YRoiW32oeezHChxxSgqjYovSmMcyco2cHrLGu slot=434292436 path=[8, 5] ord=0 pool=7jVqcQATYoDMjvQwCT3BYeKiapTGwMNVDkYEKtZwKkaq user=F51mBUsjhZtbB6cMvpGAQrgNJYj445BP8JPGLB9rC8a3 base=9865380 quote=5909684824 (unresolved)
+pumpswap ???? sig=2nUDPeJ4Lq8qShWcTZ7o8cNdZesgLe22aBzSd13E289GKsPDDb5YRoiW32oeezHChxxSgqjYovSmMcyco2cHrLGu slot=434292436 path=[14, 5] ord=0 pool=7jVqcQATYoDMjvQwCT3BYeKiapTGwMNVDkYEKtZwKkaq user=HTfCUFH5J7Ru8Cuny1o1AEoKoGpNdenYnkRkT8JJqghC base=9840335 quote=5894682050 (unresolved)
+pumpswap ???? sig=3pmbzGLGNrorLnBT8ZoBuSpT6CYbJNWN91XbDUjdbP7WWLdMjTE8EyfWPYPHgNUvsBFteJV8xhasTnveYMRMEzFA slot=434292436 path=[8, 5] ord=0 pool=DvMnDAni6Ee3PYnfPBb9PWf1C94rApBsbQKVo1uYyjFB user=B265FiNfthAUW2XSsa1qwM18mGbskTyTUvhso2eE5VLM base=6998464241 quote=6872723601140 (unresolved)
+pumpswap ???? sig=3pmbzGLGNrorLnBT8ZoBuSpT6CYbJNWN91XbDUjdbP7WWLdMjTE8EyfWPYPHgNUvsBFteJV8xhasTnveYMRMEzFA slot=434292436 path=[14, 5] ord=0 pool=DvMnDAni6Ee3PYnfPBb9PWf1C94rApBsbQKVo1uYyjFB user=94VvGxMvtNG5knJ9Kc6ZYK1bpwzbuot5KSWcm9VyqK2G base=8131185221 quote=7997322008432 (unresolved)
+pumpswap ???? sig=45cAG4SexyDM1UmHYFHywFUkFBGftxkHKGvAMYZtRKFxuHHJeBcmbCuw4bCW8TrAeoQjN3yjbyK6mady4LXYJTDD slot=434292436 path=[8, 5] ord=0 pool=HhJB2APPqqZFezHtAcZBdhxwEYRgLD9gnpzMWB1Rwd7e user=5CZKvCnfu44dTFUyDrky8srtmovoT83Fs5FfiwmnvbS7 base=9683579736 quote=8535814354712 (unresolved)
+pumpswap ???? sig=45cAG4SexyDM1UmHYFHywFUkFBGftxkHKGvAMYZtRKFxuHHJeBcmbCuw4bCW8TrAeoQjN3yjbyK6mady4LXYJTDD slot=434292436 path=[14, 5] ord=0 pool=HhJB2APPqqZFezHtAcZBdhxwEYRgLD9gnpzMWB1Rwd7e user=EFGhtjYvBhnAfpueG65G6U2M636L3B4Z2WAgzqogx12r base=9698238053 quote=8549293562800 (unresolved)
+pumpswap ???? sig=2G7Hmew8Wd3DoR1Dw3ZrxubeeZ8U29V6b5rnmbopZkRfz4KKtj3jziJJYwr8UybHor8oNABznuvDLDfyLMMPbqjK slot=434292436 path=[8, 5] ord=0 pool=5KMzk3qsApiRQbgkYfn5kfrY7AVAGDX5vKBVNgsDjgEh user=DQLasSNfygdMrhUAyu8349nzgEdX1PgnbXTBWS63GJUC base=5443559258 quote=10024275448071 (unresolved)
+pumpswap ???? sig=2G7Hmew8Wd3DoR1Dw3ZrxubeeZ8U29V6b5rnmbopZkRfz4KKtj3jziJJYwr8UybHor8oNABznuvDLDfyLMMPbqjK slot=434292436 path=[14, 5] ord=0 pool=5KMzk3qsApiRQbgkYfn5kfrY7AVAGDX5vKBVNgsDjgEh user=B9FkyTVkh7jkiyhS29tjocxw7obbGZ4ssPNbsn46VSxw base=5446456489 quote=10029972286363 (unresolved)
+pumpswap ???? sig=4JKa12UobtHYb2JQmtRmxUJTXCUvJgZmnGi3t2ZGxut29a9FFCMC8L2nujyiRPjJTradU5oc3E6TzyAejb6SyBHA slot=434292436 path=[8, 5] ord=0 pool=4JmbRE2KojCS8FgP7iLVdhB3mk52phkwyg4h1jTmFF84 user=7bWqqVc74aEgQxbwzYBfj4UsMoqCr5Zg9ok3cBrT3yWB base=11217261613 quote=12164392892710 (unresolved)
+pumpswap ???? sig=4JKa12UobtHYb2JQmtRmxUJTXCUvJgZmnGi3t2ZGxut29a9FFCMC8L2nujyiRPjJTradU5oc3E6TzyAejb6SyBHA slot=434292436 path=[14, 5] ord=0 pool=4JmbRE2KojCS8FgP7iLVdhB3mk52phkwyg4h1jTmFF84 user=GAGWXU1t8UhHPZ275suEKwzivrK5AWVsqLkfWKUJZKyb base=8414767938 quote=9093015246739 (unresolved)
+pumpswap ???? sig=2iouuSLGsJc5s8ywuSgPkMfGTa1HLiyQeVQS11u7sd5A4XBw3vGLLaVs4piAnJNMo3f596mr9G8VHQ2ABjU9ATAH slot=434292436 path=[2, 5] ord=0 pool=3u6Snc3atJnWMP1CYtR7C8eT9PvUydgvWKWjr29nHYUq user=3366WzL11BdaJMzMEuDNHhVMFhe1gCgecYKJpoXZuZeg base=2113928292 quote=6282984256745 (unresolved)
+pumpswap ???? sig=66VXP3UjSbCCZpZYvv9TKxcSQprXRDatSCFRY5mdSADpaSbi68XsdYEY6hTVzQFMPEm5cceufE8VE7rLWXqr9LY5 slot=434292436 path=[2, 5] ord=0 pool=Gi4DrDb6WZsrq7a5754cDoscq5znTk28g5tXsX2fNFuJ user=3A8P5gux4mUAF2YGc5hBhRbRfyiiFgwywbhBE3A1V7JK base=2664903269 quote=359227304960 (unresolved)
+pumpswap ???? sig=5JBtRaF1wScADwT5tpgxpnTLnB2BdSN7cHWGrYa4EsEWbZJZXNpNMEL8aS4sbtrAiGSPRBMuKF3UudUdY2kbDogQ slot=434292436 path=[4, 5] ord=0 pool=8g41wFoHjpJHBRADWa19pNrXw2tdudRCoz29mn9JMqKR user=Huy1hKYV3AjC29iXMRSmpXEkT2yXxuuvcgCdFaaJDcmF base=253657 quote=2424186911 (unresolved)
+pumpswap ???? sig=21x6dvRTvKE3Y5vnwa6QCz4HVs7RY2CEhQzSJQ83CtxkqoL5GaXPSqerLmEF3UvVAtY7PthEScXD8uPtT8DVAHQr slot=434292436 path=[8, 5] ord=0 pool=J1DtceFKfKJGwmcWxSSpQk3nx4K4iCtHfF7KLYM59w1i user=DEf2CdQgbBK4iwFzb75fAFWvWWuNbovHDdysp7Uo84sH base=1825935131 quote=1928766156184 (unresolved)
+pumpswap ???? sig=21x6dvRTvKE3Y5vnwa6QCz4HVs7RY2CEhQzSJQ83CtxkqoL5GaXPSqerLmEF3UvVAtY7PthEScXD8uPtT8DVAHQr slot=434292436 path=[14, 5] ord=0 pool=J1DtceFKfKJGwmcWxSSpQk3nx4K4iCtHfF7KLYM59w1i user=55HpadWpNYkBXvJHbMrqQr6GjCw4AScBzpaiPR6V1XQ3 base=1817572224 quote=1919922399252 (unresolved)
+pumpswap ???? sig=2c8MR7mNGVFQEg5eKrpTjrd3eX4y4YvPwCpZuMpxz2VAySNj1eefHzbyiDykyvbcD6SfQTaX4h8iYS16h9DUV5JD slot=434292436 path=[3, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=E5dL3xTpm3J4KDpN8o6iskuiY9Zg3gEtQZx7SnxxeaWg base=9763484800 quote=192435369667126 (unresolved)
+pumpswap ???? sig=2c8MR7mNGVFQEg5eKrpTjrd3eX4y4YvPwCpZuMpxz2VAySNj1eefHzbyiDykyvbcD6SfQTaX4h8iYS16h9DUV5JD slot=434292436 path=[6, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=FeZ4GEfvy9CYeh375fvVNEDsMjD9ACjLC7UwLh38VhHq base=8301925176 quote=163317317769286 (unresolved)
+pumpswap ???? sig=4bJ7JemR16gf1v6yTKquRyYZ35A8KZBP1eK5qJuNtSFmth353vYvxBoPa1jWtQj67ZkwRSyWaBn5dSGuqya43hKm slot=434292436 path=[4, 5] ord=0 pool=Gi4DrDb6WZsrq7a5754cDoscq5znTk28g5tXsX2fNFuJ user=4mxrAvnfu7naKMQhbktiyZvaCWYVLAdFGkHMJqZ62tJz base=677429208 quote=92972615537 (unresolved)
+pumpswap ???? sig=5LPRxuhWSQPFPt6k8Udz1hqpdHdQSoEFQpHPX9hccLAZpk1ydH6mFjbreUGYjCNdon5iFu4FoEbNTAuW39WnQjW4 slot=434292436 path=[5, 5] ord=0 pool=9fmpYNbFdkqaiQdGXzfA8U5Ah7ED582AxTJ93aJbqWZz user=CYtm1JyXdJJcsftfdUmMUtVGSMUgL6v8MhxBRJYKZU5H base=1698000000 quote=1775934422207 (unresolved)
+pumpswap ???? sig=2r9T3477mKN9SDDaTfV8biPLkx4q2GpHat7A3Tz7KuzAviyKh2Qv3cSvhn76uL8vUgFz3nxdvPCxJ1mTQHgtWQrU slot=434292436 path=[1, 5] ord=0 pool=2Eg5yJK7YuJuKNWJ3pg46DU4UaPYsz6B7Vxw1dbtVomJ user=5rDf2FVJRx35fNaP1TKkNcWatU841BVpu9rHXvEDagxz base=636519293 quote=290901480055 (unresolved)
+pumpswap ???? sig=5r8TuuRKZg4gf814T3VZnzqzjZbz7LqmAv9GV4r7guoY8sZekdNruMRXZHhxMXGwPYVxcA1mUdtsSuNeYmwaVVLU slot=434292436 path=[3, 5] ord=0 pool=Bn9CWqJBLnC5stBiAKUTsmSvG9NdSGgdhQxsk5PahAoY user=BeQSU9XwX7oDYDF22RzcRN97hUKeVrekQoejvHAFNFNk base=11451221490 quote=9536018095254 (unresolved)
+pumpswap ???? sig=5r8TuuRKZg4gf814T3VZnzqzjZbz7LqmAv9GV4r7guoY8sZekdNruMRXZHhxMXGwPYVxcA1mUdtsSuNeYmwaVVLU slot=434292436 path=[6, 5] ord=0 pool=Bn9CWqJBLnC5stBiAKUTsmSvG9NdSGgdhQxsk5PahAoY user=J4kBhTzyyJrPUe6WSnnRPXPAkyxvCMoVDCA7QB3C6wjG base=11947365002 quote=9954913393224 (unresolved)
+pumpswap ???? sig=4YNpzRjTSDAMA9RBfdCmhr6u8dwtXxBmUa2ognoT3Mdngs4EFmog8Hs25PNqapL3PM8ckTQwX1bcTDeh4zR8P4un slot=434292436 path=[3, 5] ord=0 pool=4Q9a5CqzeNPHpsPJ5iW7G8i2TUDarbhhmKzVfN9ZhN1L user=341GmPvgjhtvhb3GAE2TCVCGuhajoxAp3otkMqqH45om base=6004075690 quote=93226292936874 (unresolved)
+pumpswap ???? sig=4YNpzRjTSDAMA9RBfdCmhr6u8dwtXxBmUa2ognoT3Mdngs4EFmog8Hs25PNqapL3PM8ckTQwX1bcTDeh4zR8P4un slot=434292436 path=[6, 5] ord=0 pool=4Q9a5CqzeNPHpsPJ5iW7G8i2TUDarbhhmKzVfN9ZhN1L user=9zdbv1QRTQeS6MXJuSZpjjn9gGK7sUAWBjuAndVHGYHQ base=12013343498 quote=187581198725230 (unresolved)
+pumpswap ???? sig=2nzVkenLXtvGpGnaziBbA4H8GSLDg5FddJDGJTT5C7kpk6qxPQQFWTBeDLqyD7XosfxhvpwMZ1cDVG57nL4mNyv5 slot=434292436 path=[4, 6] ord=0 pool=6cb2qY3tfz1iHAsf8TXRCarSRqoRu2rooV4izJFa8uzW user=9PJ4MZBktAVq7XFSQ74zQKVqkZ4cKdW9nw8smKcWcCT6 base=4108519524 quote=9886307 (unresolved)
+pumpswap ???? sig=46trEcF7efBGtTea4PXsDsyjE1npvTbua8xA5fmxewiuNRsyUK7WPwTrBQYYijf15BYQQfqJN9Lai5jMjaWsPqnk slot=434292436 path=[5, 6] ord=0 pool=4TtCpPqTsgs3BN8PNfeQUpWQEjohtuYMRCfM9pJ8SM7s user=9wxn3AhPcwHNg8bXzrD5bm6fknLJ4v74dL6VnThY1qhs base=5150474217 quote=1596504124 (unresolved)
+pumpswap ???? sig=46trEcF7efBGtTea4PXsDsyjE1npvTbua8xA5fmxewiuNRsyUK7WPwTrBQYYijf15BYQQfqJN9Lai5jMjaWsPqnk slot=434292436 path=[6, 6] ord=0 pool=4TtCpPqTsgs3BN8PNfeQUpWQEjohtuYMRCfM9pJ8SM7s user=6ouDRDN1aYddY5hx4KFbiUt4TuDkoGnxbWhVPEtY1boN base=11077016420 quote=3430884067 (unresolved)
+pumpswap ???? sig=5RMgaRSAx4w27yAifYU6Uv268C7zYwoi9NiKxCAwx5quFtHs5BehHsqjQ4fJEyDeLAuk8nstb1CA4cj8FNMwWWnS slot=434292436 path=[3, 5] ord=0 pool=4Q9a5CqzeNPHpsPJ5iW7G8i2TUDarbhhmKzVfN9ZhN1L user=5Zgw6xZGdVV9SzrEuXX4rCMdNBJEGJiVDb53ew1jac6z base=7010256313 quote=109971437081308 (unresolved)
+pumpswap ???? sig=5RMgaRSAx4w27yAifYU6Uv268C7zYwoi9NiKxCAwx5quFtHs5BehHsqjQ4fJEyDeLAuk8nstb1CA4cj8FNMwWWnS slot=434292436 path=[6, 5] ord=0 pool=4Q9a5CqzeNPHpsPJ5iW7G8i2TUDarbhhmKzVfN9ZhN1L user=7qneVwdJ7DFLEZWF5zPr1NurZbsmqMgD6WSB3yVPEXNA base=6695307696 quote=105001643977618 (unresolved)
+pumpswap ???? sig=xGCGDnYwqKs8mjiuSGaVRTDGC3tGsmWfGXWzb3TZtYzaqtBydK8RHy7zSCLTgjC2gcCcpK81WZoSQ8UuF8TZjtB slot=434292436 path=[3, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=D1SbgJoEtxemaHtmQQNpcK81U1n2pHD4dHBdAUZMgJQi base=10000000000 quote=196291332898152 (unresolved)
+pumpswap ???? sig=xGCGDnYwqKs8mjiuSGaVRTDGC3tGsmWfGXWzb3TZtYzaqtBydK8RHy7zSCLTgjC2gcCcpK81WZoSQ8UuF8TZjtB slot=434292436 path=[6, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=HWygAs9PNgMPXwGJiQbiumHYQUBMQ1CUHWrFephdkrQC base=10000000000 quote=196297825924590 (unresolved)
+pumpswap ???? sig=36A5xs5FYruQQcLBPU1s7s8vnvbLa28XAqLgnCbo2uj9WWL39NmJsK3PvXtDZc87wDsMbRbJDGd3mMAGveZ2FGc2 slot=434292436 path=[2, 5] ord=0 pool=3xFqBK7WF39vmmXpsjLLqpC9uGRWNZWNEVanzqHapkqM user=CjX5ATq2WoQgvpg1mCj6qFifzrRSUGTDFto6V1hcfATL base=3038148510 quote=2614864856580 (unresolved)
+pumpswap ???? sig=26Pz2d18pLVHiHqXzxJXyXDzc6mPQPR239ZEH2udMvxHmUv1Yg4EzmMtYYbm9LVF4idt4CS4aGrEXEEGq1Y8tuXW slot=434292436 path=[3, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=HpsGUynoDC7kmShcCBFgdRpy2xXjTiJkKE6w9PD6EqBK base=759199 quote=467367336 (unresolved)
+pumpswap ???? sig=5UNEmZF4GVsihjnDtq624bHqBe1bHD882P9RezbnfwBfFCX33yFP3zCbtsZdiurFqJW7zbeqK4Kim7twBekGqmUo slot=434292436 path=[3, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=E3AHmtpAPk2HEnQytprcB1ecWbJhS6FjDKv2o4ocfcpe base=15000000000 quote=292546226072426 (unresolved)
+pumpswap ???? sig=5UNEmZF4GVsihjnDtq624bHqBe1bHD882P9RezbnfwBfFCX33yFP3zCbtsZdiurFqJW7zbeqK4Kim7twBekGqmUo slot=434292436 path=[6, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=HWygAs9PNgMPXwGJiQbiumHYQUBMQ1CUHWrFephdkrQC base=15020736112 quote=292973217965473 (unresolved)
+pumpswap ???? sig=2W2J2vjEAansQvdhgmD7E6t1DcATvBgdWbTg9YGmHtKkJbpKwufRwhPTpmoWyLTmEgsne6LLiubnqQJewckv7Wqu slot=434292436 path=[3, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=E5dL3xTpm3J4KDpN8o6iskuiY9Zg3gEtQZx7SnxxeaWg base=171345 quote=3408601149 (unresolved)
+pumpswap ???? sig=2FWgeESxBsxdyFNKsUEyAPK9xNDVTR7JVridXhtco2GWDvbiyghvV4Hj6ifaBUSCvhwNyScwYMrhViJdD1TiMFK6 slot=434292436 path=[4, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=E5TbDEqTUnBSHmradbRrygdtcw3gZ1zQyuAw29EtfC5j base=137704 quote=2739372733 (unresolved)
+pumpswap ???? sig=4JBsMfQpUcwfjZ5tPwgYvAc6tdPM8hcYacvvC9qVayBHHobLr2teZAeSzYxG29suogHJYBYZoCDXmBVN6YxWkoBc slot=434292436 path=[4, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=FrP4uqHr7XeZCsFf5fKVTi2BMSb4C6z2aMhWSFDBkwpZ base=112399 quote=2235974656 (unresolved)
+pumpswap ???? sig=44YXecp9dUrLKQJiHcJUbuhWqdR8cDv91jhvJQH15Dx74ZUEc9xxB71Ff9u1YEs6kYtFk2o82eNbFF6AKu3LahHw slot=434292436 path=[6, 7] ord=0 pool=H1Fd99MShUcNsKQaXMWCA8kVKSK6mw6UqURto99YA3Qc user=GuDR8fq3XrTNdFSFQnm1fqJmnDkYWdyLGzRzyCCg8EEu base=30416892151 quote=144849461 (unresolved)
+pumpswap ???? sig=4W2SHKFXQrk82sMCxFDB4ZFiL5PtCCXPVT36z1KA8B3QyRj9GCgjQ7Po4DbLEYs6TraVSvP3jVYRgzsX12nNUXgK slot=434292436 path=[6, 7] ord=0 pool=9xn5mc2HEQHjoRT6TqMfVBXDW9vz2zJyubZVscKgnWTd user=GRRiF3Hr7YtGmxomdeEvin26Jd2C3XEmL6brdjZve9u8 base=2654124566 quote=4303681 (unresolved)
+pumpswap ???? sig=49WXZvS9A4Adn492HoD1Q2TzwBvWHjuu781T7CNwcNPRj2rQLQtPHed7xhquKdLBW24dSPshBNQYZsFbHQeSk7mP slot=434292436 path=[4, 5] ord=0 pool=3xFqBK7WF39vmmXpsjLLqpC9uGRWNZWNEVanzqHapkqM user=36965q99aTqPWiEbNejG257aWHtizJucAn3hdCFM8jQU base=2203938159 quote=1901239651342 (unresolved)
+pumpswap ???? sig=3vedkKVPPGU9qHJciUwmU5KfZmTkA4fvpis3PG5VinFbep2wDQicdb1hVP2JjJEiLwBGtb9D2tkzyWWX9HeJM9ep slot=434292436 path=[6, 7] ord=0 pool=H1Fd99MShUcNsKQaXMWCA8kVKSK6mw6UqURto99YA3Qc user=8R3ikZPdcVRa5QFzyBU7TZG5UZyXhD9JY3vpSJauC9bo base=6564663587 quote=31280103 (unresolved)
+pumpswap ???? sig=4KZ3v6BiVYJ4uHpuogwDS6vkEBHCaWE6i5c3QqDGAHevog7uxffDkv29bx3xH6SKDW2C5LHUegSh3qVCrdtDzZoP slot=434292436 path=[3, 6] ord=0 pool=H1Fd99MShUcNsKQaXMWCA8kVKSK6mw6UqURto99YA3Qc user=Go4BErCkQycokYyvTuhH8JvcrY9WKdBeq6z6QYrLW6G7 base=21460665055 quote=101222151 (unresolved)
+pumpswap ???? sig=3PJy8qCpxSrh2EvgdjmgKfNVAfpii1WC2Ess2AEbt8o55Vhx7yYMUkw562EGAEb4VsxeF5pG8abfrq9ULa9Er5dK slot=434292436 path=[3, 5] ord=0 pool=2Zo4DHSbmFe3u4K9bwnEgFzoXwVWHTUMRvw8ifXAUQm7 user=AdFBo4DqF1QrRKJmQuioZ93GPMtVYEAjGkV1MaEdytuY base=8934950455 quote=2454249533085 (unresolved)
+pumpswap ???? sig=3PJy8qCpxSrh2EvgdjmgKfNVAfpii1WC2Ess2AEbt8o55Vhx7yYMUkw562EGAEb4VsxeF5pG8abfrq9ULa9Er5dK slot=434292436 path=[6, 5] ord=0 pool=2Zo4DHSbmFe3u4K9bwnEgFzoXwVWHTUMRvw8ifXAUQm7 user=4ACv2XTHXsoYGhaCr6J1JFmB9aTGDGkwYaL2RPh4XSiF base=8044768954 quote=2206242648351 (unresolved)
+pumpswap ???? sig=5tRgMPb76sBo4NPeDS7cpZo5VYoJoWPR1rAK3tUiYHaoRaXLP1ad1QmuqZRSp3PoWZsqeyFbaH6uazuwkPTawUG slot=434292436 path=[3, 5] ord=0 pool=HDX2tcRU2U9wjJ3TSwEmVvfF9nMzxme9o4cUe21WgWc9 user=39CxiGGim9SJnkzfwJHAvrc6zpWmpjJgr8ieX3zQU1f8 base=9991662138 quote=6366106568459 (unresolved)
+pumpswap ???? sig=5tRgMPb76sBo4NPeDS7cpZo5VYoJoWPR1rAK3tUiYHaoRaXLP1ad1QmuqZRSp3PoWZsqeyFbaH6uazuwkPTawUG slot=434292436 path=[6, 5] ord=0 pool=HDX2tcRU2U9wjJ3TSwEmVvfF9nMzxme9o4cUe21WgWc9 user=7gvvDfnvQYrVd1d4mSKLFzfLzjq5WrYpiez9FrzEjzJu base=9879691639 quote=6294244711605 (unresolved)
+pumpswap ???? sig=5GMMT4cJPwb7VbCJeSySHGpaUhj7tTdAt25g5yorYTDwUYmabBkeSMT7jwtFmVvk5FyWJhduQEfZVd1Vxo7N4b8W slot=434292436 path=[6, 7] ord=0 pool=H1Fd99MShUcNsKQaXMWCA8kVKSK6mw6UqURto99YA3Qc user=EQ2uznq6biRbBGw6y8cUNiapADXn8eVpaFhhc4troiXK base=23225411870 quote=110644435 (unresolved)
+pumpswap ???? sig=3958akWczYMiqyENGiEotbjtCFjqHbFD1ix9WWMeWWWHU7tUgpq99KG7GmZxtEgjScSZ6QKJfiegeEZxLmqUr6Zw slot=434292436 path=[6, 6] ord=0 pool=H1Fd99MShUcNsKQaXMWCA8kVKSK6mw6UqURto99YA3Qc user=CARLoG3f6zQVCgmapcDahFQSEAWcoysG9NY9G29bMGnY base=23643677230 quote=112720397 (unresolved)
+pumpswap ???? sig=T2iwR52F5WYYR8x3LSnWumtmfMEv7oDXWe4o4svbS54hxErbFZxv5VxbPqftGZVqdHbXS8ccT7NUfqP5Hp1iBuL slot=434292436 path=[6, 6] ord=0 pool=9xn5mc2HEQHjoRT6TqMfVBXDW9vz2zJyubZVscKgnWTd user=5HLN2H5ZMufiMop8K1qAv2F8sdfnucgEy5q58kNmNuZs base=31241300232 quote=50673996 (unresolved)
+pumpswap ???? sig=3YfMCKVTWyvnEDVaS1aRuuTNLK4GbFoZkhZoydRZP1WvdGcxjMbbX6qY6qMRraXvJroEFcFaZFfFZGGRiya7AJfd slot=434292436 path=[6, 7] ord=0 pool=H1Fd99MShUcNsKQaXMWCA8kVKSK6mw6UqURto99YA3Qc user=5MuqQDuLKd8juGSF5pxWLUZ8vWPk5PJfGQTUviFTvCtp base=1282158631837 quote=6241179925 (unresolved)
+pumpswap ???? sig=2YNB4xzZDqZoLpvNppWScKzKft3xAQHDj7gxrcsPMumTGGu4VngN2jx8vnor6Dr9vD5NKL75BMsCzRDn27eU7evG slot=434292436 path=[6, 7] ord=0 pool=H1Fd99MShUcNsKQaXMWCA8kVKSK6mw6UqURto99YA3Qc user=HacmNBCRbRxK29wPzaRj865iSujCSToLVAWkth2CcEcj base=3785962596 quote=18811375 (unresolved)
+pumpswap ???? sig=66rnZkspTuVVkJ5WoMt16TiCF4SRTLJ4YHPkV27kpxwsSSw4kFv6twmRSFZPZKA6MGkdDvuTpGwEzZnLyeztgjzF slot=434292436 path=[6, 6] ord=0 pool=9xn5mc2HEQHjoRT6TqMfVBXDW9vz2zJyubZVscKgnWTd user=8g5BwBiPahoYB9p6XaqPTg8bAmGZk448hnJj9X4p6Whq base=18020054228 quote=29242348 (unresolved)
+pumpswap ???? sig=2BcyYrYFFDTBu3C5dFLGREEMV8uouW4kNeJ3DDwu6SSZrbfgputpGtm6DmNYL3qRUWCvDjG8yjraCdCrQdXqUbSZ slot=434292436 path=[4, 7] ord=0 pool=EZQ2crGA9F1PkwtXZmqJDWkWGZ6JpuCzEAzbGuSTuVLs user=2otZZfjcDcqfNKiY1Rd1C6JRdKskjEGXwer6YRHza1Wv base=601086503157 quote=1131694533 (unresolved)
+pumpswap ???? sig=DT8nrWNbpMzVq3XcrRN65kyLeY4Ke5txWghpDo1qySpmEcXvZWL1YNzubdEeahBTc1J3ap5bzpGxV6MFgVcQzcC slot=434292436 path=[5, 5] ord=0 pool=4PvwRF2vVmU9tzeHzgQms8UgUWj8PN5993NHUYykqm5Y user=GJS8GLN9a6tWsjMExdfKgcLSoCtHRYQK6axvL5GfnZQp base=402546448 quote=396365267856 (unresolved)
+pumpswap ???? sig=Nz6VJ575pJt8SP6twTi4PqQAPnfraKVqx9Hpt1nT3UmA9CxPbXvKHNMDj3AXivkaYvA4ZJTXuEMvXd7kKSNkRED slot=434292436 path=[5, 6] ord=0 pool=1u2YgQK7NyqZovEFXLcR3jMxeyPTaov7RgSbEnQQdVj user=454VTQuHmuoLxmMdK1WpY2nrPAj8BqYC6yEYp4Nv8h9x base=285743 quote=206320 (unresolved)
+pumpswap ???? sig=2bPrFTjXCeZALeGLWZQWoj9nzrAk9nWpKPmLhjpkByfLzCHQ57m6ggMee48zMdKJHWt9P2FJ8NJo2QvZ8Vw1vjf2 slot=434292436 path=[3, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=GWE21BN7H6vrYdSC4jchbfyhpShizc4jgzFNWake3yU5 base=559060 quote=344160397 (unresolved)
+pumpswap ???? sig=5JAPj4s1HGeStMH1CgM9juotmykYH7YFX8992nG6K9PN712Usexy9RqZkgPzhjh7YhcGcYTRExiiZCxvA7Ltr8BP slot=434292436 path=[5, 6] ord=0 pool=1u2YgQK7NyqZovEFXLcR3jMxeyPTaov7RgSbEnQQdVj user=38gwWAoySBfej3kZzWYdneJJCjJQ1qxFyVJvbXGcgFrD base=372030 quote=268623 (unresolved)
+pumpswap ???? sig=4WznS8rT136wL3b7k8dRpmLcJB5TWm2qZ6o3VDf6Q57DgXnfkdddLtdYh83BAUWSmmikbAYPVUGUC2q28EYB4cXW slot=434292436 path=[6, 6] ord=0 pool=EdsYdk5mLkuCDj1euawr9hdauSCVVRR2yvPHCEi1SBHL user=AgXKZ76BgL1vk7KYcb8X1tMzmvUXteHYtyRkhqmMWFtA base=476929 quote=107975 (unresolved)
+Trade event found!
+--- event ---
+signature: W6bHaG8s6kwHjqwG6j4EvQuWkMFfmg7JK9us6kLvdgq6sdgUr5ta8sZkU1HKBHtkZDWo3dSqFAE9fdBh2fCvxdq
+slot: 434292436
+absolute_path: [2, 0, 3]
+event_ordinal: 0
+Mint: 8FHtoLWvTCvMhQyda9wzakJmiCPbqNuKhDUAjRgApump
+User: BwWK17cbHxwWBKZkUYvzxLcNQ1YVyaFezduWbtm2de6s
+Is buy: true
+Token amount: 224796964550
+SOL amount: 1657472
+pumpswap ???? sig=22TkQujKHvdLb6EYenWynhQB1M62S2xsUCTgY5ryQnazR1Y5LcUYiRtMRCuw3m8DW5nF5SpAuo2JzHQQtVGMWfzP slot=434292436 path=[4, 5] ord=0 pool=8GaQvFcYSsGwSywqA3i5MCcW4H1ooKLN6sV9fp1636V5 user=Hsw5xK3zHLc5W5P9fJPi5kTem4cJ3tnQCPKkhDxeBL7i base=186121392 quote=111596414946 (unresolved)
+pumpswap ???? sig=65QrmJTsnG15w82RzGKHqP8qnbLx96oQezF15wb6GdyGK6VZ41XQpi9woQLxXaYH3ys81n82RMjwMwAXWDuZ97c9 slot=434292436 path=[4, 6] ord=0 pool=FBMcx7JNUvenfWjP1aXCBJgxU7Tb7QXVY7G83JbzGbdk user=EnzZW5w8M2fLTnekLEKmvYeQmAwjukKfJM2V2zaTHhY9 base=3881841349 quote=2890479249 (unresolved)
+pumpswap ???? sig=2fAcxbaqEw9NAFotv1TLgrSRGuufWyB7WgryemVZBLoAwsTpjF7Rf4n2kQwZY7BMmM2DtqPNkoQB3ofrjG9At6A5 slot=434292436 path=[2, 6] ord=0 pool=4mdJwjXaVHQ2CkBQ5JEzCowbLvwcGx3UFTjp4Ts8rnmw user=89agDAMdSVAQL7qaWUprU46CwZ8ZaoZP4rq2idB8rEzs base=564435898693 quote=1457197266 (unresolved)
+Trade event found!
+--- event ---
+signature: 4K7V9CAv3h4S2P53pJpDvgcp8GyNLBYuY4jvgw9x5LeBMp9aCNsCx7Dij2jmPETAgfUUxgZGMzpbREES4YRhn5fK
+slot: 434292436
+absolute_path: [2, 0, 2]
+event_ordinal: 0
+Mint: 5fPVU3Ux8L5oDFr6BJR8q7suvGjPkiHSgh7wyJW3pump
+User: 2QwVPiy7iHZk8GigpzyjLcUqxQgzeWWY9i8MTnQeGXwm
+Is buy: false
+Token amount: 1236776021888
+SOL amount: 167433262
+pumpswap ???? sig=4uWjtVwspHuMvSEY1vxSRBh6BLayWQNvYWGrXp8ZPUpqFDna9uX12D5GDNX6U2VXtzW9U956HAvfL4xhYypL2gnc slot=434292436 path=[2, 6] ord=0 pool=5PGhKctym6odbHGo2tKMST2AjmJsb2uZBQrKkn4ZuFT5 user=7KyEvScKGoBPdroVYAy6v47XWjuuQFtPLjpWgZgMWEi base=5000000000 quote=1138510576 (unresolved)
+Trade event found!
+--- event ---
+signature: 4zoqi7x8cN1aNpGPLG9DGw7J22KnQqqCUD61cu6zYWToLqy7PCDoMWyYgcNAB1K4zqXjLmZ83EHBx7YSqArgwByi
+slot: 434292436
+absolute_path: [3, 2]
+event_ordinal: 0
+Mint: 5fPVU3Ux8L5oDFr6BJR8q7suvGjPkiHSgh7wyJW3pump
+User: 49MXGsh1vTQveaCA8WFE1Ma2pK49aVVSpicheDhr1TtF
+Is buy: false
+Token amount: 102670511245
+SOL amount: 13861287
+pumpswap ???? sig=5tRhwKxXDEHhMY7av94881gbiuhqS96FrF4b3MwmRmJDGQtzUwAvi9FecTE1WC4QCsJ8L3CHg1BB3TBFZVTu4P9g slot=434292436 path=[2, 0, 6] ord=0 pool=Fr8astXNXz2dJDfvwCQnmqGprADkH89GSbHT5eRwfwMy user=78Bo7xxGWBEvqbh3VMKvkFG4Z63cXKSJ2LCEXAanhN7a base=4951788996 quote=5639989 (unresolved)
+pumpswap ???? sig=5quDLpb26MMpF3okkNbSrZKH3m5eJEQvLRRJ1ZoW268n82pnJH1PqBmtKV3MiaThA5qbX2RMLQj6sgiCANG6FBXr slot=434292436 path=[2, 0, 6] ord=0 pool=Fr8astXNXz2dJDfvwCQnmqGprADkH89GSbHT5eRwfwMy user=o721mrttB9kBELuCaiiAE2e6EaahkmmspY6Xyo4t9EW base=2731421064 quote=3111206 (unresolved)
+pumpswap ???? sig=5quDLpb26MMpF3okkNbSrZKH3m5eJEQvLRRJ1ZoW268n82pnJH1PqBmtKV3MiaThA5qbX2RMLQj6sgiCANG6FBXr slot=434292436 path=[2, 8, 6] ord=0 pool=2mQYy3LfJCnauyfufYnLGtLCXmb6M2shXQGV2mHx7Mpy user=o721mrttB9kBELuCaiiAE2e6EaahkmmspY6Xyo4t9EW base=684640944 quote=3149169 (unresolved)
+pumpswap ???? sig=3i5tgNYq8KPmv5eYntwYa7BhUcxCDFYkZrqprMeBvJEMkEPG61862j8vVBNwtcTn1Aqjy2htK2FhQLu7925Vtor3 slot=434292436 path=[5, 5] ord=0 pool=gSBmL5Ynrh643uTZQKkwtJT3AyzSpGK1JAt5KUEMvAo user=6JTxWci2Z4dkdkZS1jBESTeZp1bQZMiCWdVduYxDoLsE base=10190441482 quote=75188386441763 (unresolved)
+pumpswap ???? sig=3i5tgNYq8KPmv5eYntwYa7BhUcxCDFYkZrqprMeBvJEMkEPG61862j8vVBNwtcTn1Aqjy2htK2FhQLu7925Vtor3 slot=434292436 path=[8, 5] ord=0 pool=gSBmL5Ynrh643uTZQKkwtJT3AyzSpGK1JAt5KUEMvAo user=DbcK8mY2MCo7JXiAzzc1XZzyjWg3p1axseTS5gUvfSy7 base=10016924923 quote=73898345099464 (unresolved)
+pumpswap ???? sig=4GhkMro4i9UjVTvAYZNsYQZdpiugwAx7jDzQXJfW9MNPnpnRQbadE8m5Np9k5Av61wggDhKP6FWYD4YojSk92Wd9 slot=434292436 path=[5, 5] ord=0 pool=9YuavZTJbrgBKTbHtXKu1ojBJT8gFGbibiNCzrAg8d4y user=31wTaLbA1JS6QFyNNpRzuVhQ71uYfmj21bhZwqoQ5pRX base=9103630733 quote=31139169675115 (unresolved)
+pumpswap ???? sig=4GhkMro4i9UjVTvAYZNsYQZdpiugwAx7jDzQXJfW9MNPnpnRQbadE8m5Np9k5Av61wggDhKP6FWYD4YojSk92Wd9 slot=434292436 path=[8, 5] ord=0 pool=9YuavZTJbrgBKTbHtXKu1ojBJT8gFGbibiNCzrAg8d4y user=DxT1a98WXAFFn6YzPV5urPEbktagMMDMVzy2e1ZmmWx6 base=9981359604 quote=34156541002361 (unresolved)
+pumpswap ???? sig=5uQbHiRZ19eZpbjz7rPtBvvPE4L2F3KhwUiwX5ZSeyNbxFjXZDSLS2YXbEN5sN4bAZfLZxiPRpzBGn6SXmXC3B9N slot=434292436 path=[3, 5] ord=0 pool=5zvyVcL6yC6uksW5PEpe22oBEwE6s5Ro9pvtkhfV1XZz user=DQHEqJfbcRGBvrzQ4AL8QU2frj6iTGXgYRN8YKEV3Zdd base=3541963516 quote=2857594658280 (unresolved)
+pumpswap ???? sig=2J6mneeeTbFmfbAEicMLHjr9tvt9CunqR3mXjpzWD1Wu7qaQHgfht8L1UBnFyT4Ypof4DRrjwhqG12xaqU1BvVLe slot=434292436 path=[3, 0, 6] ord=0 pool=H1Fd99MShUcNsKQaXMWCA8kVKSK6mw6UqURto99YA3Qc user=D13fBZEqRi9buagNq8kbKJw2otWfk6kbZ27XGPwECNWB base=48234606086 quote=237121450 (unresolved)
+pumpswap ???? sig=2FGE8k3u6yN4gzd7LnhKxDWDQyjnpVXZH16Rr54aEQ2V49xUCGr2SiX2cXBaAdd3pH1oHhUn88bbJvMHgQMvZJof slot=434292436 path=[3, 0, 6] ord=0 pool=H1Fd99MShUcNsKQaXMWCA8kVKSK6mw6UqURto99YA3Qc user=2h9Badhcr5LFX6Vxn8KbNdeqWssqWJcv9RbbyKS6Y53b base=48873588525 quote=239887929 (unresolved)
+pumpswap ???? sig=3tbV1jZ2rb6HSrbTv8nyiKcNzu8XWtbpLGL2pZgJJDdEQYTGTNztCRjbKZJk63gxo9F575HdB5eKGRZAq27NSeoi slot=434292436 path=[3, 5] ord=0 pool=HDX2tcRU2U9wjJ3TSwEmVvfF9nMzxme9o4cUe21WgWc9 user=7sk2dGDqRjqmA7VhLZmzXWU6PHqmNqWtDuJVipRiowg base=10006715972 quote=6374556010409 (unresolved)
+pumpswap ???? sig=3tbV1jZ2rb6HSrbTv8nyiKcNzu8XWtbpLGL2pZgJJDdEQYTGTNztCRjbKZJk63gxo9F575HdB5eKGRZAq27NSeoi slot=434292436 path=[6, 5] ord=0 pool=HDX2tcRU2U9wjJ3TSwEmVvfF9nMzxme9o4cUe21WgWc9 user=CLWRbugaQUBdSQ4sCDUzeZNMt39QUh3cQUU5hPNL5LxP base=9970957425 quote=6351711938659 (unresolved)
+pumpswap ???? sig=3GAVtq9SW2A6K7aN8sKAWWoLFVbn4BEnYZRVNu6UpReeTysELsydDiCzN6hEW8oNcDaqXsstmNqJPyw9GqpSe2Ry slot=434292436 path=[3, 5] ord=0 pool=Fcv17LDMaibuL7BDSVV9YjWwq1f8TthtJooFsNHKdw3o user=Bb7rh4HAg9ty5yP7ngNJwM8a75PVnxe7eBFsv8urUfpH base=2255304837 quote=238615121996 (unresolved)
+pumpswap ???? sig=3GAVtq9SW2A6K7aN8sKAWWoLFVbn4BEnYZRVNu6UpReeTysELsydDiCzN6hEW8oNcDaqXsstmNqJPyw9GqpSe2Ry slot=434292436 path=[6, 5] ord=0 pool=Fcv17LDMaibuL7BDSVV9YjWwq1f8TthtJooFsNHKdw3o user=ECdkH2VvkQpSz9pn5pAK3MhZ9rbYUeQctBdwE1QrMuay base=2012860576 quote=212880517981 (unresolved)
+pumpswap ???? sig=jYr1a5e7pJhV1b8QDGuubiPCPx6ZZKyyUMQVcYLf2jEPcA1hj1Gw5SDf1cDXdQJ3BFuY2fsabomfgK2t1Nj1KKe slot=434292436 path=[8, 5] ord=0 pool=7jVqcQATYoDMjvQwCT3BYeKiapTGwMNVDkYEKtZwKkaq user=7BCjbKvSsJ32Bumx2bLEyEk69rzb94aZtb7iEJJ5MoUi base=9862805 quote=5908142323 (unresolved)
+pumpswap ???? sig=jYr1a5e7pJhV1b8QDGuubiPCPx6ZZKyyUMQVcYLf2jEPcA1hj1Gw5SDf1cDXdQJ3BFuY2fsabomfgK2t1Nj1KKe slot=434292436 path=[14, 5] ord=0 pool=7jVqcQATYoDMjvQwCT3BYeKiapTGwMNVDkYEKtZwKkaq user=5Dg5WWFNgWeKRdQhRzmRvStbCJryhz9tYmbi977g9Eyw base=9835453 quote=5891757570 (unresolved)
+pumpswap ???? sig=gpQNgqj1g6MsFtBgndhsQTsq4wjvUp81RoJQUpv3bSRKzskVF8Jn2DSPRLHULVSeztVR24YoQ84dQotBKzHE6n1 slot=434292436 path=[3, 5] ord=0 pool=gSBmL5Ynrh643uTZQKkwtJT3AyzSpGK1JAt5KUEMvAo user=AQJSDVVuaT1ij25AyYN7xP2uMtnaYj5mstMi1QuUPhmv base=246201 quote=1832613143 (unresolved)
+pumpswap ???? sig=5uKkAWNzPX7Pq8JPiKj6FbR3cm3gxMGVLFn5VTdUJsQ3aRmaB3nEk2Yc8pkhv1kS1W96biHjmQDWQ8AzJnHeDuDK slot=434292436 path=[5, 5] ord=0 pool=7s5nS7hrU357tE7FYrFP7inKcXWM7oXYk9itwk3XZPiV user=FsPeiuLTQfWfADVm5XMSMS4YYGYsNwizcUHYYw4G97f3 base=9338767133 quote=86765071241001 (unresolved)
+pumpswap ???? sig=5uKkAWNzPX7Pq8JPiKj6FbR3cm3gxMGVLFn5VTdUJsQ3aRmaB3nEk2Yc8pkhv1kS1W96biHjmQDWQ8AzJnHeDuDK slot=434292436 path=[8, 5] ord=0 pool=7s5nS7hrU357tE7FYrFP7inKcXWM7oXYk9itwk3XZPiV user=ApgbhU14bRWHXc3x4dtge97fKodCZ3HFkGzxNNFtbCTe base=9913620506 quote=92146368576958 (unresolved)
+Trade event found!
+--- event ---
+signature: 4V2e9HQeQX79WQjZFX2hrJMi6S1jbvkhKaqBzpn9ZbM8vUrzQmMuvFgL6R6HZMyJegGXoG8gv9hUjpV919e68wkj
+slot: 434292437
+absolute_path: [4, 2]
+event_ordinal: 0
+Mint: 5fPVU3Ux8L5oDFr6BJR8q7suvGjPkiHSgh7wyJW3pump
+User: GVVP8N7jnxgr3QdtR461bsuCNNQmuNu4DBW2Ab4tzKVp
+Is buy: false
+Token amount: 8093309236841
+SOL amount: 1074618062
+Trade event found!
+--- event ---
+signature: Q1aUBAHbS7zLyWRMnLY8vGs8u6ejCXpGBmQF9H9YUXN7hskv97VWLsQexD8A8aSNZwc1JWhXcCxUGciGtbSiD4t
+slot: 434292437
+absolute_path: [4, 0, 2]
+event_ordinal: 0
+Mint: FaDPztGNHc1bZ53jQ9yb2dsba4JD4AnZdLPMpNNAc3mM
+User: 4zAhesR8L36ULUXY33Ny85R7MWsELENCWkNfr2tJTYfr
+Is buy: false
+Token amount: 1768418468421
+SOL amount: 92493347
+pumpswap ???? sig=3YS3Aq7cRCotgoCBFTm2PEogNbxK6FCvdpX8A9dTny4SHBRFgz7L6ojnny3KdW36KJQQjrUPcLWcvxzpC8v2KVSu slot=434292437 path=[5, 6] ord=0 pool=HuqmPUBBdq8w56Y6WGd8LiMbf4zgYXS2ACzLZs8MYLna user=FuNHFYDwi27ZQgpAU4zCYycKZyhzsyPvvWXwpGLLCQL9 base=56973068 quote=704225 (unresolved)
+Trade event found!
+--- event ---
+signature: 3Bu8eDWVc4ZLLt6jsSrq1MqmaheRAre4PWy59Wxr44ZFz4fUdwMjtHFK1rK69CCqLxUGR5hwK1bQRktSPZ4a9x1T
+slot: 434292437
+absolute_path: [3, 0, 2]
+event_ordinal: 0
+Mint: 4uYZxSEGro2bD8A8M4Ae7Zp1nf7Srcrz15NufxD2pump
+User: AhpDeSLiW2K29THsrFtiPxDdE8Vib8SAmoS4wWESPKBq
+Is buy: false
+Token amount: 24500527945888
+SOL amount: 752828828
+pumpswap ???? sig=66fZd38QFcM8kRZkPxpfNPidZyfmtTdvrBDgGHBdSuRxuKgQ8h7AcJfZWrEJJXBWeCKPtukn6jW76HeJBVr99jHU slot=434292437 path=[5, 1, 6] ord=0 pool=6jWdPRRKmW986vSimwHAcY8ssiNXFFZKzHp8pYdiTwJZ user=ARu4n5mFdZogZAravu7CcizaojWnS6oqka37gdLT5SZn base=34941785676 quote=24917226 (unresolved)
+pumpswap ???? sig=2138PR7PqHG2jqCxAM7xK72wsJ6vHVtTnBPSAT3KCEz7jwf2z6oWKZdjHowMR1v3dmVgagpPnBsQBDx4gkAjqrhR slot=434292437 path=[4, 0, 6] ord=0 pool=CB3x2bLj5iAgQFfc9fuLcCYrGGarKBmPjtyvW5TUvsKd user=2bVqHKY1EDgcvxx92ukK4n92G1zj7MEFbhHvFqDmR44D base=1032694752 quote=148500000 (unresolved)
+Trade event found!
+--- event ---
+signature: 4ckkG2ikkAiSAep7Hbv9JS5tfDBfeMwmVergiknZYLnYidqG6BwMXSy2HVgGxroEkCCR64wfeYSJctdMY5QAzSAc
+slot: 434292437
+absolute_path: [3, 2]
+event_ordinal: 0
+Mint: HWRiJPnmMS14jttX2mqCRvEANy4NyrjxXWNxkQELVw2U
+User: ENs9mPFsy9S3GNKqsRqgkfhg1LnUUft3GALRtBtn6yui
+Is buy: false
+Token amount: 2170819651966
+SOL amount: 98603944
+Trade event found!
+--- event ---
+signature: 2tV2nmRoBuadA57VV6HPxnSsbdaNn7voN7MF6jYjAobGcZHMNC9WAeirTS12pwMwML4jSC4a8iPZja56xbnW4HBY
+slot: 434292437
+absolute_path: [3, 2]
+event_ordinal: 0
+Mint: 6K1aDVaky9ozaJwGz2hkxEij57t45pYddmhstHSBpump
+User: 5r1Q8ehbFi4SaF8XLjcNMCdJCEov95wttcmjgk3ncXTr
+Is buy: false
+Token amount: 5273437500000
+SOL amount: 513138034
+Trade event found!
+--- event ---
+signature: nvS6ptXxPKr5rBgSwqbKZpvrU6GTNPEWFvYmz2t2aZZ34FRLZHJSuZJnCmBcbBUMTZT2kNJrRKLXahniMs3iUTG
+slot: 434292437
+absolute_path: [2, 0, 2]
+event_ordinal: 0
+Mint: 23C4Snotd44FsK2jQ7ny7hhkz4w9w7t3sPDgx9Aipump
+User: BwWK17cbHxwWBKZkUYvzxLcNQ1YVyaFezduWbtm2de6s
+Is buy: false
+Token amount: 6206795507332
+SOL amount: 25008677
+Trade event found!
+--- event ---
+signature: 2PDtznCyoYhf1t5qp126R65M61CKmXLdFf7aiKS8rVUVKg2r1EhGsC1jyyR5UAx9c2wzgGQ7ycCEFSSHPsxQGa4B
+slot: 434292437
+absolute_path: [2, 0, 2]
+event_ordinal: 0
+Mint: 5PAWfFBzx26DvpyW5pahxdyWyaJG4q1XXtaWHgV9pump
+User: BwWK17cbHxwWBKZkUYvzxLcNQ1YVyaFezduWbtm2de6s
+Is buy: false
+Token amount: 397774201660
+SOL amount: 20086114
+Trade event found!
+--- event ---
+signature: 5efngw3UyjTmXc7JGaZoo3LyZ1J3AQPto3YyNf74JCqrGiiDbvXsAxh7VDHmrVxLU7usJYSA4pTzSFE47zFXQJ1f
+slot: 434292437
+absolute_path: [3, 6]
+event_ordinal: 0
+Mint: 8j942TmjxF9VgQu4YMeh7BQsHsC94Ysa3sHYqLhmpump
+User: 9PxHWyKJi8oETK7KgYLEBF3Wr5oELFy43Pk1J4varcQG
+Is buy: true
+Token amount: 15364163525
+SOL amount: 429604
+pumpswap ???? sig=ecEUAA1tMojExRNW9DzCnQLp6tjTfbypKA3zbJJ1oUReTcNEAc4DEFTzFRqxvoQCR9nHfFthkpHuHVqSZZGQfS3 slot=434292437 path=[6, 6] ord=0 pool=EdsYdk5mLkuCDj1euawr9hdauSCVVRR2yvPHCEi1SBHL user=FUGQApkq5ms3bTw8q2FKuTdT7TzKBBM3Sfh7ZrjZdg5D base=724532 quote=164031 (unresolved)
+Trade event found!
+--- event ---
+signature: 2ursWyQwRMden5jpHanoamfx4cumix175VyLWzPQNZoiC71byCHGWBQQYAawmiwbgbKhDeNjAxwhVTyCJfpgt3No
+slot: 434292437
+absolute_path: [5, 0, 2]
+event_ordinal: 0
+Mint: 5fPVU3Ux8L5oDFr6BJR8q7suvGjPkiHSgh7wyJW3pump
+User: SiqingBpMhkaeKTH4YwkPWHW6XhzB9GucEfQMqMNf1W
+Is buy: false
+Token amount: 3139957676258
+SOL amount: 407544479
+pumpswap ???? sig=2YH28GX1uatLVGupBwJ7uozjjV7Yt3dkAr88EkehLHEC6ocSHV2uTNVmnC5wiBhkuvrVc8nL8QeTccXByuFLpH7b slot=434292437 path=[8, 5] ord=0 pool=8pM7KddCQ53THF95MKfHkixUxpBvcG3yrnDW8t5ycq6H user=7Hji2bH3jQbHZVQE2VSyaW7aNtGaTqEHFgk5jhFB6hWD base=3193751586 quote=4585601820371 (unresolved)
+pumpswap ???? sig=2YH28GX1uatLVGupBwJ7uozjjV7Yt3dkAr88EkehLHEC6ocSHV2uTNVmnC5wiBhkuvrVc8nL8QeTccXByuFLpH7b slot=434292437 path=[14, 5] ord=0 pool=8pM7KddCQ53THF95MKfHkixUxpBvcG3yrnDW8t5ycq6H user=Hj72eSrSkbHvsAqeo89m86aZf7mfrwV3LusQNmtb6bwX base=2969860493 quote=4261859427926 (unresolved)
+pumpswap ???? sig=WbTdFEMzDRYPLh7wpqu1MVxiB6qemgtDBC5CCJ6weP182o8cKYwNfoh5LCuzwZsAJwMH5ZJ5PQhVQCQNdrNa3Yb slot=434292437 path=[6, 6] ord=0 pool=4TtCpPqTsgs3BN8PNfeQUpWQEjohtuYMRCfM9pJ8SM7s user=FpNgku668shnbft6nmxYxJ7hCXX77qzJCrppBfpgsNXb base=752259566 quote=232680174 (unresolved)
+Trade event found!
+--- event ---
+signature: 31qXBCBXyJBuFMsdKRyRDT8d4nSKbLYxVEUjdivyRGWeTFs4TX1yLwjdETnqUUBRojEySty5cXj84hWXxKeQWeMs
+slot: 434292437
+absolute_path: [2, 0, 2]
+event_ordinal: 0
+Mint: HmTZvTVcCpxfkqYdaj22vm4ENdhzEqKtC8k9X1tvpump
+User: E9PirhaxKgZQ3Jch98EeRzTDgksjvVKmMEndzNjvk7Cp
+Is buy: false
+Token amount: 9618824409272
+SOL amount: 1159020998
+pumpswap ???? sig=3oQ4Z5i8123cTFeNVn3WGQ3NCVqEc4aSA3Pf4E5rGyoPSBXAXnVo4EjCm6Qkjr5WZhdnF87A36CdCzJ9zrksix1c slot=434292437 path=[6, 6] ord=0 pool=FBMcx7JNUvenfWjP1aXCBJgxU7Tb7QXVY7G83JbzGbdk user=J6E29ciPzprMwYm3LHvf7uSBeHviyXP6mibfzAiu7ZaE base=327189 quote=243437 (unresolved)
+pumpswap ???? sig=9prkQ8mKaVFE7APwmR5VR2Kohyy6p7MQvmyvMprNZ57LAWq5L4sbYZ272XUDYCRGVuN36KAaHQiXL8u4NE9rAfV slot=434292437 path=[8, 5] ord=0 pool=GpuQUBeUiRhPQgU8AS88BJgXyHXxv6BFnvy9npmZ4eqq user=F1iQunCwHveQmcRD5D99xLGXCU2YuXdjFNvLc7nf3kt5 base=4654447356 quote=3807012163145 (unresolved)
+pumpswap ???? sig=9prkQ8mKaVFE7APwmR5VR2Kohyy6p7MQvmyvMprNZ57LAWq5L4sbYZ272XUDYCRGVuN36KAaHQiXL8u4NE9rAfV slot=434292437 path=[14, 5] ord=0 pool=GpuQUBeUiRhPQgU8AS88BJgXyHXxv6BFnvy9npmZ4eqq user=GK4qtJKDpEi6tvvKXhL2hjNE3LAXhQsoWZuhbiKcyJQH base=2294236614 quote=1870955281173 (unresolved)
+pumpswap ???? sig=3qZMRZA8YQHnA6My67m8J12mwMXFr6DV2UvtUdUQUzfqDPbk3wsXAsH2iZzcBtkePiQTZMCuVFN9FwUY2DukWFSh slot=434292437 path=[8, 5] ord=0 pool=5KMzk3qsApiRQbgkYfn5kfrY7AVAGDX5vKBVNgsDjgEh user=G7eiJWN8ygczHst2TeeictaN9Rn7uCVPicFDo8xoHtKy base=6245216801 quote=11481478319047 (unresolved)
+pumpswap ???? sig=3qZMRZA8YQHnA6My67m8J12mwMXFr6DV2UvtUdUQUzfqDPbk3wsXAsH2iZzcBtkePiQTZMCuVFN9FwUY2DukWFSh slot=434292437 path=[14, 5] ord=0 pool=5KMzk3qsApiRQbgkYfn5kfrY7AVAGDX5vKBVNgsDjgEh user=BjWdhS6RK9BQcJxk65zeGDXTXf53j7JCTSE8FG3kB1KV base=853861229 quote=1551557649291 (unresolved)
+pumpswap ???? sig=5P1rnub2dqWq6deCjrgTV2USQ3sKQU6dxntu64CzBQy8viTG4oGKA2u8qz97mwUyw83wqrRXSrs88CzupuKsrBmU slot=434292437 path=[5, 5] ord=0 pool=8g41wFoHjpJHBRADWa19pNrXw2tdudRCoz29mn9JMqKR user=6ix8A8ieggbJ6aWXwBUwyTscmz6aaR4aj6VE5ofZAm82 base=14364158280 quote=136121453325503 (unresolved)
+pumpswap ???? sig=5P1rnub2dqWq6deCjrgTV2USQ3sKQU6dxntu64CzBQy8viTG4oGKA2u8qz97mwUyw83wqrRXSrs88CzupuKsrBmU slot=434292437 path=[8, 5] ord=0 pool=8g41wFoHjpJHBRADWa19pNrXw2tdudRCoz29mn9JMqKR user=6ix8A8ieggbJ6aWXwBUwyTscmz6aaR4aj6VE5ofZAm82 base=14332930599 quote=135825901322945 (unresolved)
+pumpswap ???? sig=5WfV7G5gjSHpyPYLFVHABLmMnrWFYE5QtXveXYQP79NdyV5tmkMC2VwSoQFUaoUu1N4RN7WPmGg5BfELoQjyaHmn slot=434292437 path=[6, 6] ord=0 pool=EdsYdk5mLkuCDj1euawr9hdauSCVVRR2yvPHCEi1SBHL user=FJ9quxWLSxJ3fY9QRLDoJ6tQ1XizJ2KBp9HwHNRNvHAp base=563207 quote=127507 (unresolved)
+Trade event found!
+--- event ---
+signature: 3HEooRjSPi3iuEuMUGNAzDMWFQ67nj7Nfp7nYnrwv4ZiU93D7B565YHQK2LTfWffp4ARMLcxgrZpdXj2WX1mFK3c
+slot: 434292437
+absolute_path: [2, 2]
+event_ordinal: 0
+Mint: FaDPztGNHc1bZ53jQ9yb2dsba4JD4AnZdLPMpNNAc3mM
+User: 35caaJFwzSNaFwFmP1f33wDP9cUFEXTLDsFnjna7kAjs
+Is buy: false
+Token amount: 4482460509232
+SOL amount: 232590172
+pumpswap ???? sig=2TDdpBr6Yc8FVEw9XgyYhGH3xZHULt7oN9wdG8n279TWZF2iX6nm8NWCJ1KuzygSGdBX8YhACFB4waG7rxNjD34k slot=434292437 path=[5, 5] ord=0 pool=3xFqBK7WF39vmmXpsjLLqpC9uGRWNZWNEVanzqHapkqM user=6y874apwfoezj6pbbG1QtsMNZZ1VPJLGJvzxtmMC1Mnk base=390321 quote=332046247 (unresolved)
+pumpswap ???? sig=5yHhsvYuS9TRtDDqUHHmxzUvBZU41s3cMCtT5M34iAeLWDPHqMrzrd9PoK3LgCs67vh4ET8xxWAUtkF7ajLZ4g1n slot=434292437 path=[3, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=32qt8KFuawfKVSJGdL3HdGZh7GZbSwTF5SHUxnoUwvEa base=105732 quote=2103346152 (unresolved)
+pumpswap ???? sig=4kiX61vQ4JcXe7xqXJxY2ijns8FQ5HvEE1CyfJeQyBVFeCMNsdWjNm9rWc8DhU41StK1Jueu5SMcXVbna152dboY slot=434292437 path=[5, 5] ord=0 pool=5zvyVcL6yC6uksW5PEpe22oBEwE6s5Ro9pvtkhfV1XZz user=75YK1a33GCyN2uxJvDrvpMwtnP3yLYkvuU7rXuRe9E5H base=824650172 quote=672989216198 (unresolved)
+pumpswap ???? sig=2gU6kMAbiiuQiA8HGNow6n4bWVH6N7zWArUg9znTsjdEotsvgSg9YqdKbSAB5PXEfLtjCbEpgcvvn16PJqWScMM1 slot=434292437 path=[4, 5] ord=0 pool=8L7xLgpC9YoWTs1jG6j8CsZ8DreNjygFLwQndYnUtbQT user=9tnJ95Et5311xuxnTerTKWYF8K7FrASTR2JygjFT3o7i base=2773486768 quote=1703630689231 (unresolved)
+pumpswap ???? sig=3hbP7oY5xMcPAWVSseTQdjjXbXykoc1F9rX8qynre8e5jXJiYs4xnziXKgkgrVdx89P4tHN7a1ZDT2zhWW4jhMfS slot=434292437 path=[6, 7] ord=0 pool=H1Fd99MShUcNsKQaXMWCA8kVKSK6mw6UqURto99YA3Qc user=5qeiucZcWiFPjGViEkCP351qikTDdg75UwjrGqcFvJEE base=36210205075 quote=179472837 (unresolved)
+pumpswap ???? sig=347NZgjuFBjRahJAPffNnvJvvKYpqaxN5kMeizTT5PNpMQTB4Acrp5Hd11jAQA2UvzrhDuBESWJACebhMuyhWXDQ slot=434292437 path=[4, 5] ord=0 pool=3xFqBK7WF39vmmXpsjLLqpC9uGRWNZWNEVanzqHapkqM user=CjX5ATq2WoQgvpg1mCj6qFifzrRSUGTDFto6V1hcfATL base=2211912433 quote=1855798386968 (unresolved)
+pumpswap ???? sig=2FvCG55wVpnxokgPHKtD3qY6zxMbqFuimL16YTpUGiwBczxzBZ9XQ5ivNJbXkZcYQ3unBgdhs84Xsj1NitMZUxds slot=434292437 path=[4, 5] ord=0 pool=CK6CmvgS3kGCFnZa8mtonCyCQ2SLzs2YDzrWa7rTe3Y6 user=D9YvEd67fcDLevvm4rKWggNTjJweSTHhYQx8h9jnv4n6 base=109528 quote=2178860060 (unresolved)
+pumpswap ???? sig=3s68qFNEoZSFbtdb5oK5prkp4Q36Fk436K4D83jaK412WGjZXuZgVcCEKDt87YuiLmVujyRt148tRRYrxnyWnrCG slot=434292437 path=[5, 5] ord=0 pool=5zvyVcL6yC6uksW5PEpe22oBEwE6s5Ro9pvtkhfV1XZz user=Euu7J5JWmvoF4vZ5M2X583jx8c9MgES58xW9SBFKziqq base=315241060 quote=255703238482 (unresolved)
+pumpswap ???? sig=5Gg4fGEARevbrPpsLw6QJztceawc8ZX1221N9JaWG3LXaGwBwR2AM4EzyBjvp3S938MZJ7hUB2mU45546hVpfVUS slot=434292437 path=[3, 5] ord=0 pool=gSBmL5Ynrh643uTZQKkwtJT3AyzSpGK1JAt5KUEMvAo user=5TVZ2u8cDohXDVKSwWQrvqRfjgnkYW3JXe7kfFTsSaCM base=363604 quote=2706508529 (unresolved)
+pumpswap ???? sig=3x195g84PmhsuHqwEpz24Q32qHMUp8y8aMNi23xRnQv6yT1jPGSVkQgSwRLmfDtxsLiTfJiPVEbFX5ExcnvcZF9w slot=434292437 path=[2, 5] ord=0 pool=3xFqBK7WF39vmmXpsjLLqpC9uGRWNZWNEVanzqHapkqM user=91gbdgUKz2wFRvGKdgYJZtxEJPmDMA5Aay1B9WjrrVbj base=3503309211 quote=2972396468402 (unresolved)
+pumpswap ???? sig=ZHHvGFBop9Sa4P72dCw4v7AVBP8DgZZU8AYSNXbLyeQGosKi7NB8b27YFwssvPLVB4iCtsWwvuj9Q8mEukAkFG8 slot=434292437 path=[4, 5] ord=0 pool=HDX2tcRU2U9wjJ3TSwEmVvfF9nMzxme9o4cUe21WgWc9 user=FjKHXXnjLcvSyPhkQy1Ckr5fZkkJPzzXa52vRXpcbKsM base=859224 quote=552546457 (unresolved)
+pumpswap ???? sig=4srxip2VT3UYmaWYAfhjPRNKkDc6cZfSGLxokUvoPgw2SmPqyoYeQchmB39aX2JK9Z6ryeUeMifjFA5Di4ZDKpaX slot=434292437 path=[3, 6] ord=0 pool=1u2YgQK7NyqZovEFXLcR3jMxeyPTaov7RgSbEnQQdVj user=6WTdaGk7pCPPNRgSX5PnpdiHHyd95G1h1iVrrqShRnqR base=4544760160 quote=3268712737 (unresolved)
+pumpswap ???? sig=5rTtBQwyobvxoNYq8B4p5N17QGo76qXEfEov77M41Nn1dY2sVZxdwCgdRBc7QbxMaGVQtMaYiKRriESwLA8moDZ8 slot=434292437 path=[3, 5] ord=0 pool=Bn9CWqJBLnC5stBiAKUTsmSvG9NdSGgdhQxsk5PahAoY user=EocaXpMC9ir9tP1F1aA7KWpccxCAkpoUXqH2xhyNkHru base=8734589225 quote=7303589111719 (unresolved)
+pumpswap ???? sig=5rTtBQwyobvxoNYq8B4p5N17QGo76qXEfEov77M41Nn1dY2sVZxdwCgdRBc7QbxMaGVQtMaYiKRriESwLA8moDZ8 slot=434292437 path=[6, 5] ord=0 pool=Bn9CWqJBLnC5stBiAKUTsmSvG9NdSGgdhQxsk5PahAoY user=J4kBhTzyyJrPUe6WSnnRPXPAkyxvCMoVDCA7QB3C6wjG base=11412523142 quote=9571157448270 (unresolved)
+pumpswap ???? sig=5qzzRhTH1rtnqnY9x7FPftsFmKRigRbtADpavR9RbnwgsKkqtp3GG7jtd7pnde6GiiBVxDs18nyrVRATCpjp38B9 slot=434292437 path=[3, 5] ord=0 pool=gSBmL5Ynrh643uTZQKkwtJT3AyzSpGK1JAt5KUEMvAo user=E3FnV2pQFn2xShi2b4hfQw3EG4DDCDaiLuzo8nUgPT2F base=422269 quote=3143182826 (unresolved)
+pumpswap ???? sig=3ud3k16PF71eMbWpUirgaMHaxnxLiZQ87VUKcaYK7VGom8PaqKRXsh2TJ6zSAuJyPi4C6BPb2QFWVLdfDe87M3jV slot=434292437 path=[3, 5] ord=0 pool=FJnVMXM6E7MqurLypsmJJVHRrmnhQNAow9XXmWNScKXZ user=FWGy92zJX3BAYZ9gm5dzYTeafKBanZNyEi8A12sq5vCs base=1365845649 quote=33946831619030 (unresolved)
+pumpswap ???? sig=3ud3k16PF71eMbWpUirgaMHaxnxLiZQ87VUKcaYK7VGom8PaqKRXsh2TJ6zSAuJyPi4C6BPb2QFWVLdfDe87M3jV slot=434292437 path=[6, 5] ord=0 pool=FJnVMXM6E7MqurLypsmJJVHRrmnhQNAow9XXmWNScKXZ user=BnNQqkBsCtLWUutgSmx6NvRTypjrbmzWZ3PzAwobVETx base=1462977130 quote=36365370849618 (unresolved)
+pumpswap ???? sig=43nQuo8fNPJVriyueSvF29mwQTRJpmXBdnyat1EqMw8utCWMkWmppL1xz89BEZgYLe78UG1X4c4s5cChtKrdvLPq slot=434292437 path=[5, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=6bsuXfwioc8PUjePfXtCixpVaSm7UC55muubYLAe1M2d base=11041008046 quote=6763539263452 (unresolved)
+pumpswap ???? sig=43nQuo8fNPJVriyueSvF29mwQTRJpmXBdnyat1EqMw8utCWMkWmppL1xz89BEZgYLe78UG1X4c4s5cChtKrdvLPq slot=434292437 path=[8, 5] ord=0 pool=CiBMoP4FSsWApp97QfRDwovBKu3UzhnkRzHvKohEp114 user=D7Z9VfqUtKpj8HQbpfhACbo8KChd1aJZ8E3PUxq7UurW base=13062251149 quote=8009050720515 (unresolved)
+replay finished: 500 sent, 0 skipped
+pumpswap ???? sig=6ywQZ4Pxtdh4FADLoSAKXKAKcfgyqdTYKraQBoZrwb5ebodiSrHAmbzKp82F1vHESZm5jhP34tNVq7cm7ASHkyZ slot=434292437 path=[3, 5] ord=0 pool=9YuavZTJbrgBKTbHtXKu1ojBJT8gFGbibiNCzrAg8d4y user=4DvGKQGQAFQsoon9f7kZSoJWqPSMpc1oCCCF1CdPHim8 base=107201 quote=368645896 (unresolved)
+collected 503 events

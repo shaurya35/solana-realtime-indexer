@@ -70,7 +70,7 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
 
                 match oriented {
                     Some(t) => println!(
-                        "pumpswap {} sig={} slot={} path={:?} ord=0 pool={} user={} mint={} sol={} token={}",
+                        "pumpswap {} sig={} slot={} path={:?} ord=0 pool={} user={} mint={} sol={} token={} inverted={}",
                         if t.is_buy { "buy " } else { "sell" },
                         meta.transaction_metadata.signature,
                         meta.transaction_metadata.slot,
@@ -80,6 +80,7 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                         t.token_mint,
                         t.sol_amount,
                         t.token_amount,
+                        t.sol_is_base,
                     ),
                     None => println!(
                         "pumpswap ???? sig={} slot={} path={:?} ord=0 pool={} user={} base={} quote={} (unresolved)",
@@ -102,7 +103,7 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
 
                 match oriented {
                     Some(t) => println!(
-                        "pumpswap {} sig={} slot={} path={:?} ord=0 pool={} user={} mint={} sol={} token={}",
+                        "pumpswap {} sig={} slot={} path={:?} ord=0 pool={} user={} mint={} sol={} token={} inverted={}",
                         if t.is_buy { "buy " } else { "sell" },
                         meta.transaction_metadata.signature,
                         meta.transaction_metadata.slot,
@@ -112,6 +113,7 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                         t.token_mint,
                         t.sol_amount,
                         t.token_amount,
+                        t.sol_is_base,
                     ),
                     None => println!(
                         "pumpswap ???? sig={} slot={} path={:?} ord=0 pool={} user={} base={} quote={} (unresolved)",
