@@ -57,6 +57,10 @@ instead of outcome.
 | pump.fun | `CpiEvent::TradeEvent` |
 | PumpSwap | `BuyEvent`, `SellEvent`, `CreatePoolEvent` |
 
+Everything else is decoded and ignored rather than stored. Unknown variants are logged and
+never cause a panic. See the coverage table in the README for what that looks like on a
+real sample.
+
 Failed transactions are excluded twice. The subscription sets `failed: false` so the server
 never sends them live. A check on the transaction status covers replay, where saved files
 can contain failures.
@@ -74,15 +78,70 @@ Trade events report `base_amount` and `quote_amount` without saying which is whi
 them by position gives wrong values on every inverted pool, and the values look reasonable
 because they are just numbers.
 
-The fix is to compare both mints against wrapped SOL
-(`So11111111111111111111111111111111111111112`) and assign from there.
+### How common this is
+
+Measured against a captured mainnet sample of 500 transactions producing 445 PumpSwap
+events across 92 distinct pools. Orientation was determined independently by comparing each
+reported amount against the actual token balance changes recorded in the transaction.
+
+| | Count |
+|---|---|
+| `base` is the traded token (normal) | 116 |
+| `base` is wrapped SOL (inverted) | 115 |
+| Could not determine | 214 |
+
+Of the 231 events where orientation could be established, **half store SOL in the base
+slot.** This is not an edge case. Reading amounts positionally would misreport SOL volume
+on roughly half of all PumpSwap trades, with no error raised anywhere, because both values
+are integers of similar magnitude.
+
+The 214 undetermined cases used native SOL rather than wrapped SOL, so there is no token
+balance change to compare against. Determining those requires reading lamport balance
+deltas, which is not yet implemented.
+
+### The rule
+
+Compare both mints against wrapped SOL (`So11111111111111111111111111111111111111112`) and
+assign from there.
 
 The direction inverts too. A `BuyEvent` means the user acquired the base token. If base is
 SOL, acquiring base means the user was selling. So the reported side comes from the
-resolved direction, not from which event fired.
+resolved orientation, not from which event variant fired.
 
 Pools with SOL on neither side are reported with raw amounts and no direction, since "SOL
 amount" is meaningless for a token to token pool.
+
+### Amounts are gross, not net
+
+The `quote_amount` on a trade event is the total the user committed, including protocol and
+creator fees. It is not what arrives in the pool.
+
+Worked example, signature `2ivLAN1ZToVmdwTZExEmJPLBxUj6rLHnwMTeWyvFa768WYarD2ebTdUZrHDD3XPBGEGF5mZoLpnjWRJ1v4mC7e2t`:
+
+```
+event reports:  quote_amount = 995,000,000
+
+on-chain wSOL movement:
+    982,912,591   to the pool
+      4,569,630   protocol fee
+      4,569,630   creator fee
+      2,948,149   returned to the user
+    ───────────
+    995,000,000
+```
+
+A block explorer shows the four transfers separately and never displays 995,000,000 as a
+single line. Anyone reconciling this data against an explorer needs to know that.
+
+### Verification status
+
+Token amounts were checked against on-chain balance changes for 10 trades across 10
+distinct pools and matched exactly in every case.
+
+The orientation rule itself is confirmed correct by the measurement above. The code path
+that applies it has not yet been exercised end to end, because the pool cache was empty
+during the verification run and every event was emitted unresolved. Closing that gap
+requires a sustained live run.
 
 ## Backpressure
 

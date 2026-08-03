@@ -65,10 +65,20 @@ full route through the transaction tree. Details in [DESIGN.md](DESIGN.md).
 
 ## Other things it gets right
 
-**Pool direction is not assumed.** PumpSwap pools store two tokens, and which one is SOL
-is not fixed. Read them positionally and half your pools report swapped amounts that still
-look plausible. This checks both against the wrapped SOL address, and flips the buy/sell
-direction too when the pool is inverted.
+**Pool direction is not assumed.** PumpSwap pools store two tokens, and which one is SOL is
+not fixed. Read them positionally and you report the wrong number, with no error, because
+both values are just integers.
+
+This is not a rare case. Measured on 445 real events across 92 pools:
+
+```
+116  base is the token   (normal)
+115  base is wrapped SOL (inverted)
+214  undetermined (native SOL, nothing to compare against)
+```
+
+Half the pools where it could be established store SOL in the base slot. This checks both
+mints against the wrapped SOL address, and flips the buy/sell direction too.
 
 **Nothing is dropped silently.** An RPC call on the hot path was costing 66% of the stream,
 invisibly, because the datasource discards without a counter when it can't keep up. Pool
@@ -83,6 +93,33 @@ zero updates dropped over a 190 second run
 **It can replay itself.** `capture` saves raw bytes off the wire. `replay` feeds them back
 through the same decode path live traffic uses. That is how the tests prove the same input
 always produces the same output, with no network involved.
+
+## Coverage
+
+What the indexer handles, and what showed up in a 500-transaction mainnet sample
+(`fixtures/golden-500.jsonl`).
+
+| Program | Event | Handled | Seen in sample |
+|---|---|---|---|
+| pump.fun | `CpiEvent::TradeEvent` | yes | 58 |
+| PumpSwap | `CpiEvent::BuyEvent` | yes | 445 combined |
+| PumpSwap | `CpiEvent::SellEvent` | yes | (buy and sell) |
+| PumpSwap | `CpiEvent::CreatePoolEvent` | yes | 0 |
+| PumpSwap | Deposit, Withdraw, other events | decoded, ignored | not counted |
+| pump.fun | `Buy`, `Sell`, `Create` instructions | ignored by design | not counted |
+
+503 events total, from 500 transactions, across 92 distinct pools.
+
+The instructions are ignored on purpose. They record what a user asked for. The CPI events
+record what executed. See [DESIGN.md](DESIGN.md).
+
+## Verified against the chain
+
+Ten trades across ten different pools were checked against the token balance changes
+recorded in each transaction. Token amounts matched exactly in every case.
+
+Orientation was checked across all 445 events, which is where the 50/50 split above comes
+from.
 
 ## Status
 
