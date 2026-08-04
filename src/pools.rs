@@ -8,8 +8,12 @@ use solana_pubkey::Pubkey;
 use solana_rpc_client::nonblocking::rpc_client::RpcClient;
 use tokio::sync::mpsc;
 
+use sqlx::PgPool;
+
 use crate::config::WSOL_MINT;
-use crate::metrics::{LOOKUPS_DROPPED, POOL_LOOKUP_ERRORS, POOL_LOOKUPS, inc};
+use crate::metrics::{LOOKUPS_DROPPED, POOL_LOOKUP_ERRORS, POOL_LOOKUPS, DB_WRITE_ERRORS, inc};
+use crate::db::write_pool;
+
 
 static WSOL: LazyLock<Pubkey> = LazyLock::new(|| Pubkey::from_str(WSOL_MINT).unwrap());
 
@@ -54,8 +58,8 @@ impl PoolInfo {
 pub struct PoolInfo {
     pub base_mint: Pubkey,
     pub quote_mint: Pubkey,
-    pub base_decimals: u8,
-    pub quote_decimals: u8,
+    pub base_decimals: Option<u8>,
+    pub quote_decimals: Option<u8>,
 }
 
 pub type PoolCache = Arc<RwLock<HashMap<Pubkey, PoolInfo>>>;
@@ -64,6 +68,7 @@ pub type PoolCache = Arc<RwLock<HashMap<Pubkey, PoolInfo>>>;
 pub struct PoolResolver {
     cache: PoolCache,
     requests: mpsc::Sender<Pubkey>,
+    db: Option<PgPool>,
 }
 
 impl PoolResolver {
@@ -71,8 +76,12 @@ impl PoolResolver {
         self.cache.read().unwrap().get(pool).copied()
     }
 
-    pub fn insert(&self, pool: Pubkey, info: PoolInfo) {
+    pub async fn insert(&self, pool: Pubkey, info: PoolInfo) {
         self.cache.write().unwrap().insert(pool, info);
+
+        if let Some(db) = &self.db {
+            save(db, &pool, &info).await;
+        }
     }
 
     pub fn request(&self, pool: Pubkey) {
@@ -82,10 +91,31 @@ impl PoolResolver {
     }
 }
 
-pub fn spawn_pool_resolver(rpc: RpcClient, capacity: usize) -> PoolResolver {
+async fn save(db: &PgPool, pool: &Pubkey, info: &PoolInfo) {
+    let written = write_pool(
+        db,
+        &pool.to_string(),
+        &info.base_mint.to_string(),
+        &info.quote_mint.to_string(),
+        info.base_decimals.map(i32::from),
+        info.quote_decimals.map(i32::from),
+    )
+    .await;
+
+    if written.is_err() {
+        inc(&DB_WRITE_ERRORS);
+    }
+}
+
+pub fn spawn_pool_resolver(
+    rpc: RpcClient,
+    capacity: usize,
+    db: Option<PgPool>,
+) -> PoolResolver {
     let (tx, mut rx) = mpsc::channel::<Pubkey>(capacity);
     let cache: PoolCache = Arc::new(RwLock::new(HashMap::new()));
     let worker_cache = cache.clone();
+    let worker_db = db.clone();
 
     tokio::spawn(async move {
         while let Some(pool) = rx.recv().await {
@@ -99,15 +129,18 @@ pub fn spawn_pool_resolver(rpc: RpcClient, capacity: usize) -> PoolResolver {
             match rpc.get_account_data(&pool).await {
                 Ok(data) => match Pool::decode(&data) {
                     Some(p) => {
-                        worker_cache.write().unwrap().insert(
-                            pool,
-                            PoolInfo {
-                                base_mint: p.base_mint,
-                                quote_mint: p.quote_mint,
-                                base_decimals: 0,
-                                quote_decimals: 0,
-                            },
-                        );
+                        let info = PoolInfo {
+                            base_mint: p.base_mint,
+                            quote_mint: p.quote_mint,
+                            base_decimals: None,
+                            quote_decimals: None,
+                        };
+
+                        worker_cache.write().unwrap().insert(pool, info);
+
+                        if let Some(db) = &worker_db {
+                            save(db, &pool, &info).await;
+                        }
                     }
                     None => inc(&POOL_LOOKUP_ERRORS),
                 },
@@ -119,5 +152,6 @@ pub fn spawn_pool_resolver(rpc: RpcClient, capacity: usize) -> PoolResolver {
     PoolResolver {
         cache,
         requests: tx,
+        db,
     }
 }

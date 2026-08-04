@@ -1,3 +1,5 @@
+use sqlx::PgPool;
+
 use std::collections::HashSet;
 
 use carbon_core::datasource::Datasource;
@@ -16,8 +18,9 @@ pub async fn run_pipeline(
     datasource: impl Datasource + 'static,
     rpc: Option<RpcClient>,
     events: EventLog,
+    db: Option<PgPool>,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let resolver = rpc.map(|client| spawn_pool_resolver(client, POOL_LOOKUP_QUEUE_SIZE));
+    let resolver = rpc.map(|client| spawn_pool_resolver(client, POOL_LOOKUP_QUEUE_SIZE, db.clone()));
 
     Pipeline::builder()
         .datasource(datasource)
@@ -26,6 +29,7 @@ pub async fn run_pipeline(
             PumpfunDecoder,
             TradeEventProcessor {
                 events: events.clone(),
+                db: db.clone(),
             },
         )
         .instruction(
@@ -34,6 +38,7 @@ pub async fn run_pipeline(
                 resolver,
                 requested: HashSet::new(),
                 events,
+                db,
             },
         )
         .build()?

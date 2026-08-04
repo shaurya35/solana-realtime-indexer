@@ -17,8 +17,6 @@ use crate::metrics::{REPLAY_SKIPPED, inc};
 
 pub struct ReplayDatasource {
     pub path: String,
-
-    // 0 means loop forever. Any other number is a fixed pass count.
     pub repeat: u32,
 }
 
@@ -34,17 +32,11 @@ impl Datasource for ReplayDatasource {
         let mut skipped = 0u64;
         let mut pass = 0u32;
 
-        // Labelled so the inner `for` can break out of both loops at once.
-        // Without the label, `break` would only end the current pass and the
-        // outer loop would immediately start another one.
         'passes: loop {
             if cancellation_token.is_cancelled() {
                 break;
             }
 
-            // Reopened every pass. A BufReader is consumed as it is read, so
-            // there is nothing to rewind. Reopening is cheap because the file
-            // stays in the OS page cache after the first pass.
             let file = File::open(&self.path)
                 .map_err(|e| carbon_core::error::Error::FailedToConsumeDatasource(e.to_string()))?;
 
@@ -138,7 +130,6 @@ impl Datasource for ReplayDatasource {
 
             pass += 1;
 
-            // repeat == 0 is the infinite case, so it never satisfies this.
             if self.repeat != 0 && pass >= self.repeat {
                 break;
             }

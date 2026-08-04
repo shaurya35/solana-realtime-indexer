@@ -4,6 +4,10 @@ use carbon_core::instruction::InstructionProcessorInputType;
 use carbon_pump_swap_decoder::instructions::{CpiEvent as PumpSwapCpiEvent, PumpSwapInstruction};
 use solana_pubkey::Pubkey;
 
+use serde_json::Value;
+use sqlx::PgPool;
+
+use crate::db::{self, EventRow, TradeRow};
 use crate::identity::{EventId, EventLog};
 use crate::metrics::{EVENTS_DECODED, POOL_CACHE_HITS, POOL_CACHE_MISSES, SKIPPED_FAILED, inc};
 use crate::pools::{PoolInfo, PoolResolver};
@@ -12,6 +16,7 @@ pub struct PumpSwapEventProcessor {
     pub resolver: Option<PoolResolver>,
     pub requested: HashSet<Pubkey>,
     pub events: EventLog,
+    pub db: Option<PgPool>,
 }
 
 impl PumpSwapEventProcessor {
@@ -68,6 +73,35 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                     info.orient(trade.base_amount_out, trade.quote_amount_in, true)
                 });
 
+                if let Some(db_pool) = &self.db {
+                    let sig = meta.transaction_metadata.signature.to_string();
+
+                    let event = EventRow {
+                        signature: &sig,
+                        absolute_path: &meta.absolute_path,
+                        event_ordinal: 0,
+                        slot: meta.transaction_metadata.slot as i64,
+                        block_time: meta.transaction_metadata.block_time,
+                        program: "pumpswap",
+                        event_type: "BuyEvent",
+                        payload: serde_json::to_value(trade).unwrap_or(Value::Null),
+                    };
+
+                    let row = oriented.as_ref().and_then(|t| {
+                        Some(TradeRow {
+                            pool: Some(trade.pool.to_string()),
+                            token_mint: t.token_mint.to_string(),
+                            side: if t.is_buy { "buy" } else { "sell" },
+                            sol_amount: i64::try_from(t.sol_amount).ok()?,
+                            token_amount: i64::try_from(t.token_amount).ok()?,
+                            trader: trade.user.to_string(),
+                            fee: i64::try_from(trade.protocol_fee).ok(),
+                        })
+                    });
+
+                    db::write(db_pool, &event, row.as_ref()).await;
+                }
+
                 match oriented {
                     Some(t) => println!(
                         "pumpswap {} sig={} slot={} path={:?} ord=0 pool={} user={} mint={} sol={} token={} inverted={}",
@@ -100,6 +134,35 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                 let oriented = self.resolve(trade.pool).and_then(|info| {
                     info.orient(trade.base_amount_in, trade.quote_amount_out, false)
                 });
+
+                if let Some(db_pool) = &self.db {
+                    let sig = meta.transaction_metadata.signature.to_string();
+
+                    let event = EventRow {
+                        signature: &sig,
+                        absolute_path: &meta.absolute_path,
+                        event_ordinal: 0,
+                        slot: meta.transaction_metadata.slot as i64,
+                        block_time: meta.transaction_metadata.block_time,
+                        program: "pumpswap",
+                        event_type: "SellEvent",
+                        payload: serde_json::to_value(trade).unwrap_or(Value::Null),
+                    };
+                    
+                    let row = oriented.as_ref().and_then(|t| {
+                        Some(TradeRow {
+                            pool: Some(trade.pool.to_string()),
+                            token_mint: t.token_mint.to_string(),
+                            side: if t.is_buy { "buy" } else { "sell" },
+                            sol_amount: i64::try_from(t.sol_amount).ok()?,
+                            token_amount: i64::try_from(t.token_amount).ok()?,
+                            trader: trade.user.to_string(),
+                            fee: i64::try_from(trade.protocol_fee).ok(),
+                        })
+                    });
+
+                    db::write(db_pool, &event, row.as_ref()).await;
+                }
 
                 match oriented {
                     Some(t) => println!(
@@ -135,10 +198,11 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                         PoolInfo {
                             base_mint: ev.base_mint,
                             quote_mint: ev.quote_mint,
-                            base_decimals: ev.base_mint_decimals,
-                            quote_decimals: ev.quote_mint_decimals,
+                            base_decimals: Some(ev.base_mint_decimals),
+                            quote_decimals: Some(ev.quote_mint_decimals),
                         },
-                    );
+                    )
+                    .await;
                 }
                 println!(
                     "pool created {} base={} quote={}",

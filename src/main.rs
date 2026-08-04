@@ -2,6 +2,7 @@ mod capture;
 mod cli;
 mod config;
 mod datasources;
+mod db;
 mod identity;
 mod metrics;
 mod pipeline;
@@ -17,7 +18,7 @@ use carbon_yellowstone_grpc_datasource::YellowstoneGrpcGeyserClient;
 
 use capture::run_capture;
 use cli::{Cli, Commands};
-use config::{GRPC_ENDPOINT, SOLANA_RPC_URL, transaction_filters};
+use config::{GRPC_ENDPOINT, SOLANA_RPC_URL, database_url, transaction_filters};
 use datasources::replay::ReplayDatasource;
 use identity::EventLog;
 use pipeline::run_pipeline;
@@ -53,7 +54,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 None
             };
 
-            run_pipeline(ReplayDatasource { path, repeat }, rpc, events.clone()).await?;
+            let db = match database_url() {
+                Some(url) => Some(db::connect(&url).await?),
+                None => None,
+            };
+
+            run_pipeline(ReplayDatasource { path, repeat }, rpc, events.clone(), db).await?;
             println!("Collected {} events", events.lock().unwrap().len());
             return Ok(());
         }
@@ -77,10 +83,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         None,
     );
 
+    let db = db::connect(&database_url().expect("DATABASE_URL not set")).await?;
+
     run_pipeline(
         grpc_client,
         Some(RpcClient::new(SOLANA_RPC_URL.to_string())),
         EventLog::default(),
+        Some(db),
     )
     .await?;
 
@@ -238,6 +247,7 @@ mod tests {
             },
             None,
             events.clone(),
+            None,
         )
         .await
         .unwrap();
