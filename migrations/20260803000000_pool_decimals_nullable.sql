@@ -1,0 +1,2 @@
+ALTER TABLE pools ALTER COLUMN base_decimals DROP NOT NULL;
+ALTER TABLE pools ALTER COLUMN quote_decimals DROP NOT NULL;

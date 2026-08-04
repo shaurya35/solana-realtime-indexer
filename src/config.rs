@@ -8,6 +8,10 @@ pub static GRPC_ENDPOINT: LazyLock<String> = LazyLock::new(|| {
     env::var("YELLOWSTONE_GRPC_ENDPOINT").expect("YELLOWSTONE_GRPC_ENDPOINT not set")
 });
 
+pub fn database_url() -> Option<String> {
+    env::var("DATABASE_URL").ok()
+}
+
 pub const PUMPFUN_PROGRAM: &str = "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P";
 pub const PUMPSWAP_PROGRAM: &str = "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA";
 

@@ -2,10 +2,15 @@ use carbon_core::instruction::InstructionProcessorInputType;
 use carbon_pumpfun_decoder::instructions::{CpiEvent, PumpfunInstruction};
 
 use crate::identity::{EventId, EventLog};
+use crate::db::{self, EventRow, TradeRow};
 use crate::metrics::{EVENTS_DECODED, SKIPPED_FAILED, inc};
+
+use serde_json::Value;
+use sqlx::PgPool;
 
 pub struct TradeEventProcessor {
     pub events: EventLog,
+    pub db: Option<PgPool>,
 }
 
 impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpfunInstruction>>
@@ -39,6 +44,40 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, Pumpfun
                         });
                         inc(&EVENTS_DECODED);
                     }
+
+                    if let Some(pool) = &self.db {
+                        let sig = meta.transaction_metadata.signature.to_string();
+
+                        let event = EventRow {
+                            signature: &sig,
+                            absolute_path: &meta.absolute_path,
+                            event_ordinal: 0,
+                            slot: meta.transaction_metadata.slot as i64,
+                            block_time: meta.transaction_metadata.block_time,
+                            program: "pumpfun",
+                            event_type: "TradeEvent",
+                            payload: serde_json::to_value(trade).unwrap_or(Value::Null),
+                        };
+
+                        let row = match (
+                            i64::try_from(trade.sol_amount),
+                            i64::try_from(trade.token_amount),
+                        ) {
+                            (Ok(sol), Ok(token)) => Some(TradeRow {
+                                pool: None,
+                                token_mint: trade.mint.to_string(),
+                                side: if trade.is_buy { "buy" } else { "sell" },
+                                sol_amount: sol,
+                                token_amount: token,
+                                trader: trade.user.to_string(),
+                                fee: i64::try_from(trade.fee).ok(),
+                            }),
+                            _ => None,
+                        };
+
+                        db::write(pool, &event, row.as_ref()).await;
+                    }
+                    
                     println!("Mint: {}", trade.mint);
                     println!("User: {}", trade.user);
                     println!("Is buy: {}", trade.is_buy);
