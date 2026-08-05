@@ -12,7 +12,7 @@ use yellowstone_grpc_proto::geyser::{
 use yellowstone_grpc_proto::prost::Message;
 use yellowstone_grpc_proto::tonic::transport::ClientTlsConfig;
 
-use crate::config::{GRPC_ENDPOINT, transaction_filters};
+use crate::config::{GRPC_ENDPOINT, grpc_x_token, transaction_filters};
 
 pub async fn run_capture(minutes: u64) -> Result<(), Box<dyn std::error::Error>> {
     let stamp = chrono::Local::now().format("%Y%m%dT%H%M%S");
@@ -23,7 +23,7 @@ pub async fn run_capture(minutes: u64) -> Result<(), Box<dyn std::error::Error>>
     println!("Capturing to {path} for {minutes} minutes");
 
     let mut client = GeyserGrpcClient::build_from_shared(GRPC_ENDPOINT.clone())?
-        .x_token(None::<String>)?
+        .x_token(grpc_x_token())?
         .tls_config(ClientTlsConfig::new().with_enabled_roots())?
         .connect()
         .await?;

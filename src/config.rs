@@ -23,6 +23,12 @@ pub const WSOL_MINT: &str = "So11111111111111111111111111111111111111112";
 pub static SOLANA_RPC_URL: LazyLock<String> =
     LazyLock::new(|| env::var("SOLANA_RPC_URL").expect("SOLANA_RPC_URL not set"));
 
+pub fn grpc_x_token() -> Option<String> {
+    env::var("YELLOWSTONE_X_TOKEN")
+        .ok()
+        .filter(|t| !t.is_empty())
+}
+
 pub fn transaction_filters() -> HashMap<String, SubscribeRequestFilterTransactions> {
     let mut filters = HashMap::new();
 
