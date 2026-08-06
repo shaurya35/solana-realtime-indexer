@@ -148,7 +148,7 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                         event_type: "SellEvent",
                         payload: serde_json::to_value(trade).unwrap_or(Value::Null),
                     };
-                    
+
                     let row = oriented.as_ref().and_then(|t| {
                         Some(TradeRow {
                             pool: Some(trade.pool.to_string()),
@@ -193,16 +193,17 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
 
             PumpSwapCpiEvent::CreatePoolEvent(ev) => {
                 if let Some(resolver) = &self.resolver {
-                    resolver.insert(
-                        ev.pool,
-                        PoolInfo {
-                            base_mint: ev.base_mint,
-                            quote_mint: ev.quote_mint,
-                            base_decimals: Some(ev.base_mint_decimals),
-                            quote_decimals: Some(ev.quote_mint_decimals),
-                        },
-                    )
-                    .await;
+                    resolver
+                        .insert(
+                            ev.pool,
+                            PoolInfo {
+                                base_mint: ev.base_mint,
+                                quote_mint: ev.quote_mint,
+                                base_decimals: Some(ev.base_mint_decimals),
+                                quote_decimals: Some(ev.quote_mint_decimals),
+                            },
+                        )
+                        .await;
                 }
                 println!(
                     "pool created {} base={} quote={}",

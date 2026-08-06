@@ -1,12 +1,12 @@
 use carbon_core::instruction::InstructionProcessorInputType;
 use carbon_pumpfun_decoder::instructions::{CpiEvent, PumpfunInstruction};
 
-use crate::identity::{EventId, EventLog};
 use crate::db::{EventRow, PendingWrite, TradeRow};
+use crate::identity::{EventId, EventLog};
 use crate::metrics::{EVENTS_DECODED, SKIPPED_FAILED, inc};
 
-use serde_json::Value;
 use crate::writer::Writer;
+use serde_json::Value;
 
 pub struct TradeEventProcessor {
     pub events: EventLog,
@@ -29,12 +29,6 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, Pumpfun
             PumpfunInstruction::CpiEvent { data: cpi_data, .. } => match cpi_data {
                 CpiEvent::TradeEvent(trade) => {
                     let meta = &data.metadata;
-                    println!("Trade event found!");
-                    println!("--- event ---");
-                    println!("signature: {}", meta.transaction_metadata.signature);
-                    println!("slot: {}", meta.transaction_metadata.slot);
-                    println!("absolute_path: {:?}", meta.absolute_path);
-                    println!("event_ordinal: 0");
                     {
                         let mut log = self.events.lock().unwrap();
                         log.push(EventId {
@@ -77,12 +71,6 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, Pumpfun
 
                         writer.send(PendingWrite { event, trade: row }).await;
                     }
-                    
-                    println!("Mint: {}", trade.mint);
-                    println!("User: {}", trade.user);
-                    println!("Is buy: {}", trade.is_buy);
-                    println!("Token amount: {}", trade.token_amount);
-                    println!("SOL amount: {}", trade.sol_amount);
                 }
                 _ => {}
             },

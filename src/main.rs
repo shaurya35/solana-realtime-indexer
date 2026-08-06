@@ -1,4 +1,3 @@
-mod writer;
 mod capture;
 mod cli;
 mod config;
@@ -9,6 +8,7 @@ mod metrics;
 mod pipeline;
 mod pools;
 mod processors;
+mod writer;
 
 use std::collections::HashMap;
 
