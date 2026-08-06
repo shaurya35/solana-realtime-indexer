@@ -12,7 +12,7 @@ use sqlx::PgPool;
 
 use crate::config::WSOL_MINT;
 use crate::metrics::{LOOKUPS_DROPPED, POOL_LOOKUP_ERRORS, POOL_LOOKUPS, DB_WRITE_ERRORS, inc};
-use crate::db::write_pool;
+use crate::db::{load_pools, write_pool};
 
 
 static WSOL: LazyLock<Pubkey> = LazyLock::new(|| Pubkey::from_str(WSOL_MINT).unwrap());
@@ -88,6 +88,29 @@ impl PoolResolver {
         if self.requests.try_send(pool).is_err() {
             inc(&LOOKUPS_DROPPED);
         }
+    }
+
+    pub async fn prime(&self) -> Result<usize, Box<dyn std::error::Error>> {
+        let Some(db) = &self.db else {
+            return Ok(0);
+        };
+
+        let stored = load_pools(db).await?;
+        let mut cache = self.cache.write().unwrap();
+
+        for p in &stored {
+            cache.insert(
+                Pubkey::from_str(&p.pool)?,
+                PoolInfo {
+                    base_mint: Pubkey::from_str(&p.base_mint)?,
+                    quote_mint: Pubkey::from_str(&p.quote_mint)?,
+                    base_decimals: p.base_decimals.and_then(|d| u8::try_from(d).ok()),
+                    quote_decimals: p.quote_decimals.and_then(|d| u8::try_from(d).ok()),
+                },
+            );
+        }
+
+        Ok(stored.len())
     }
 }
 

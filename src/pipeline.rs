@@ -8,9 +8,10 @@ use carbon_pump_swap_decoder::PumpSwapDecoder;
 use carbon_pumpfun_decoder::PumpfunDecoder;
 use solana_rpc_client::nonblocking::rpc_client::RpcClient;
 
-use crate::config::{PIPELINE_QUEUE_SIZE, POOL_LOOKUP_QUEUE_SIZE};
+use crate::config::{PIPELINE_QUEUE_SIZE, POOL_LOOKUP_QUEUE_SIZE, WRITE_QUEUE_SIZE};
 use crate::identity::EventLog;
 use crate::pools::spawn_pool_resolver;
+use crate::writer::spawn_writer;
 use crate::processors::pumpfun::TradeEventProcessor;
 use crate::processors::pumpswap::PumpSwapEventProcessor;
 
@@ -22,6 +23,12 @@ pub async fn run_pipeline(
 ) -> Result<(), Box<dyn std::error::Error>> {
     let resolver = rpc.map(|client| spawn_pool_resolver(client, POOL_LOOKUP_QUEUE_SIZE, db.clone()));
 
+    if let Some(r) = &resolver {
+        println!("pool cache primed with {} pools", r.prime().await?);
+    }
+
+    let writer = db.map(|d| spawn_writer(d, WRITE_QUEUE_SIZE));
+
     Pipeline::builder()
         .datasource(datasource)
         .channel_buffer_size(PIPELINE_QUEUE_SIZE)
@@ -29,7 +36,7 @@ pub async fn run_pipeline(
             PumpfunDecoder,
             TradeEventProcessor {
                 events: events.clone(),
-                db: db.clone(),
+                writer: writer.clone(),
             },
         )
         .instruction(
@@ -38,7 +45,7 @@ pub async fn run_pipeline(
                 resolver,
                 requested: HashSet::new(),
                 events,
-                db,
+                writer,
             },
         )
         .build()?
