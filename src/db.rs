@@ -4,10 +4,7 @@ use sqlx::Row;
 use sqlx::postgres::PgPoolOptions;
 
 pub async fn connect(url: &str) -> Result<PgPool, sqlx::Error> {
-    PgPoolOptions::new()
-        .max_connections(5)
-        .connect(url)
-        .await
+    PgPoolOptions::new().max_connections(5).connect(url).await
 }
 
 pub struct EventRow {
@@ -16,15 +13,15 @@ pub struct EventRow {
     pub event_ordinal: i32,
     pub slot: i64,
     pub block_time: Option<i64>,
-    pub program: &'static str,   
-    pub event_type: &'static str, 
+    pub program: &'static str,
+    pub event_type: &'static str,
     pub payload: Value,
 }
 
 pub struct TradeRow {
     pub pool: Option<String>,
     pub token_mint: String,
-    pub side: &'static str, 
+    pub side: &'static str,
     pub sol_amount: i64,
     pub token_amount: i64,
     pub trader: String,
@@ -138,11 +135,10 @@ pub struct StoredPool {
 }
 
 pub async fn load_pools(db: &PgPool) -> Result<Vec<StoredPool>, sqlx::Error> {
-    let rows = sqlx::query(
-        "SELECT pool, base_mint, quote_mint, base_decimals, quote_decimals FROM pools",
-    )
-    .fetch_all(db)
-    .await?;
+    let rows =
+        sqlx::query("SELECT pool, base_mint, quote_mint, base_decimals, quote_decimals FROM pools")
+            .fetch_all(db)
+            .await?;
 
     Ok(rows
         .into_iter()

@@ -11,9 +11,8 @@ use tokio::sync::mpsc;
 use sqlx::PgPool;
 
 use crate::config::WSOL_MINT;
-use crate::metrics::{LOOKUPS_DROPPED, POOL_LOOKUP_ERRORS, POOL_LOOKUPS, DB_WRITE_ERRORS, inc};
 use crate::db::{load_pools, write_pool};
-
+use crate::metrics::{DB_WRITE_ERRORS, LOOKUPS_DROPPED, POOL_LOOKUP_ERRORS, POOL_LOOKUPS, inc};
 
 static WSOL: LazyLock<Pubkey> = LazyLock::new(|| Pubkey::from_str(WSOL_MINT).unwrap());
 
@@ -130,11 +129,7 @@ async fn save(db: &PgPool, pool: &Pubkey, info: &PoolInfo) {
     }
 }
 
-pub fn spawn_pool_resolver(
-    rpc: RpcClient,
-    capacity: usize,
-    db: Option<PgPool>,
-) -> PoolResolver {
+pub fn spawn_pool_resolver(rpc: RpcClient, capacity: usize, db: Option<PgPool>) -> PoolResolver {
     let (tx, mut rx) = mpsc::channel::<Pubkey>(capacity);
     let cache: PoolCache = Arc::new(RwLock::new(HashMap::new()));
     let worker_cache = cache.clone();

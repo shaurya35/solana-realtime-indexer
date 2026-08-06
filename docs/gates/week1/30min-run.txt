@@ -1,0 +1,2 @@
+[stats] decoded=167617 (0.0/s) cache_hits=141854 cache_misses=2031 lookups=849 lookup_errors=0 lookups_dropped=0 skipped_failed=0 replay_skipped=0 db_errors=4
+524666

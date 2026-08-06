@@ -23,10 +23,10 @@ impl Writer {
     }
 }
 
-pub fn spawn_writer(db: PgPool, capacity: usize) -> Writer {
+pub fn spawn_writer(db: PgPool, capacity: usize) -> (Writer, tokio::task::JoinHandle<()>) {
     let (tx, mut rx) = mpsc::channel::<PendingWrite>(capacity);
 
-    tokio::spawn(async move {
+    let handle = tokio::spawn(async move {
         let mut batch: Vec<PendingWrite> = Vec::with_capacity(BATCH_SIZE);
         let mut tick = tokio::time::interval(FLUSH_INTERVAL);
 
@@ -53,7 +53,7 @@ pub fn spawn_writer(db: PgPool, capacity: usize) -> Writer {
         }
     });
 
-    Writer { tx }
+    (Writer { tx }, handle)
 }
 
 async fn flush(db: &PgPool, batch: &mut Vec<PendingWrite>) {
