@@ -18,7 +18,7 @@ use carbon_yellowstone_grpc_datasource::YellowstoneGrpcGeyserClient;
 
 use capture::run_capture;
 use cli::{Cli, Commands};
-use config::{GRPC_ENDPOINT, SOLANA_RPC_URL, database_url, transaction_filters};
+use config::{GRPC_ENDPOINT, SOLANA_RPC_URL, database_url, grpc_x_token, transaction_filters};
 use datasources::replay::ReplayDatasource;
 use identity::EventLog;
 use pipeline::run_pipeline;
@@ -72,7 +72,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let grpc_client = YellowstoneGrpcGeyserClient::new(
         GRPC_ENDPOINT.to_string(),
-        None,
+        grpc_x_token(),
         None,
         HashMap::new(),
         filters,
