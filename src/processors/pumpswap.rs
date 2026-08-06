@@ -5,18 +5,18 @@ use carbon_pump_swap_decoder::instructions::{CpiEvent as PumpSwapCpiEvent, PumpS
 use solana_pubkey::Pubkey;
 
 use serde_json::Value;
-use sqlx::PgPool;
 
-use crate::db::{self, EventRow, TradeRow};
+use crate::db::{EventRow, PendingWrite, TradeRow};
 use crate::identity::{EventId, EventLog};
 use crate::metrics::{EVENTS_DECODED, POOL_CACHE_HITS, POOL_CACHE_MISSES, SKIPPED_FAILED, inc};
 use crate::pools::{PoolInfo, PoolResolver};
+use crate::writer::Writer;
 
 pub struct PumpSwapEventProcessor {
     pub resolver: Option<PoolResolver>,
     pub requested: HashSet<Pubkey>,
     pub events: EventLog,
-    pub db: Option<PgPool>,
+    pub writer: Option<Writer>,
 }
 
 impl PumpSwapEventProcessor {
@@ -73,7 +73,7 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                     info.orient(trade.base_amount_out, trade.quote_amount_in, true)
                 });
 
-                if let Some(db_pool) = &self.db {
+                if let Some(writer) = &self.writer {
                     let sig = meta.transaction_metadata.signature.to_string();
 
                     let event = EventRow {
@@ -99,7 +99,7 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                         })
                     });
 
-                    db::write(db_pool, &event, row.as_ref()).await;
+                    writer.send(PendingWrite { event, trade: row }).await;
                 }
 
                 match oriented {
@@ -135,7 +135,7 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                     info.orient(trade.base_amount_in, trade.quote_amount_out, false)
                 });
 
-                if let Some(db_pool) = &self.db {
+                if let Some(writer) = &self.writer {
                     let sig = meta.transaction_metadata.signature.to_string();
 
                     let event = EventRow {
@@ -161,7 +161,7 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                         })
                     });
 
-                    db::write(db_pool, &event, row.as_ref()).await;
+                    writer.send(PendingWrite { event, trade: row }).await;
                 }
 
                 match oriented {

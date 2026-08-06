@@ -15,6 +15,8 @@ pub fn database_url() -> Option<String> {
 pub const PUMPFUN_PROGRAM: &str = "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P";
 pub const PUMPSWAP_PROGRAM: &str = "pAMMBay6oceH9fJKBRHGP5D4bD4sWpmSwMn52FMfXEA";
 
+pub const WRITE_QUEUE_SIZE: usize = 10_000;
+
 pub const PIPELINE_QUEUE_SIZE: usize = 10_000;
 pub const POOL_LOOKUP_QUEUE_SIZE: usize = 1_000;
 

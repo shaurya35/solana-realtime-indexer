@@ -1,4 +1,3 @@
-use crate::metrics::{DB_WRITE_ERRORS, inc};
 use serde_json::Value;
 use sqlx::PgPool;
 use sqlx::Row;
@@ -32,71 +31,76 @@ pub struct TradeRow {
     pub fee: Option<i64>,
 }
 
-pub async fn write_event(pool: &PgPool, e: &EventRow) -> Result<(), sqlx::Error> {
-    sqlx::query(
+pub struct PendingWrite {
+    pub event: EventRow,
+    pub trade: Option<TradeRow>,
+}
+
+pub async fn write_events(db: &PgPool, rows: &[PendingWrite]) -> Result<(), sqlx::Error> {
+    if rows.is_empty() {
+        return Ok(());
+    }
+
+    let mut q: sqlx::QueryBuilder<sqlx::Postgres> = sqlx::QueryBuilder::new(
         "INSERT INTO events
-           (signature, absolute_path, event_ordinal, slot, block_time, program, event_type, payload)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-         ON CONFLICT DO NOTHING",
-    )
-    .bind(&e.signature)
-    .bind(&e.absolute_path)
-    .bind(e.event_ordinal)
-    .bind(e.slot)
-    .bind(e.block_time)
-    .bind(e.program)
-    .bind(e.event_type)
-    .bind(&e.payload)
-    .execute(pool)
-    .await?;
+           (signature, absolute_path, event_ordinal, slot, block_time, program, event_type, payload) ",
+    );
+
+    q.push_values(rows, |mut b, r| {
+        b.push_bind(&r.event.signature)
+            .push_bind(&r.event.absolute_path)
+            .push_bind(r.event.event_ordinal)
+            .push_bind(r.event.slot)
+            .push_bind(r.event.block_time)
+            .push_bind(r.event.program)
+            .push_bind(r.event.event_type)
+            .push_bind(&r.event.payload);
+    });
+
+    q.push(" ON CONFLICT DO NOTHING");
+
+    q.build().execute(db).await?;
 
     Ok(())
 }
 
-pub async fn write_trade(
-    pool: &PgPool,
-    e: &EventRow,
-    t: &TradeRow,
-) -> Result<(), sqlx::Error> {
-    sqlx::query(
+pub async fn write_trades(db: &PgPool, rows: &[PendingWrite]) -> Result<(), sqlx::Error> {
+    let pairs: Vec<(&EventRow, &TradeRow)> = rows
+        .iter()
+        .filter_map(|r| r.trade.as_ref().map(|t| (&r.event, t)))
+        .collect();
+
+    if pairs.is_empty() {
+        return Ok(());
+    }
+
+    let mut q: sqlx::QueryBuilder<sqlx::Postgres> = sqlx::QueryBuilder::new(
         "INSERT INTO trades
            (signature, absolute_path, event_ordinal, slot, block_time, program,
-            pool, token_mint, side, sol_amount, token_amount, trader, fee)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
-         ON CONFLICT DO NOTHING",
-    )
-    .bind(&e.signature)
-    .bind(&e.absolute_path)
-    .bind(e.event_ordinal)
-    .bind(e.slot)
-    .bind(e.block_time)
-    .bind(e.program)
-    .bind(&t.pool)
-    .bind(&t.token_mint)
-    .bind(t.side)
-    .bind(t.sol_amount)
-    .bind(t.token_amount)
-    .bind(&t.trader)
-    .bind(t.fee)
-    .execute(pool)
-    .await?;
+            pool, token_mint, side, sol_amount, token_amount, trader, fee) ",
+    );
+
+    q.push_values(pairs, |mut b, (e, t)| {
+        b.push_bind(&e.signature)
+            .push_bind(&e.absolute_path)
+            .push_bind(e.event_ordinal)
+            .push_bind(e.slot)
+            .push_bind(e.block_time)
+            .push_bind(e.program)
+            .push_bind(&t.pool)
+            .push_bind(&t.token_mint)
+            .push_bind(t.side)
+            .push_bind(t.sol_amount)
+            .push_bind(t.token_amount)
+            .push_bind(&t.trader)
+            .push_bind(t.fee);
+    });
+
+    q.push(" ON CONFLICT DO NOTHING");
+
+    q.build().execute(db).await?;
 
     Ok(())
-}
-
-pub async fn write(pool: &PgPool, e: &EventRow, t: Option<&TradeRow>) {
-    if let Err(err) = write_event(pool, e).await {
-        inc(&DB_WRITE_ERRORS);
-        eprintln!("db: event insert failed sig={} err={err}", e.signature);
-        return;
-    }
-
-    if let Some(t) = t {
-        if let Err(err) = write_trade(pool, e, t).await {
-            inc(&DB_WRITE_ERRORS);
-            eprintln!("db: trade insert failed sig={} err={err}", e.signature);
-        }
-    }
 }
 
 pub async fn write_pool(

@@ -2,15 +2,15 @@ use carbon_core::instruction::InstructionProcessorInputType;
 use carbon_pumpfun_decoder::instructions::{CpiEvent, PumpfunInstruction};
 
 use crate::identity::{EventId, EventLog};
-use crate::db::{self, EventRow, TradeRow};
+use crate::db::{EventRow, PendingWrite, TradeRow};
 use crate::metrics::{EVENTS_DECODED, SKIPPED_FAILED, inc};
 
 use serde_json::Value;
-use sqlx::PgPool;
+use crate::writer::Writer;
 
 pub struct TradeEventProcessor {
     pub events: EventLog,
-    pub db: Option<PgPool>,
+    pub writer: Option<Writer>,
 }
 
 impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpfunInstruction>>
@@ -45,7 +45,7 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, Pumpfun
                         inc(&EVENTS_DECODED);
                     }
 
-                    if let Some(pool) = &self.db {
+                    if let Some(writer) = &self.writer {
                         let sig = meta.transaction_metadata.signature.to_string();
 
                         let event = EventRow {
@@ -75,7 +75,7 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, Pumpfun
                             _ => None,
                         };
 
-                        db::write(pool, &event, row.as_ref()).await;
+                        writer.send(PendingWrite { event, trade: row }).await;
                     }
                     
                     println!("Mint: {}", trade.mint);

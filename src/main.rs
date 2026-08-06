@@ -1,3 +1,4 @@
+mod writer;
 mod capture;
 mod cli;
 mod config;
