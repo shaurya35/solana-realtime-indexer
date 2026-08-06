@@ -22,6 +22,10 @@ pub async fn run_pipeline(
 ) -> Result<(), Box<dyn std::error::Error>> {
     let resolver = rpc.map(|client| spawn_pool_resolver(client, POOL_LOOKUP_QUEUE_SIZE, db.clone()));
 
+    if let Some(r) = &resolver {
+        println!("pool cache primed with {} pools", r.prime().await?);
+    }
+
     Pipeline::builder()
         .datasource(datasource)
         .channel_buffer_size(PIPELINE_QUEUE_SIZE)

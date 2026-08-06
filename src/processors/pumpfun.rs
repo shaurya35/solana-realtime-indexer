@@ -49,8 +49,8 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, Pumpfun
                         let sig = meta.transaction_metadata.signature.to_string();
 
                         let event = EventRow {
-                            signature: &sig,
-                            absolute_path: &meta.absolute_path,
+                            signature: sig,
+                            absolute_path: meta.absolute_path.clone(),
                             event_ordinal: 0,
                             slot: meta.transaction_metadata.slot as i64,
                             block_time: meta.transaction_metadata.block_time,
