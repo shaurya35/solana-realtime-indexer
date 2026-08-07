@@ -8,8 +8,8 @@ mod metrics;
 mod pipeline;
 mod pools;
 mod processors;
-mod writer;
 mod verify;
+mod writer;
 
 use std::collections::HashMap;
 

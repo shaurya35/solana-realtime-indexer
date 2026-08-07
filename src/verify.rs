@@ -7,9 +7,14 @@ use crate::identity::{EventId, EventLog};
 use crate::pipeline::run_pipeline;
 
 pub async fn run_verify(path: String, db: &PgPool) -> Result<bool, Box<dyn std::error::Error>> {
-
     let events = EventLog::default();
-    run_pipeline(ReplayDatasource { path, repeat: 1 }, None, events.clone(), None).await?;
+    run_pipeline(
+        ReplayDatasource { path, repeat: 1 },
+        None,
+        events.clone(),
+        None,
+    )
+    .await?;
 
     let expected: BTreeSet<EventId> = events.lock().unwrap().iter().cloned().collect();
 
@@ -42,10 +47,16 @@ pub async fn run_verify(path: String, db: &PgPool) -> Result<bool, Box<dyn std::
     println!("extra    {}", extra.len());
 
     for e in missing.iter().take(10) {
-        println!("  missing {} path={:?} ord={}", e.signature, e.absolute_path, e.event_ordinal);
+        println!(
+            "  missing {} path={:?} ord={}",
+            e.signature, e.absolute_path, e.event_ordinal
+        );
     }
     for e in extra.iter().take(10) {
-        println!("  extra   {} path={:?} ord={}", e.signature, e.absolute_path, e.event_ordinal);
+        println!(
+            "  extra   {} path={:?} ord={}",
+            e.signature, e.absolute_path, e.event_ordinal
+        );
     }
 
     Ok(missing.is_empty() && extra.is_empty())

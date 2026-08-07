@@ -33,7 +33,10 @@ pub struct PendingWrite {
     pub trade: Option<TradeRow>,
 }
 
-pub async fn write_events(tx: &mut sqlx::PgConnection, rows: &[PendingWrite]) -> Result<(), sqlx::Error> {
+pub async fn write_events(
+    tx: &mut sqlx::PgConnection,
+    rows: &[PendingWrite],
+) -> Result<(), sqlx::Error> {
     if rows.is_empty() {
         return Ok(());
     }
@@ -61,7 +64,10 @@ pub async fn write_events(tx: &mut sqlx::PgConnection, rows: &[PendingWrite]) ->
     Ok(())
 }
 
-pub async fn write_trades(tx: &mut sqlx::PgConnection, rows: &[PendingWrite]) -> Result<(), sqlx::Error> {
+pub async fn write_trades(
+    tx: &mut sqlx::PgConnection,
+    rows: &[PendingWrite],
+) -> Result<(), sqlx::Error> {
     let pairs: Vec<(&EventRow, &TradeRow)> = rows
         .iter()
         .filter_map(|r| r.trade.as_ref().map(|t| (&r.event, t)))
@@ -178,7 +184,6 @@ pub async fn write_dead_letters(
     rows: &[PendingWrite],
     error: &str,
 ) -> Result<(), sqlx::Error> {
-
     if rows.is_empty() {
         return Ok(());
     }

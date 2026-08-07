@@ -57,7 +57,6 @@ pub fn spawn_writer(db: PgPool, capacity: usize) -> (Writer, tokio::task::JoinHa
 }
 
 async fn flush(db: &PgPool, batch: &mut Vec<PendingWrite>) {
-    
     let Some((slot, signature)) = batch
         .iter()
         .max_by_key(|r| r.event.slot)
