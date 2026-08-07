@@ -58,12 +58,15 @@ pub async fn run_pipeline(
         .build()?;
 
     pipeline.run().await?;
+    println!("shutdown: pipeline stopped!");
 
     drop(pipeline);
+    println!("shutdown: pipeline dropped!");
 
     if let Some(task) = writer_task {
         let _ = task.await;
     }
+    println!("shutdown: writer stopped!");
 
     Ok(())
 }

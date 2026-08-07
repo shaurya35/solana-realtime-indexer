@@ -4,7 +4,7 @@ use sqlx::PgPool;
 use tokio::sync::mpsc;
 
 use crate::db::{self, PendingWrite};
-use crate::metrics::{DB_WRITE_ERRORS, inc};
+use crate::metrics::{DB_WRITE_ERRORS, DEAD_LETTERS, inc};
 
 const BATCH_SIZE: usize = 100;
 
@@ -57,20 +57,52 @@ pub fn spawn_writer(db: PgPool, capacity: usize) -> (Writer, tokio::task::JoinHa
 }
 
 async fn flush(db: &PgPool, batch: &mut Vec<PendingWrite>) {
-    if batch.is_empty() {
+    
+    let Some((slot, signature)) = batch
+        .iter()
+        .max_by_key(|r| r.event.slot)
+        .map(|r| (r.event.slot, r.event.signature.clone()))
+    else {
         return;
-    }
+    };
 
-    if let Err(err) = db::write_events(db, batch).await {
-        inc(&DB_WRITE_ERRORS);
-        eprintln!("db: event batch of {} failed: {err}", batch.len());
-        batch.clear();
-        return;
-    }
+    let mut tx = match db.begin().await {
+        Ok(tx) => tx,
+        Err(err) => {
+            inc(&DB_WRITE_ERRORS);
+            eprintln!("db: could not start transaction: {err}");
+            batch.clear();
+            return;
+        }
+    };
 
-    if let Err(err) = db::write_trades(db, batch).await {
-        inc(&DB_WRITE_ERRORS);
-        eprintln!("db: trade batch failed: {err}");
+    let result = async {
+        db::write_events(&mut *tx, batch).await?;
+        db::write_trades(&mut *tx, batch).await?;
+        db::write_checkpoint(&mut *tx, slot, &signature).await
+    }
+    .await;
+
+    match result {
+        Ok(()) => {
+            if let Err(err) = tx.commit().await {
+                inc(&DB_WRITE_ERRORS);
+                eprintln!("db: commit failed, batch of {}: {err}", batch.len());
+            }
+        }
+        Err(err) => {
+            inc(&DB_WRITE_ERRORS);
+            eprintln!("db: batch of {} failed, rolled back: {err}", batch.len());
+
+            match db::write_dead_letters(db, batch, &err.to_string()).await {
+                Ok(()) => {
+                    for _ in batch.iter() {
+                        inc(&DEAD_LETTERS);
+                    }
+                }
+                Err(e) => println!("db: could not park {} dead letters: {e}", batch.len()),
+            }
+        }
     }
 
     batch.clear();

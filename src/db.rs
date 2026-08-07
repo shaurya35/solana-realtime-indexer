@@ -33,7 +33,7 @@ pub struct PendingWrite {
     pub trade: Option<TradeRow>,
 }
 
-pub async fn write_events(db: &PgPool, rows: &[PendingWrite]) -> Result<(), sqlx::Error> {
+pub async fn write_events(tx: &mut sqlx::PgConnection, rows: &[PendingWrite]) -> Result<(), sqlx::Error> {
     if rows.is_empty() {
         return Ok(());
     }
@@ -56,12 +56,12 @@ pub async fn write_events(db: &PgPool, rows: &[PendingWrite]) -> Result<(), sqlx
 
     q.push(" ON CONFLICT DO NOTHING");
 
-    q.build().execute(db).await?;
+    q.build().execute(tx).await?;
 
     Ok(())
 }
 
-pub async fn write_trades(db: &PgPool, rows: &[PendingWrite]) -> Result<(), sqlx::Error> {
+pub async fn write_trades(tx: &mut sqlx::PgConnection, rows: &[PendingWrite]) -> Result<(), sqlx::Error> {
     let pairs: Vec<(&EventRow, &TradeRow)> = rows
         .iter()
         .filter_map(|r| r.trade.as_ref().map(|t| (&r.event, t)))
@@ -95,7 +95,7 @@ pub async fn write_trades(db: &PgPool, rows: &[PendingWrite]) -> Result<(), sqlx
 
     q.push(" ON CONFLICT DO NOTHING");
 
-    q.build().execute(db).await?;
+    q.build().execute(tx).await?;
 
     Ok(())
 }
@@ -150,4 +150,54 @@ pub async fn load_pools(db: &PgPool) -> Result<Vec<StoredPool>, sqlx::Error> {
             quote_decimals: r.get("quote_decimals"),
         })
         .collect())
+}
+
+pub async fn write_checkpoint(
+    tx: &mut sqlx::PgConnection,
+    slot: i64,
+    signature: &str,
+) -> Result<(), sqlx::Error> {
+    sqlx::query(
+        "INSERT INTO ingestion_checkpoints (id, last_completed_slot, last_completed_signature, updated_at)
+         VALUES (1, $1, $2, now())
+         ON CONFLICT (id) DO UPDATE SET
+           last_completed_slot      = EXCLUDED.last_completed_slot,
+           last_completed_signature = EXCLUDED.last_completed_signature,
+           updated_at               = now()",
+    )
+    .bind(slot)
+    .bind(signature)
+    .execute(tx)
+    .await?;
+
+    Ok(())
+}
+
+pub async fn write_dead_letters(
+    db: &PgPool,
+    rows: &[PendingWrite],
+    error: &str,
+) -> Result<(), sqlx::Error> {
+
+    if rows.is_empty() {
+        return Ok(());
+    }
+
+    let mut q: sqlx::QueryBuilder<sqlx::Postgres> = sqlx::QueryBuilder::new(
+        "INSERT INTO deadl_letters
+                (signature, absolute_path, event_ordinal, slot, payload, error) ",
+    );
+
+    q.push_values(rows, |mut b, r| {
+        b.push_bind(&r.event.signature)
+            .push_bind(&r.event.absolute_path)
+            .push_bind(r.event.event_ordinal)
+            .push_bind(r.event.slot)
+            .push_bind(&r.event.payload)
+            .push_bind(error);
+    });
+
+    q.build().execute(db).await?;
+
+    Ok(())
 }
