@@ -24,5 +24,10 @@ pub enum Commands {
         resolve: bool,
     },
 
+    Verify {
+        #[arg(long)]
+        path: String,
+    },
+
     Live,
 }

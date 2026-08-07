@@ -172,3 +172,32 @@ pub async fn write_checkpoint(
 
     Ok(())
 }
+
+pub async fn write_dead_letters(
+    db: &PgPool,
+    rows: &[PendingWrite],
+    error: &str,
+) -> Result<(), sqlx::Error> {
+
+    if rows.is_empty() {
+        return Ok(());
+    }
+
+    let mut q: sqlx::QueryBuilder<sqlx::Postgres> = sqlx::QueryBuilder::new(
+        "INSERT INTO deadl_letters
+                (signature, absolute_path, event_ordinal, slot, payload, error) ",
+    );
+
+    q.push_values(rows, |mut b, r| {
+        b.push_bind(&r.event.signature)
+            .push_bind(&r.event.absolute_path)
+            .push_bind(r.event.event_ordinal)
+            .push_bind(r.event.slot)
+            .push_bind(&r.event.payload)
+            .push_bind(error);
+    });
+
+    q.build().execute(db).await?;
+
+    Ok(())
+}

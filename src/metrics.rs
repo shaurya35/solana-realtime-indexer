@@ -10,6 +10,7 @@ pub static POOL_LOOKUP_ERRORS: AtomicU64 = AtomicU64::new(0);
 pub static LOOKUPS_DROPPED: AtomicU64 = AtomicU64::new(0);
 pub static REPLAY_SKIPPED: AtomicU64 = AtomicU64::new(0);
 pub static DB_WRITE_ERRORS: AtomicU64 = AtomicU64::new(0);
+pub static DEAD_LETTERS: AtomicU64 = AtomicU64::new(0);
 
 pub fn inc(counter: &AtomicU64) {
     counter.fetch_add(1, Ordering::Relaxed);
@@ -32,7 +33,7 @@ pub fn spawn_reporter() {
             last_decoded = decoded;
 
             println!(
-                "[stats] decoded={decoded} ({rate:.1}/s) cache_hits={} cache_misses={} lookups={} lookup_errors={} lookups_dropped={} skipped_failed={} replay_skipped={} db_errors={}",
+                "[stats] decoded={decoded} ({rate:.1}/s) cache_hits={} cache_misses={} lookups={} lookup_errors={} lookups_dropped={} skipped_failed={} replay_skipped={} db_errors={} dead_letters={}",
                 get(&POOL_CACHE_HITS),
                 get(&POOL_CACHE_MISSES),
                 get(&POOL_LOOKUPS),
@@ -41,6 +42,7 @@ pub fn spawn_reporter() {
                 get(&SKIPPED_FAILED),
                 get(&REPLAY_SKIPPED),
                 get(&DB_WRITE_ERRORS),
+                get(&DEAD_LETTERS),
             );
         }
     });
