@@ -1,3 +1,5 @@
+![ci](https://github.com/shaurya35/solana-realtime-indexer/actions/workflows/ci.yml/badge.svg)
+
 # solana-realtime-indexer
 
 Indexes pump.fun and PumpSwap trades from Solana mainnet, in real time.
