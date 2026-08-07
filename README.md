@@ -29,6 +29,7 @@ Needs a mainnet Yellowstone gRPC endpoint in `.env`.
 cargo run -- live                                      # decode trades as they happen
 cargo run -- capture --minutes 5                       # record traffic to a file
 cargo run -- replay --path fixtures/golden-500.jsonl   # replay a recording
+cargo run -- verify --path fixtures/golden-500.jsonl   # check nothing is missing or extra
 ```
 
 ## What makes indexing this hard
@@ -92,6 +93,19 @@ zero updates dropped over a 190 second run
 92% cache hit rate, 457 RPC calls covering 1,486 misses
 ```
 
+**Writes are batched.** Saving one row at a time to a hosted Postgres meant two network
+round trips per trade. Measured on the 500 transaction fixture: 344 ms per event, with the
+process idle for 99% of it.
+
+```
+344 ms per event   ->   8.7 ms per event
+3.1 events/sec     ->   181 events/sec on live mainnet
+```
+
+Rows are buffered and written in groups of 100, or every 500 ms, whichever comes first. The
+progress marker is committed inside the same transaction as its batch, so it can never
+claim more than was actually written.
+
 **It can replay itself.** `capture` saves raw bytes off the wire. `replay` feeds them back
 through the same decode path live traffic uses. That is how the tests prove the same input
 always produces the same output, with no network involved.
@@ -129,16 +143,22 @@ Done:
 
 - Live pump.fun and PumpSwap decoding
 - Pool to token resolution, direction handled
+- Pool cache loaded from Postgres at startup, so a restart is not blind
 - Stable event IDs
 - Capture, replay, deterministic tests
 - Bounded queues with a stated overflow policy, counters every 10 seconds
 - Postgres schema and migrations
+- Batched writes, with the progress marker committed in the same transaction as its batch
+- Graceful shutdown that flushes the last batch before exiting
+- `verify`, an independent check for missing or duplicated rows, exits non-zero on either
+- `dead_letters`, so a failed batch is kept with its error instead of discarded
+- CI on every push: format, lint, tests
 
 Next:
 
-- Postgres writes, batched
-- Crash and restart test proving nothing is lost or duplicated
+- Gap detection and backfill after a disconnect
 - Query API and metrics
+- Docker compose, one command boot
 
 ## Notes
 
