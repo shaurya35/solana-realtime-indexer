@@ -4,7 +4,7 @@ use sqlx::PgPool;
 use tokio::sync::mpsc;
 
 use crate::db::{self, PendingWrite};
-use crate::metrics::{DB_WRITE_ERRORS, inc};
+use crate::metrics::{DB_WRITE_ERRORS, DEAD_LETTERS, inc};
 
 const BATCH_SIZE: usize = 100;
 
@@ -93,6 +93,15 @@ async fn flush(db: &PgPool, batch: &mut Vec<PendingWrite>) {
         Err(err) => {
             inc(&DB_WRITE_ERRORS);
             eprintln!("db: batch of {} failed, rolled back: {err}", batch.len());
+
+            match db::write_dead_letters(db, batch, &err.to_string()).await {
+                Ok(()) => {
+                    for _ in batch.iter() {
+                        inc(&DEAD_LETTERS);
+                    }
+                }
+                Err(e) => println!("db: could not park {} dead letters: {e}", batch.len()),
+            }
         }
     }
 

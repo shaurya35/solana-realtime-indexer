@@ -9,6 +9,7 @@ mod pipeline;
 mod pools;
 mod processors;
 mod writer;
+mod verify;
 
 use std::collections::HashMap;
 
@@ -23,6 +24,7 @@ use config::{GRPC_ENDPOINT, SOLANA_RPC_URL, database_url, grpc_x_token, transact
 use datasources::replay::ReplayDatasource;
 use identity::EventLog;
 use pipeline::run_pipeline;
+use verify::run_verify;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -62,6 +64,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
             run_pipeline(ReplayDatasource { path, repeat }, rpc, events.clone(), db).await?;
             println!("Collected {} events", events.lock().unwrap().len());
+            return Ok(());
+        }
+
+        Commands::Verify { path } => {
+            let db = db::connect(&database_url().expect("DATABASE_URL not set")).await?;
+
+            let clean = run_verify(path, &db).await?;
+
+            if !clean {
+                std::process::exit(1);
+            }
+
             return Ok(());
         }
 
