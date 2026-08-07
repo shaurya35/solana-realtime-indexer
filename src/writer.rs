@@ -76,9 +76,9 @@ async fn flush(db: &PgPool, batch: &mut Vec<PendingWrite>) {
     };
 
     let result = async {
-        db::write_events(&mut *tx, batch).await?;
-        db::write_trades(&mut *tx, batch).await?;
-        db::write_checkpoint(&mut *tx, slot, &signature).await
+        db::write_events(&mut tx, batch).await?;
+        db::write_trades(&mut tx, batch).await?;
+        db::write_checkpoint(&mut tx, slot, &signature).await
     }
     .await;
 

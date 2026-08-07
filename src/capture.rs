@@ -66,7 +66,7 @@ pub async fn run_capture(minutes: u64) -> Result<(), Box<dyn std::error::Error>>
                 writeln!(out, "{line}")?;
                 written += 1;
 
-                if written % 100 == 0 {
+                if written.is_multiple_of(100) {
                     println!("{written} transactions written");
                 }
             }

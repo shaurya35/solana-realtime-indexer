@@ -24,22 +24,21 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         println!(
             "[{index}] program={program_id}  stack_height={stack_height}  accounts={account_count}  path={:?}",
-            vec![index]
+            [index]
         );
 
         if let Some(group) = inner_groups
             .iter()
             .find(|g| g["index"].as_u64() == Some(index as u64))
+            && let Some(inners) = group["instructions"].as_array()
         {
-            if let Some(inners) = group["instructions"].as_array() {
-                for (inner_idx, inner) in inners.iter().enumerate() {
-                    let p = inner["programId"].as_str().unwrap_or("?");
-                    let sh = inner["stackHeight"].as_u64().unwrap_or(0);
-                    println!(
-                        "      inner program={p}  stack_height={sh}  path={:?}",
-                        vec![index, inner_idx]
-                    );
-                }
+            for (inner_idx, inner) in inners.iter().enumerate() {
+                let p = inner["programId"].as_str().unwrap_or("?");
+                let sh = inner["stackHeight"].as_u64().unwrap_or(0);
+                println!(
+                    "      inner program={p}  stack_height={sh}  path={:?}",
+                    [index, inner_idx]
+                );
             }
         }
     }
