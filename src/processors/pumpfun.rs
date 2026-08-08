@@ -6,11 +6,22 @@ use crate::identity::{EventId, EventLog};
 use crate::metrics::{EVENTS_DECODED, SKIPPED_FAILED, inc};
 
 use crate::writer::Writer;
+
+use std::sync::Arc;
+use std::sync::atomic::AtomicU64;
+
+use carbon_core::datasource::DatasourceDisconnection;
+use tokio::sync::mpsc::Sender;
+
+use crate::gaps;
+
 use serde_json::Value;
 
 pub struct TradeEventProcessor {
     pub events: EventLog,
     pub writer: Option<Writer>,
+    pub watermark: Arc<AtomicU64>,
+    pub gaps: Option<Sender<DatasourceDisconnection>>,
 }
 
 impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpfunInstruction>>
@@ -24,6 +35,12 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, Pumpfun
             inc(&SKIPPED_FAILED);
             return Ok(());
         }
+
+        gaps::check_slot(
+            &self.watermark,
+            self.gaps.as_ref(),
+            data.metadata.transaction_metadata.slot,
+        );
 
         let PumpfunInstruction::CpiEvent {
             data: CpiEvent::TradeEvent(trade),

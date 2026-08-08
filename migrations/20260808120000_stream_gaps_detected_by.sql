@@ -1,0 +1,1 @@
+ALTER TABLE stream_gaps ADD COLUMN detected_by TEXT NOT NULL DEFAULT 'yellowstone-grpc';
