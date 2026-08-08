@@ -226,7 +226,7 @@ the datasource threw away was never seen at all.
 
 ## Storage
 
-Four tables. Migrations in `migrations/`.
+Six tables. Migrations in `migrations/`.
 
 ### Amounts are integers, never floats
 
@@ -251,6 +251,31 @@ would mean refetching history.
 `events` has a `parser_version` column. Changing decode logic bumps it, which makes it
 possible to tell old rows from current ones and to backfill selectively.
 
+### Writes are batched
+
+The first version wrote one row at a time. Timing a replay of 503 events gave 173 seconds of
+wall clock and 2 seconds of CPU. The process was idle for 99% of it, waiting on a database in
+another region. That works out to 344 ms per event, two round trips each.
+
+Mainnet delivers well over 100 events per second. At 344 ms per event the pipeline falls
+behind, Carbon's channel fills, and updates are discarded.
+
+Rows now collect in a buffer and are written together, either when 100 have gathered or when
+500 ms have passed, whichever comes first. The size trigger is what makes it fast. The time
+trigger is what stops rows sitting in memory through a quiet period. Both are needed.
+
+The same replay now takes 4 seconds, 8.7 ms per event. On live traffic, throughput went from
+3.1 events per second to 181.
+
+The writer is its own task behind a channel. When that channel is full the sender waits
+instead of discarding, which is the opposite of what Carbon's datasource does. A writer
+falling behind shows up as backpressure, not as missing rows.
+
+A flush is given 10 seconds. A normal one takes about 170 ms, so this only trips when
+something is wrong. Without it, a hung database holds the writer open indefinitely and
+shutdown waits behind it. That was not theoretical: one insert took 59.9 seconds during a
+network outage, and Ctrl+C did nothing until the network came back.
+
 ### The checkpoint
 
 `ingestion_checkpoints` holds exactly one row, enforced by a constraint. It records the
@@ -267,6 +292,19 @@ it, permanently and silently.
 
 Resuming from the checkpoint means redoing part of a batch. The primary key plus
 `ON CONFLICT DO NOTHING` makes those repeats no-ops, so the overlap is free.
+
+### Dead letters
+
+A batch that fails to write is kept in `dead_letters` with the error that killed it, instead
+of being logged and dropped.
+
+A failed transaction rolls back, so nothing partial lands. With nowhere to put those rows, up
+to 100 trades disappear on one connection timeout, and the row count keeps climbing so
+nothing looks wrong.
+
+This does not cover every case. When the database itself is unreachable, writing the dead
+letters fails too. A 30 minute run recorded 4 batch failures: three connection pool timeouts,
+where the database was up and the rows were kept, and one network error, where they were not.
 
 ## Why not Carbon's generated tables
 
@@ -286,6 +324,76 @@ instruction calls. This project records trades, across two protocols, in a shape
 supports querying by token and by time.
 
 Different products, not better and worse versions of the same one.
+
+## Gaps in the stream
+
+The connection to mainnet will drop. When it comes back, the slots that passed during the
+outage are simply absent, and nothing records that they are missing.
+
+Two detectors write to `stream_gaps`, because they catch different failures.
+
+The first uses Carbon's disconnection signal. The datasource notices when 30 seconds pass
+with no messages, remembers the last slot it saw, and reports the range once the stream
+resumes. That signal is easy to miss: the client takes a channel for it, and passing `None`,
+which every example does, means the work is done and then thrown away.
+
+The second watches slot numbers on every transaction. Slots are not consecutive even when
+nothing is wrong, since a validator that misses its turn leaves an empty slot behind. The
+threshold came from measuring rather than guessing. Across 167,000 recorded events, jumps of
+1 to 10 slots happened thousands of times and jumps of 205 or more happened once each, with
+nothing in between. 50 sits in that gap and is about 20 seconds of silence.
+
+It exists because the first detector only fires when the connection visibly breaks. A stall
+shorter than 30 seconds, or a stream that stays open and quietly skips ahead, produces no
+disconnection at all.
+
+Both processors share one slot counter, an atomic updated with `fetch_max`. One shared number
+rather than one each, because each processor sees only part of the traffic and two counters
+would disagree. `fetch_max` means the number only moves forward, so events arriving slightly
+out of order cannot rewind it, and whichever processor reaches a gap first claims it while the
+second sees nothing.
+
+The counter starts empty on every run. Comparing against a slot from a previous run would
+report each restart as a gap the size of the downtime, which is a different problem and one
+the checkpoint already handles.
+
+Gaps carry a status of open, recovering or closed rather than a done flag, so a recovery that
+was attempted and failed does not look the same as one never tried.
+
+A 25 second outage produced two rows with identical boundaries, 437993119 to 437993182, 63
+slots, one from each detector. Two independent methods agreeing exactly is the useful part.
+The duplicate is left alone: those rows record observations rather than work items, and
+refetching a range twice costs nothing because the writes are idempotent.
+
+## Knowing nothing was lost
+
+`verify` answers one question. Does the database hold exactly what a file decodes to.
+
+Row counts cannot answer it. A count rising while data is quietly missing looks the same as
+one rising correctly, because there is nothing to compare it against.
+
+The expected list has to come from somewhere the write path cannot influence. A tally kept by
+the writer would only prove the writer agrees with itself. If it skips a row and does not
+count it, the tally and the table still match and the check passes.
+
+So `verify` decodes the file a second time with no database attached. No writer is created,
+so that pass cannot be shaped by anything on the storage side. It then reads back only the
+signatures the file contains, since the same database also holds live data that has nothing
+to do with the fixture.
+
+The comparison runs both ways. Expected and not found means data was lost. Found and not
+expected means rows exist the file cannot account for. Checking one direction catches loss
+and is blind to duplication.
+
+It compares sets, not counts. 503 against 503 still passes when one row is duplicated and a
+different one is missing.
+
+It exits non-zero, so a crash test or a CI job can fail on it without anyone reading the
+output.
+
+What it proves is that nothing was lost between decoding and storage. It does not prove the
+decoding is correct, which is a separate check against the chain. And it works on fixtures
+only, since live data has no file to compare against.
 
 ## Testing
 
@@ -329,3 +437,13 @@ replacement test, and there isn't one.
 
 **Coverage is partial.** Instruction and event types beyond those listed are decoded and
 ignored rather than stored. Unknown types are logged and never panic.
+
+**Gaps are recorded, not filled.** `stream_gaps` says what is missing. Nothing goes and
+fetches it yet, so every row sits at status open.
+
+**The slot watermark has not caught a gap on its own.** Every outage tested so far was long
+enough that Carbon's disconnection signal fired too. The case only the watermark can catch,
+a stream that stays open and skips ahead, has not been reproduced.
+
+**`verify` cannot check live data.** It compares against a file, and live traffic has no
+file. Verifying a live range needs the expected list rebuilt from the chain.
