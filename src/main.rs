@@ -3,6 +3,7 @@ mod cli;
 mod config;
 mod datasources;
 mod db;
+mod gaps;
 mod identity;
 mod metrics;
 mod pipeline;
@@ -20,8 +21,11 @@ use carbon_yellowstone_grpc_datasource::YellowstoneGrpcGeyserClient;
 
 use capture::run_capture;
 use cli::{Cli, Commands};
-use config::{GRPC_ENDPOINT, SOLANA_RPC_URL, database_url, grpc_x_token, transaction_filters};
+use config::{
+    GAP_QUEUE_SIZE, GRPC_ENDPOINT, SOLANA_RPC_URL, database_url, grpc_x_token, transaction_filters,
+};
 use datasources::replay::ReplayDatasource;
+use gaps::spawn_gap_recorder;
 use identity::EventLog;
 use pipeline::run_pipeline;
 use verify::run_verify;
@@ -85,6 +89,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let filters = transaction_filters();
     println!("Transaction filters: {}", filters.len());
 
+    let db = db::connect(&database_url().expect("DATABASE_URL not set")).await?;
+
+    let gaps = spawn_gap_recorder(db.clone(), GAP_QUEUE_SIZE);
+
     let grpc_client = YellowstoneGrpcGeyserClient::new(
         GRPC_ENDPOINT.to_string(),
         grpc_x_token(),
@@ -94,11 +102,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Default::default(),
         Default::default(),
         Default::default(),
-        None,
+        Some(gaps),
         None,
     );
-
-    let db = db::connect(&database_url().expect("DATABASE_URL not set")).await?;
 
     run_pipeline(
         grpc_client,

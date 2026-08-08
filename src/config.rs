@@ -20,6 +20,8 @@ pub const WRITE_QUEUE_SIZE: usize = 10_000;
 pub const PIPELINE_QUEUE_SIZE: usize = 10_000;
 pub const POOL_LOOKUP_QUEUE_SIZE: usize = 1_000;
 
+pub const GAP_QUEUE_SIZE: usize = 64;
+
 pub const WSOL_MINT: &str = "So11111111111111111111111111111111111111112";
 
 pub static SOLANA_RPC_URL: LazyLock<String> =

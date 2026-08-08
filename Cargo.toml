@@ -27,4 +27,4 @@ async-trait = "0.1"
 tokio-util = "0.7"
 solana-signature = "3.0"
 dotenvy = "0.15"
-sqlx = { version = "0.9", default-features = false, features = ["runtime-tokio", "tls-rustls-aws-lc-rs", "postgres", "json",] }
+sqlx = { version = "0.9", default-features = false, features = ["runtime-tokio", "tls-rustls-aws-lc-rs", "postgres", "json", "chrono" ] }

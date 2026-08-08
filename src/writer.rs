@@ -9,6 +9,7 @@ use crate::metrics::{DB_WRITE_ERRORS, DEAD_LETTERS, inc};
 const BATCH_SIZE: usize = 100;
 
 const FLUSH_INTERVAL: Duration = Duration::from_millis(500);
+const FLUSH_TIMEOUT: Duration = Duration::from_secs(10);
 
 #[derive(Clone)]
 pub struct Writer {
@@ -65,33 +66,15 @@ async fn flush(db: &PgPool, batch: &mut Vec<PendingWrite>) {
         return;
     };
 
-    let mut tx = match db.begin().await {
-        Ok(tx) => tx,
-        Err(err) => {
-            inc(&DB_WRITE_ERRORS);
-            eprintln!("db: could not start transaction: {err}");
-            batch.clear();
-            return;
-        }
-    };
+    let attempt =
+        tokio::time::timeout(FLUSH_TIMEOUT, write_batch(db, batch, slot, &signature)).await;
 
-    let result = async {
-        db::write_events(&mut tx, batch).await?;
-        db::write_trades(&mut tx, batch).await?;
-        db::write_checkpoint(&mut tx, slot, &signature).await
-    }
-    .await;
+    match attempt {
+        Ok(Ok(())) => {}
 
-    match result {
-        Ok(()) => {
-            if let Err(err) = tx.commit().await {
-                inc(&DB_WRITE_ERRORS);
-                eprintln!("db: commit failed, batch of {}: {err}", batch.len());
-            }
-        }
-        Err(err) => {
+        Ok(Err(err)) => {
             inc(&DB_WRITE_ERRORS);
-            eprintln!("db: batch of {} failed, rolled back: {err}", batch.len());
+            eprintln!("db: batch of {} failed: {err}", batch.len());
 
             match db::write_dead_letters(db, batch, &err.to_string()).await {
                 Ok(()) => {
@@ -99,10 +82,33 @@ async fn flush(db: &PgPool, batch: &mut Vec<PendingWrite>) {
                         inc(&DEAD_LETTERS);
                     }
                 }
-                Err(e) => println!("db: could not park {} dead letters: {e}", batch.len()),
+                Err(e) => eprintln!("db: could not park {} dead letters: {e}", batch.len()),
             }
+        }
+
+        Err(_) => {
+            inc(&DB_WRITE_ERRORS);
+            eprintln!(
+                "db: batch of {} timed out after {FLUSH_TIMEOUT:?}",
+                batch.len()
+            );
         }
     }
 
     batch.clear();
+}
+
+async fn write_batch(
+    db: &PgPool,
+    batch: &[PendingWrite],
+    slot: i64,
+    signature: &str,
+) -> Result<(), sqlx::Error> {
+    let mut tx = db.begin().await?;
+
+    db::write_events(&mut tx, batch).await?;
+    db::write_trades(&mut tx, batch).await?;
+    db::write_checkpoint(&mut tx, slot, signature).await?;
+
+    tx.commit().await
 }
