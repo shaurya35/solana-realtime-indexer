@@ -18,12 +18,18 @@ cp .env.example .env
 cargo test
 ```
 
-Tests run off a committed fixture. No endpoint, no API key, no network. Three tests, under
-a second.
+Tests run off a committed fixture. No endpoint, no API key, no network.
+
+That fixture is `fixtures/golden-500.jsonl`, 500 real mainnet transactions saved as raw wire
+bytes. It is the largest file in the repo and it is the reason the tests need nothing.
 
 ## Run it
 
-Needs a mainnet Yellowstone gRPC endpoint in `.env`.
+Needs a Yellowstone gRPC endpoint and a Postgres URL in `.env`.
+
+The free endpoint at `solana-yellowstone-grpc.publicnode.com:443` needs a personal token,
+which you generate for free at [allnodes.com/publicnode](https://www.allnodes.com/publicnode).
+It goes in `.env` as `YELLOWSTONE_X_TOKEN`. Without it the connection is refused.
 
 ```bash
 cargo run -- live                                      # decode trades as they happen
@@ -153,10 +159,11 @@ Done:
 - `verify`, an independent check for missing or duplicated rows, exits non-zero on either
 - `dead_letters`, so a failed batch is kept with its error instead of discarded
 - CI on every push: format, lint, tests
+- Gap detection, two independent ways: the disconnect signal, and a jump in slot numbers
 
 Next:
 
-- Gap detection and backfill after a disconnect
+- Backfill: go and fetch what the gaps say is missing
 - Query API and metrics
 - Docker compose, one command boot
 
