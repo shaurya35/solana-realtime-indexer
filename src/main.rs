@@ -66,7 +66,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 None => None,
             };
 
-            run_pipeline(ReplayDatasource { path, repeat }, rpc, events.clone(), db).await?;
+            run_pipeline(
+                ReplayDatasource { path, repeat },
+                rpc,
+                events.clone(),
+                db,
+                None,
+            )
+            .await?;
             println!("Collected {} events", events.lock().unwrap().len());
             return Ok(());
         }
@@ -102,7 +109,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Default::default(),
         Default::default(),
         Default::default(),
-        Some(gaps),
+        Some(gaps.clone()),
         None,
     );
 
@@ -111,6 +118,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some(RpcClient::new(SOLANA_RPC_URL.to_string())),
         EventLog::default(),
         Some(db),
+        Some(gaps),
     )
     .await?;
 
@@ -268,6 +276,7 @@ mod tests {
             },
             None,
             events.clone(),
+            None,
             None,
         )
         .await

@@ -12,11 +12,21 @@ use crate::metrics::{EVENTS_DECODED, POOL_CACHE_HITS, POOL_CACHE_MISSES, SKIPPED
 use crate::pools::{PoolInfo, PoolResolver};
 use crate::writer::Writer;
 
+use std::sync::Arc;
+use std::sync::atomic::AtomicU64;
+
+use carbon_core::datasource::DatasourceDisconnection;
+use tokio::sync::mpsc::Sender;
+
+use crate::gaps;
+
 pub struct PumpSwapEventProcessor {
     pub resolver: Option<PoolResolver>,
     pub requested: HashSet<Pubkey>,
     pub events: EventLog,
     pub writer: Option<Writer>,
+    pub watermark: Arc<AtomicU64>,
+    pub gaps: Option<Sender<DatasourceDisconnection>>,
 }
 
 impl PumpSwapEventProcessor {
@@ -59,6 +69,12 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
             inc(&SKIPPED_FAILED);
             return Ok(());
         }
+
+        gaps::check_slot(
+            &self.watermark,
+            self.gaps.as_ref(),
+            data.metadata.transaction_metadata.slot,
+        );
 
         let PumpSwapInstruction::CpiEvent { data: cpi_data, .. } = data.decoded_instruction else {
             return Ok(());

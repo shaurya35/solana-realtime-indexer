@@ -13,6 +13,7 @@ pub async fn run_verify(path: String, db: &PgPool) -> Result<bool, Box<dyn std::
         None,
         events.clone(),
         None,
+        None,
     )
     .await?;
 

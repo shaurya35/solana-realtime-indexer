@@ -213,15 +213,17 @@ pub async fn write_gap(
     end_slot: i64,
     missed_slots: i64,
     detected_at: chrono::DateTime<chrono::Utc>,
+    detected_by: &str,
 ) -> Result<(), sqlx::Error> {
     sqlx::query(
-        "INSERT INTO stream_gaps (start_slot, end_slot, missed_slots, detected_at)
-         VALUES ($1, $2, $3, $4)",
+        "INSERT INTO stream_gaps (start_slot, end_slot, missed_slots, detected_at, detected_by)
+         VALUES ($1, $2, $3, $4, $5)",
     )
     .bind(start_slot)
     .bind(end_slot)
     .bind(missed_slots)
     .bind(detected_at)
+    .bind(detected_by)
     .execute(db)
     .await?;
 

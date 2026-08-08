@@ -22,6 +22,8 @@ pub const POOL_LOOKUP_QUEUE_SIZE: usize = 1_000;
 
 pub const GAP_QUEUE_SIZE: usize = 64;
 
+pub const SLOT_GAP_TOLERANCE: u64 = 50;
+
 pub const WSOL_MINT: &str = "So11111111111111111111111111111111111111112";
 
 pub static SOLANA_RPC_URL: LazyLock<String> =
