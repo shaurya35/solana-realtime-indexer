@@ -36,6 +36,8 @@ cargo run -- live                                      # decode trades as they h
 cargo run -- capture --minutes 5                       # record traffic to a file
 cargo run -- replay --path fixtures/golden-500.jsonl   # replay a recording
 cargo run -- verify --path fixtures/golden-500.jsonl   # check nothing is missing or extra
+cargo run -- recover                                   # refetch whatever the gaps say is missing
+cargo run -- backfill --from 437993119 --to 437993182  # refetch a slot range by hand
 ```
 
 ## What makes indexing this hard
@@ -160,10 +162,11 @@ Done:
 - `dead_letters`, so a failed batch is kept with its error instead of discarded
 - CI on every push: format, lint, tests
 - Gap detection, two independent ways: the disconnect signal, and a jump in slot numbers
+- Recovery: gaps are refetched from the chain through the same decode path as live traffic
 
 Next:
 
-- Backfill: go and fetch what the gaps say is missing
+- Verify a live slot range, not just a saved file
 - Query API and metrics
 - Docker compose, one command boot
 

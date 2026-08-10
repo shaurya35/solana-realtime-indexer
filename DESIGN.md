@@ -365,6 +365,43 @@ slots, one from each detector. Two independent methods agreeing exactly is the u
 The duplicate is left alone: those rows record observations rather than work items, and
 refetching a range twice costs nothing because the writes are idempotent.
 
+## Filling them back in
+
+A gap row says what is missing. Getting it back means asking an RPC node for those blocks.
+
+`getBlocks` first, then `getBlock` for each. `getBlocks` returns only the slots in a range
+that actually produced a block, so the crawl never asks for one that does not exist.
+`getSignaturesForAddress` was the alternative and was rejected: it is discovery for a single
+program and can miss things at the edges of a range, where a gap's boundaries always are.
+
+Recovered transactions go through the same processors as live traffic. A separate decode
+path for recovered data would be a second set of bugs, and the two would drift apart in ways
+nothing would report.
+
+Carbon ships an RPC block crawler that does this. It is not used here. Its task processor
+sends with `try_send` and, on a full channel, breaks out of the loop and abandons the rest of
+the block. For a backfill, whose entire purpose is completeness, that is the wrong trade: it
+would fill one gap while quietly creating another. This one blocks instead, because the RPC
+is happy to wait.
+
+Blocks are fetched with a growing delay on failure, four attempts at 200ms, 400ms and 800ms.
+A single failure is usually a blip. A run of them is the provider asking you to slow down,
+and retrying without a delay makes that worse. Carbon's reconnect loop has no such delay and
+issued 29,837 subscribe attempts during a 90 second outage, which is what prompted adding one
+here.
+
+Ranges are fetched a few slots either side of the recorded boundaries. A partial block is
+most likely at the edges, and re-inserting costs nothing because of the primary key.
+
+Two detectors can report the same hole. Both rows stay, since two independent methods
+agreeing is worth recording, but recovery skips a range it has already covered in the same
+run rather than fetching it twice.
+
+A gap moves open, then recovering, then closed. It is marked recovering before the work
+starts, so a crash leaves it visibly stuck rather than looking untried. Only a close records
+when and how, which means the timestamp is evidence of a real recovery and the status is
+just a label.
+
 ## Knowing nothing was lost
 
 `verify` answers one question. Does the database hold exactly what a file decodes to.
@@ -437,9 +474,6 @@ replacement test, and there isn't one.
 
 **Coverage is partial.** Instruction and event types beyond those listed are decoded and
 ignored rather than stored. Unknown types are logged and never panic.
-
-**Gaps are recorded, not filled.** `stream_gaps` says what is missing. Nothing goes and
-fetches it yet, so every row sits at status open.
 
 **The slot watermark has not caught a gap on its own.** Every outage tested so far was long
 enough that Carbon's disconnection signal fired too. The case only the watermark can catch,

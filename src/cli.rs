@@ -29,5 +29,15 @@ pub enum Commands {
         path: String,
     },
 
+    Backfill {
+        #[arg(long)]
+        from: u64,
+
+        #[arg(long)]
+        to: u64,
+    },
+
+    Recover,
+
     Live,
 }

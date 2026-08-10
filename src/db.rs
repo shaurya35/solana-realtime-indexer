@@ -229,3 +229,43 @@ pub async fn write_gap(
 
     Ok(())
 }
+
+pub struct OpenGap {
+    pub gap_id: i64,
+    pub start_slot: i64,
+    pub end_slot: i64,
+}
+
+pub async fn open_gaps(db: &PgPool) -> Result<Vec<OpenGap>, sqlx::Error> {
+    let rows = sqlx::query(
+        "SELECT gap_id, start_slot, end_slot FROM stream_gaps
+         WHERE status = 'open' ORDER BY gap_id",
+    )
+    .fetch_all(db)
+    .await?;
+
+    Ok(rows
+        .into_iter()
+        .map(|r| OpenGap {
+            gap_id: r.get("gap_id"),
+            start_slot: r.get("start_slot"),
+            end_slot: r.get("end_slot"),
+        })
+        .collect())
+}
+
+pub async fn mark_gap(db: &PgPool, gap_id: i64, status: &str) -> Result<(), sqlx::Error> {
+    sqlx::query(
+        "UPDATE stream_gaps
+         SET status = $2,
+             recovered_at = CASE WHEN $2 = 'closed' THEN now() ELSE recovered_at END,
+             recovery_method = CASE WHEN $2 = 'closed' THEN 'rpc-block-fetch' ELSE recovery_method END
+         WHERE gap_id = $1",
+    )
+    .bind(gap_id)
+    .bind(status)
+    .execute(db)
+    .await?;
+
+    Ok(())
+}

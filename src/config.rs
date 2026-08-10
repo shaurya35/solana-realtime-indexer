@@ -21,8 +21,11 @@ pub const PIPELINE_QUEUE_SIZE: usize = 10_000;
 pub const POOL_LOOKUP_QUEUE_SIZE: usize = 1_000;
 
 pub const GAP_QUEUE_SIZE: usize = 64;
+pub const GAP_OVERLAP_SLOTS: u64 = 64;
 
 pub const SLOT_GAP_TOLERANCE: u64 = 50;
+
+pub const RPC_MAX_ATTEMPTS: u32 = 4;
 
 pub const WSOL_MINT: &str = "So11111111111111111111111111111111111111112";
 
