@@ -11,6 +11,7 @@ mod pools;
 mod processors;
 mod verify;
 mod writer;
+mod recover;
 
 use std::collections::HashMap;
 
@@ -29,6 +30,9 @@ use gaps::spawn_gap_recorder;
 use identity::EventLog;
 use pipeline::run_pipeline;
 use verify::run_verify;
+use recover::run_recover;
+
+use crate::datasources::backfill::BackfillDatasource;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -87,6 +91,31 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 std::process::exit(1);
             }
 
+            return Ok(());
+        }
+
+        Commands::Backfill { from, to } => {
+            let db = db::connect(&database_url().expect("DATABASE_URL not set")).await?;
+
+            run_pipeline(
+                BackfillDatasource {
+                    rpc_url: SOLANA_RPC_URL.to_string(),
+                    start_slot: from,
+                    end_slot: to,
+                }, 
+                Some(RpcClient::new(SOLANA_RPC_URL.to_string())), 
+                EventLog::default(), 
+                Some(db), 
+                None
+            )
+            .await?;
+
+            return Ok(())
+        }
+
+        Commands::Recover => {
+            let db = db::connect(&database_url().expect("DATABASE_URL not set")).await?;
+            run_recover(db).await?;
             return Ok(());
         }
 
