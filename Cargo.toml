@@ -2,7 +2,6 @@
 name = "solana-realtime-indexer"
 version = "0.1.0"
 edition = "2024"
-default-run = "solana-realtime-indexer"
 
 [dependencies]
 carbon-core = "1.0.0"

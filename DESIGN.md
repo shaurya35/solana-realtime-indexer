@@ -207,7 +207,7 @@ than an accident.
 
 ### Results
 
-A 190 second live run. Raw output in `docs/gates/week1/drop-fix-stats.txt`.
+A 190 second live run. Raw output in `docs/evidence/drop-fix-stats.txt`.
 
 | | Before | After |
 |---|---|---|
