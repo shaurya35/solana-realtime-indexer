@@ -1,3 +1,4 @@
+mod api;
 mod capture;
 mod cli;
 mod config;
@@ -20,6 +21,7 @@ use solana_rpc_client::nonblocking::rpc_client::RpcClient;
 
 use carbon_yellowstone_grpc_datasource::YellowstoneGrpcGeyserClient;
 
+use api::run_api;
 use capture::run_capture;
 use cli::{Cli, Commands};
 use config::{
@@ -39,7 +41,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     dotenvy::dotenv().ok();
 
     env_logger::init();
-    metrics::spawn_reporter();
 
     rustls::crypto::aws_lc_rs::default_provider()
         .install_default()
@@ -132,6 +133,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
 
         Commands::Live => {}
+
+        Commands::Api { port } => {
+            let db = db::connect(&database_url().expect("DATABASE_URL not set")).await?;
+
+            run_api(db, port).await?;
+            return Ok(());
+        }
     }
 
     let filters = transaction_filters();

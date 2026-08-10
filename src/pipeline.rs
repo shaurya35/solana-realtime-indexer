@@ -28,6 +28,8 @@ pub async fn run_pipeline(
     db: Option<PgPool>,
     gaps: Option<Sender<DatasourceDisconnection>>,
 ) -> Result<(), Box<dyn std::error::Error>> {
+    crate::metrics::spawn_reporter();
+
     let resolver =
         rpc.map(|client| spawn_pool_resolver(client, POOL_LOOKUP_QUEUE_SIZE, db.clone()));
 

@@ -14,18 +14,36 @@ Work in progress, built in public.
 ```bash
 git clone https://github.com/shaurya35/solana-realtime-indexer
 cd solana-realtime-indexer
+docker compose up --build
+```
+
+Then:
+
+```bash
+curl -s localhost:3000/health | jq
+curl -s 'localhost:3000/trades/recent?limit=5' | jq
+```
+
+No account and no API key. Postgres comes up empty, gets loaded from
+`fixtures/golden-500.jsonl`, and the API serves it.
+
+That fixture is 500 real mainnet transactions saved as raw wire bytes. It is the largest
+file in the repo, and it is what makes both this and the test suite run without an endpoint.
+
+The demo does use Solana's public RPC to work out which side of a PumpSwap pool is SOL.
+That needs internet, but no account.
+
+Tests, with no Docker and no network at all:
+
+```bash
 cp .env.example .env
 cargo test
 ```
 
-Tests run off a committed fixture. No endpoint, no API key, no network.
+## Run it against live mainnet
 
-That fixture is `fixtures/golden-500.jsonl`, 500 real mainnet transactions saved as raw wire
-bytes. It is the largest file in the repo and it is the reason the tests need nothing.
-
-## Run it
-
-Needs a Yellowstone gRPC endpoint and a Postgres URL in `.env`.
+This is the part that needs an endpoint. Set a Yellowstone gRPC URL and a Postgres URL
+in `.env`.
 
 The free endpoint at `solana-yellowstone-grpc.publicnode.com:443` needs a personal token,
 which you generate for free at [allnodes.com/publicnode](https://www.allnodes.com/publicnode).
@@ -39,7 +57,21 @@ cargo run -- verify --path fixtures/golden-500.jsonl   # check a recording again
 cargo run -- verify-range --from 437993119 --to 437993182  # check a slot range against the chain
 cargo run -- recover                                   # refetch whatever the gaps say is missing
 cargo run -- backfill --from 437993119 --to 437993182  # refetch a slot range by hand
+cargo run -- api                                       # serve it on localhost:3000
 ```
+
+## Query it
+
+```
+GET /health                       last completed slot, row counts, unresolved gaps
+GET /trades/recent?limit=20       newest trades
+GET /trades/token/{mint}?limit=50 trades for one token
+GET /volume/token/{mint}          trade count and total SOL for one token
+```
+
+Amounts are returned as strings. They are stored as raw integers and can exceed what a JSON
+number holds exactly, so sending them as numbers would let a JavaScript client round them
+without saying so.
 
 ## What makes indexing this hard
 
