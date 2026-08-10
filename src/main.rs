@@ -30,7 +30,7 @@ use gaps::spawn_gap_recorder;
 use identity::EventLog;
 use pipeline::run_pipeline;
 use recover::run_recover;
-use verify::run_verify;
+use verify::{run_verify, run_verify_range};
 
 use crate::datasources::backfill::BackfillDatasource;
 
@@ -86,6 +86,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             let db = db::connect(&database_url().expect("DATABASE_URL not set")).await?;
 
             let clean = run_verify(path, &db).await?;
+
+            if !clean {
+                std::process::exit(1);
+            }
+
+            return Ok(());
+        }
+
+        Commands::VerifyRange { from, to } => {
+            let db = db::connect(&database_url().expect("DATABASE_URL not set")).await?;
+
+            let clean = run_verify_range(from, to, &db).await?;
 
             if !clean {
                 std::process::exit(1);

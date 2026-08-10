@@ -429,8 +429,28 @@ It exits non-zero, so a crash test or a CI job can fail on it without anyone rea
 output.
 
 What it proves is that nothing was lost between decoding and storage. It does not prove the
-decoding is correct, which is a separate check against the chain. And it works on fixtures
-only, since live data has no file to compare against.
+decoding is correct, which is a separate check against the chain.
+
+### Checking a live range
+
+The fixture version compares against a file, which is something you recorded. `verify-range`
+compares against the chain, which is what you recorded it from.
+
+Give it two slot numbers. It crawls that range over RPC with no database attached, builds the
+expected set from what comes back, and reads your tables for the same slots.
+
+The actual set is scoped by slot rather than by a list of signatures. For a file you have to
+ask about specific signatures, because the database also holds unrelated live data. For a
+slot range, anything stored in that range should be explainable by the chain, and anything
+that is not is exactly what "extra" is for.
+
+This is what checks a recovery. After a gap is refetched, the run reports "finished" and
+closes the row, which is the program marking its own work. `verify-range` is the second
+opinion.
+
+Two limits. It compares events, not trades: no RPC client is passed to the pipeline, so pools
+are never resolved and amounts are never oriented. And if the decoder itself misses
+something, both sides miss it equally and the check still passes.
 
 ## Testing
 
@@ -479,5 +499,6 @@ ignored rather than stored. Unknown types are logged and never panic.
 enough that Carbon's disconnection signal fired too. The case only the watermark can catch,
 a stream that stays open and skips ahead, has not been reproduced.
 
-**`verify` cannot check live data.** It compares against a file, and live traffic has no
-file. Verifying a live range needs the expected list rebuilt from the chain.
+**Verification does not cover amounts.** Both versions of `verify` compare event identities.
+Nothing automatically checks that a stored `sol_amount` matches the chain. That was done by
+hand across ten trades and has not been automated.

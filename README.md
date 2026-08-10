@@ -35,7 +35,8 @@ It goes in `.env` as `YELLOWSTONE_X_TOKEN`. Without it the connection is refused
 cargo run -- live                                      # decode trades as they happen
 cargo run -- capture --minutes 5                       # record traffic to a file
 cargo run -- replay --path fixtures/golden-500.jsonl   # replay a recording
-cargo run -- verify --path fixtures/golden-500.jsonl   # check nothing is missing or extra
+cargo run -- verify --path fixtures/golden-500.jsonl   # check a recording against the database
+cargo run -- verify-range --from 437993119 --to 437993182  # check a slot range against the chain
 cargo run -- recover                                   # refetch whatever the gaps say is missing
 cargo run -- backfill --from 437993119 --to 437993182  # refetch a slot range by hand
 ```
@@ -163,10 +164,10 @@ Done:
 - CI on every push: format, lint, tests
 - Gap detection, two independent ways: the disconnect signal, and a jump in slot numbers
 - Recovery: gaps are refetched from the chain through the same decode path as live traffic
+- A recovered range can be checked against the chain, not just against a saved file
 
 Next:
 
-- Verify a live slot range, not just a saved file
 - Query API and metrics
 - Docker compose, one command boot
 
