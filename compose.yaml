@@ -1,0 +1,49 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: indexer
+      POSTGRES_PASSWORD: indexer
+      POSTGRES_DB: indexer
+    volumes:
+      - ./migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U indexer"]
+      interval: 2s
+      retries: 15
+
+  seed:
+    image: postgres:16
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PGPASSWORD: indexer
+    volumes:
+      - ./docker/seed-pools.sql:/seed.sql:ro
+    command: ["psql", "-h", "postgres", "-U", "indexer", "-d", "indexer", "-f", "/seed.sql"]
+    restart: "no"
+
+  indexer:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+      seed:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: postgres://indexer:indexer@postgres:5432/indexer
+      SOLANA_RPC_URL: https://api.mainnet-beta.solana.com
+    command: ["replay", "--path", "fixtures/golden-500.jsonl", "--repeat", "1", "--resolve"]
+    restart: "no"
+
+  api:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://indexer:indexer@postgres:5432/indexer
+    ports:
+      - "3000:3000"
+    command: ["api"]

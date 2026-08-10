@@ -9,6 +9,7 @@ carbon-core = "1.0.0"
 carbon-pumpfun-decoder = { version = "1.0.0", features = ["serde"] }
 carbon-pump-swap-decoder = { version = "1.0.0", features = ["serde"] }
 carbon-yellowstone-grpc-datasource = "1.0.0"
+serde = { version = "1", features = ["derive"] }
 serde_json = "1.0.150"
 bs58 = "0.5.1"
 base64 = "0.22"
@@ -30,3 +31,4 @@ tokio-util = "0.7"
 solana-signature = "3.0"
 dotenvy = "0.15"
 sqlx = { version = "0.9", default-features = false, features = ["runtime-tokio", "tls-rustls-aws-lc-rs", "postgres", "json", "chrono" ] }
+axum = "0.8"
