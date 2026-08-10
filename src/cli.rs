@@ -29,6 +29,14 @@ pub enum Commands {
         path: String,
     },
 
+    VerifyRange {
+        #[arg(long)]
+        from: u64,
+
+        #[arg(long)]
+        to: u64,
+    },
+
     Backfill {
         #[arg(long)]
         from: u64,
