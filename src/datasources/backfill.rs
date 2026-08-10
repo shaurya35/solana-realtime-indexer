@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use async_trait::async_trait;
 
 use carbon_core::datasource::{Datasource, DatasourceId, TransactionUpdate, Update, UpdateType};
@@ -7,7 +9,10 @@ use tokio_util::sync::CancellationToken;
 
 use solana_rpc_client::nonblocking::rpc_client::RpcClient;
 use solana_rpc_client_api::config::RpcBlockConfig;
+use solana_transaction_status::UiConfirmedBlock;
 use solana_transaction_status::{TransactionDetails, UiTransactionEncoding};
+
+use crate::config::RPC_MAX_ATTEMPTS;
 
 pub struct BackfillDatasource {
     pub rpc_url: String,
@@ -52,12 +57,8 @@ impl Datasource for BackfillDatasource {
                 break;
             }
 
-            let block = match rpc.get_block_with_config(slot, config).await {
-                Ok(b) => b,
-                Err(err) => {
-                    eprintln!("backfill: slot {slot} failed: {err}");
-                    continue;
-                }
+            let Some(block) = fetch_block(&rpc, slot, config).await else {
+                continue;
             };
 
             let block_time = block.block_time;
@@ -67,7 +68,6 @@ impl Datasource for BackfillDatasource {
             };
 
             for (index, tx) in transactions.into_iter().enumerate() {
-
                 let Some(decoded) = tx.transaction.decode() else {
                     continue;
                 };
@@ -108,8 +108,33 @@ impl Datasource for BackfillDatasource {
         Ok(())
     }
 
-
     fn update_types(&self) -> Vec<UpdateType> {
         vec![UpdateType::Transaction]
+    }
+}
+
+async fn fetch_block(
+    rpc: &RpcClient,
+    slot: u64,
+    config: RpcBlockConfig,
+) -> Option<UiConfirmedBlock> {
+    let mut wait = Duration::from_millis(200);
+    let mut attempt = 1;
+
+    loop {
+        match rpc.get_block_with_config(slot, config).await {
+            Ok(block) => return Some(block),
+            Err(err) => {
+                eprintln!("backfill: slot {slot} attempt {attempt} failed: {err}");
+
+                if attempt >= RPC_MAX_ATTEMPTS {
+                    return None;
+                }
+
+                tokio::time::sleep(wait).await;
+                wait *= 2;
+                attempt += 1;
+            }
+        }
     }
 }

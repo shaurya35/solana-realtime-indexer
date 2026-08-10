@@ -25,6 +25,8 @@ pub const GAP_OVERLAP_SLOTS: u64 = 64;
 
 pub const SLOT_GAP_TOLERANCE: u64 = 50;
 
+pub const RPC_MAX_ATTEMPTS: u32 = 4;
+
 pub const WSOL_MINT: &str = "So11111111111111111111111111111111111111112";
 
 pub static SOLANA_RPC_URL: LazyLock<String> =

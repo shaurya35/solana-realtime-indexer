@@ -237,7 +237,6 @@ pub struct OpenGap {
 }
 
 pub async fn open_gaps(db: &PgPool) -> Result<Vec<OpenGap>, sqlx::Error> {
-    
     let rows = sqlx::query(
         "SELECT gap_id, start_slot, end_slot FROM stream_gaps
          WHERE status = 'open' ORDER BY gap_id",
@@ -253,7 +252,6 @@ pub async fn open_gaps(db: &PgPool) -> Result<Vec<OpenGap>, sqlx::Error> {
             end_slot: r.get("end_slot"),
         })
         .collect())
-    
 }
 
 pub async fn mark_gap(db: &PgPool, gap_id: i64, status: &str) -> Result<(), sqlx::Error> {

@@ -12,9 +12,17 @@ pub async fn run_recover(db_pool: PgPool) -> Result<(), Box<dyn std::error::Erro
 
     println!("recover: {} open gaps", gaps.len());
 
+    let mut covered: Vec<(u64, u64)> = Vec::new();
+
     for gap in gaps {
         let from = (gap.start_slot as u64).saturating_sub(GAP_OVERLAP_SLOTS);
         let to = gap.end_slot as u64 + GAP_OVERLAP_SLOTS;
+
+        if covered.iter().any(|(a, b)| from >= *a && to <= *b) {
+            println!("recover: gap {} already covered this run", gap.gap_id);
+            db::mark_gap(&db_pool, gap.gap_id, "closed").await?;
+            continue;
+        }
 
         println!("recover: gap {} covering slots {from} to {to}", gap.gap_id);
 
@@ -32,6 +40,8 @@ pub async fn run_recover(db_pool: PgPool) -> Result<(), Box<dyn std::error::Erro
             None,
         )
         .await?;
+
+        covered.push((from, to));
 
         db::mark_gap(&db_pool, gap.gap_id, "closed").await?;
         println!("recover: gap {} closed", gap.gap_id);

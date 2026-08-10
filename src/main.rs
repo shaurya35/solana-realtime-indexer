@@ -9,9 +9,9 @@ mod metrics;
 mod pipeline;
 mod pools;
 mod processors;
+mod recover;
 mod verify;
 mod writer;
-mod recover;
 
 use std::collections::HashMap;
 
@@ -29,8 +29,8 @@ use datasources::replay::ReplayDatasource;
 use gaps::spawn_gap_recorder;
 use identity::EventLog;
 use pipeline::run_pipeline;
-use verify::run_verify;
 use recover::run_recover;
+use verify::run_verify;
 
 use crate::datasources::backfill::BackfillDatasource;
 
@@ -102,15 +102,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                     rpc_url: SOLANA_RPC_URL.to_string(),
                     start_slot: from,
                     end_slot: to,
-                }, 
-                Some(RpcClient::new(SOLANA_RPC_URL.to_string())), 
-                EventLog::default(), 
-                Some(db), 
-                None
+                },
+                Some(RpcClient::new(SOLANA_RPC_URL.to_string())),
+                EventLog::default(),
+                Some(db),
+                None,
             )
             .await?;
 
-            return Ok(())
+            return Ok(());
         }
 
         Commands::Recover => {
