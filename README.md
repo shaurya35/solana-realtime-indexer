@@ -9,6 +9,36 @@ Written in Rust. Streams over Yellowstone gRPC, decodes with
 
 Work in progress, built in public.
 
+## How it works
+
+![One decode path, three ways in](docs/images/three-way-architecture.png)
+
+Live traffic, a saved file, and a range of slots all enter through the same function.
+`run_pipeline` takes a datasource and does not care which one it got.
+
+That is the decision the rest of the project rests on. The decoder that handles mainnet is
+the decoder the tests run, and the decoder that fills a gap. There is no second path that
+could quietly drift from the first.
+
+Everything after that box is the same four steps, whichever way the data came in.
+
+![What happens to a single trade](docs/images/single-transaction-architecture.png)
+
+**Decode.** Raw wire bytes to a typed struct, one decoder per program.
+
+**Interpret.** pump.fun is a bonding curve, so the mint is in the instruction. PumpSwap is
+a pool with a base slot and a quote slot, and nothing in the instruction says which one
+holds the token. That lookup happens in the background, off the hot path.
+
+**Hand off.** The processor drops the row into a channel and returns. It never waits for
+the database.
+
+**Write.** A separate task batches rows and commits them with the progress marker in one
+transaction, so the marker can never claim more than was written.
+
+Gap detection, recovery, `verify`, the query API and metrics are left off. They answer
+different questions and hang off the side of this.
+
 ## Try it
 
 ```bash
@@ -197,11 +227,13 @@ Done:
 - Gap detection, two independent ways: the disconnect signal, and a jump in slot numbers
 - Recovery: gaps are refetched from the chain through the same decode path as live traffic
 - A recovered range can be checked against the chain, not just against a saved file
+- Read-only query API over the indexed data
+- Docker compose, one command boot with no account and no API key
 
 Next:
 
-- Query API and metrics
-- Docker compose, one command boot
+- `repair`, rebuilding missing trade rows from the stored event payload
+- A metrics endpoint, rather than counters printed every ten seconds
 
 ## Notes
 
