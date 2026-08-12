@@ -187,6 +187,7 @@ mod tests {
 
     use std::fs;
     use std::str::FromStr;
+    use std::collections::BTreeSet;
 
     use carbon_core::instruction::InstructionDecoder;
     use carbon_pumpfun_decoder::PumpfunDecoder;
@@ -349,10 +350,56 @@ mod tests {
         let first = replay_ids("fixtures/golden-500.jsonl").await;
         let second = replay_ids("fixtures/golden-500.jsonl").await;
 
-        assert!(
-            !first.is_empty(),
-            "no events decoded — fixture or decode path broken"
+        assert_eq!(
+            first.len(),
+            GOLDEN_EVENTS,
+            "fixture produced {} events, expected {GOLDEN_EVENTS}",
+            first.len()
         );
+
         assert_eq!(first, second, "same fixture produced different event IDs");
+    }
+
+    const GOLDEN_EVENTS: usize = 503;
+
+    #[tokio::test]
+    async fn identity_is_unique() {
+        let ids = replay_ids("fixtures/golden-500.jsonl").await;
+        let distinct: BTreeSet<&EventId> = ids.iter().collect();
+
+        assert_eq!(
+            distinct.len(),
+            ids.len(),
+            "two events share an identity, so one would silently overwrite the other"
+        );
+    }
+
+    #[tokio::test]
+    async fn carbon_index_alone_would_collide() {
+        let ids = replay_ids("fixtures/golden-500.jsonl").await;
+
+        let mut by_index: HashMap<(String, u8), Vec<Vec<u8>>> = HashMap::new();
+
+        for id in &ids {
+            let Some(&index) = id.absolute_path.first() else {
+                continue;
+            };
+            by_index
+                .entry((id.signature.clone(), index))
+                .or_default()
+                .push(id.absolute_path.clone());
+        }
+
+        let collisions: Vec<_> = by_index.iter().filter(|(_, p)| p.len() > 1).collect();
+
+        for ((sig, index), paths) in &collisions {
+            println!("collision: sig={sig} carbon_index={index} paths={paths:?}");
+        }
+
+        assert!(
+            !collisions.is_empty(),
+            "no two events in the fixture share a Carbon index, so the \
+             README's collision example is not real"
+        );
     }
 }

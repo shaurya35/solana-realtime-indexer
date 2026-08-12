@@ -31,18 +31,31 @@ instruction number. Every instruction nested inside a given outer instruction sh
 From the test fixture:
 
 ```
-signature 3ud3k16PF71eMbWpUirgaMHaxnxLiZQ87VUKcaYK7VGom8PaqKRXsh2TJ6zSAuJyPi4C6BPb2QFWVLdfDe87M3jV
+signature 5Pi1ga4SX3wN78mLQVXshdSUHdaLgexZzZsAZWngZ3GKLc4rfoZK96svu78V5WV1jswpio4wMgjx29b3pcWsm6JZ
 
-  absolute_path [3, 5]   sold      1,365,845,649
-  absolute_path [6, 5]   received  1,462,977,130
+  absolute_path [5, 1, 6]   sell  119,569,853,093 E2ueKQ…pump   for 8,473,779 lamports
+  absolute_path [5, 4, 6]   buy    44,622,120,223 FSwrbj…pump   for 8,264,547 lamports
 ```
 
-One transaction, two fills. A bot buying in one pool and selling in another. Both have the
-same instruction index, so one row overwrites the other and no error is raised. Every
-arbitrage transaction would lose half its volume.
+One transaction, two fills, two different tokens. A bot rotating out of one and into
+another atomically.
+
+Both paths begin with 5, so Carbon reports instruction index 5 for both. Under
+`(signature, instruction_index)` these two rows collide, one overwrites the other, and no
+error is raised. An entire token's trade disappears.
 
 The full path distinguishes them because it describes the whole route, not just the entry
 point.
+
+Three of the 500 transactions in the fixture do this. The test
+`carbon_index_alone_would_collide` asserts they are there, so this is checked on every
+push rather than taken on trust.
+
+An earlier version of this document used a different signature as the example, with paths
+`[3, 5]` and `[6, 5]`. Those begin with 3 and 6, so they never collided under the index
+alone and the example demonstrated nothing. It went uncorrected until an external review
+questioned it and the test above was written to settle the matter. The design was right;
+the evidence for it was not.
 
 ## What gets indexed
 
