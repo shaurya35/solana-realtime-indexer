@@ -24,6 +24,22 @@ Final stats line from a 30 minute unattended run against mainnet. 167,085
 events, zero panics, 4 database errors. The number below it is how many
 transactions the datasource refused because the pipeline could not keep up.
 
+## `repair.txt`
+
+Two runs of `repair` against a backlog of 8,315 events that had been stored but
+never interpreted. 7,771 recovered, every remaining row accounted for by a
+named reason, and a second run that wrote nothing. Also the measurement behind
+the token-to-token limit: 465 events across 150 pools that the current schema
+cannot represent.
+
+## `dead-letters.txt`
+
+The first run in which a failed batch was actually parked. The insert had been
+targeting a misspelled table since the feature was written, so the README
+claimed a safety property the code did not have. Includes the method for
+forcing every flush to fail against a healthy database, and two limits the run
+exposed.
+
 ## `gaptest.log.gz`, `gaptest2.log.gz`
 
 Full logs from two runs where the network was pulled for about a minute, to

@@ -1,0 +1,59 @@
+Dead letter path, first verified run.
+12 August 2026, local Postgres from compose.yaml, not Neon.
+
+Until this run the insert in src/db.rs targeted "deadl_letters" while the
+migration created "dead_letters". sqlx is configured without the macros
+feature, so there is no compile time SQL checking and the mistake only
+surfaced at runtime, as a failed park that nobody was looking for. The
+README claimed failed batches were preserved. They never were.
+
+Method: bring up only Postgres, rename the events table out of the way so
+every flush fails against a healthy database, replay the committed fixture,
+then read the table back.
+
+  $ docker compose up -d postgres
+  $ docker compose exec postgres psql -U indexer -d indexer \
+      -c "ALTER TABLE events RENAME TO events_hidden;"
+  $ DATABASE_URL=postgres://indexer:indexer@localhost:5433/indexer \
+      cargo run -- replay --path fixtures/golden-500.jsonl
+
+The events table is the one to break rather than trades, because
+write_trades returns early when no row in the batch carries a trade, while
+write_events never does. Breaking events guarantees every flush fails.
+
+Tail of the run:
+
+  db: batch of 100 failed: error returned from database: relation "events" does not exist at line 1449
+  db: batch of 100 failed: error returned from database: relation "events" does not exist at line 1449
+  db: batch of 3 failed: error returned from database: relation "events" does not exist at line 1449
+  shutdown: writer stopped!
+  Collected 503 events
+
+Read back:
+
+  $ docker compose exec postgres psql -U indexer -d indexer \
+      -c "SELECT count(*), left(error, 70) AS error FROM dead_letters GROUP BY 2;"
+
+   count |                                 error
+  -------+------------------------------------------------------------------------
+    1006 | error returned from database: relation "events" does not exist at line
+  (1 row)
+
+Rows are parked with the originating error attached, which is what the
+README claims and what was not true before this fix.
+
+Two things this run also showed.
+
+The count is 1006 against 503 events collected, exactly twice. The replay was
+run more than once against the same container and the rows accumulated. That
+is not a bug in the writer, but it is only harmless by accident: dead_letters
+is keyed on a BIGSERIAL id alone, with no unique constraint on
+(signature, absolute_path, event_ordinal) the way events and trades are. The
+same event can be parked any number of times and nothing objects. Anything
+reading this table has to account for that.
+
+Every batch here failed inside the transaction, so this exercises the error
+path. The flush timeout path is a separate branch and parks the same way, but
+if the database is unreachable rather than merely refusing the statement, the
+park attempt uses the same pool and can fail too. That case is logged and
+still loses the batch.

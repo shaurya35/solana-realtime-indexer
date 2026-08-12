@@ -11,6 +11,7 @@ mod pipeline;
 mod pools;
 mod processors;
 mod recover;
+mod repair;
 mod verify;
 mod writer;
 
@@ -123,6 +124,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             )
             .await?;
 
+            return Ok(());
+        }
+
+        Commands::Repair { limit } => {
+            let db = db::connect(&database_url().expect("DATABASE_URL not set")).await?;
+            repair::run_repair(db, limit).await?;
             return Ok(());
         }
 

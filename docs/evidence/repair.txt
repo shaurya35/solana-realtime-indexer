@@ -1,0 +1,86 @@
+repair, first run against the accumulated backlog.
+12 August 2026, Neon.
+
+Background. A PumpSwap event whose pool is not yet known cannot be oriented,
+because nothing in the instruction says which side of the pool holds the token
+and which holds wrapped SOL. The processor refuses to guess. It writes the raw
+event and writes no trade. Seconds later the RPC answers, the pool is cached,
+and every later trade in that pool resolves normally. The earlier ones stay
+uninterpreted.
+
+Those events were never lost. They were never interpreted, on purpose. The
+pools table now holds the answer and events.payload still holds the raw wire
+data, so the interpretation that was impossible then is possible now. That is
+what repair does. It is local only: no RPC, no network, whatever the pools
+table knows at the moment it runs.
+
+Starting point, events with no matching trade row:
+
+  pumpswap  SellEvent   4541
+  pumpswap  BuyEvent    3726
+  pumpfun   TradeEvent    48
+                        ----
+                        8315
+
+First run:
+
+  $ cargo run -- repair
+  repair: 2642 pools known
+  repair: 8267 events with no trade row
+  repair: 7771 trades written
+  repair: 31 skipped, pool still not in the pools table
+  repair: 465 skipped, neither side of the pool is wrapped SOL
+  repair: 0 skipped, amount does not fit in i64
+  repair: 0 skipped, payload could not be read
+
+7771 + 31 + 465 = 8267. Nothing unaccounted for.
+
+Second run, immediately after:
+
+  $ cargo run -- repair
+  repair: 2642 pools known
+  repair: 496 events with no trade row
+  repair: 0 trades written
+  repair: 31 skipped, pool still not in the pools table
+  repair: 465 skipped, neither side of the pool is wrapped SOL
+
+496 is exactly 31 + 465. Nothing was written the second time. Rows are keyed on
+(signature, absolute_path, event_ordinal) and inserted with ON CONFLICT DO
+NOTHING, so a repeat run is a no-op rather than a duplicate. The reported count
+is rows actually inserted, not rows attempted, which is why the second run is
+honest about having done nothing.
+
+Remaining afterwards:
+
+  SELECT count(*) FROM events e
+  LEFT JOIN trades t
+    ON  t.signature     = e.signature
+    AND t.absolute_path = e.absolute_path
+    AND t.event_ordinal = e.event_ordinal
+  WHERE t.signature IS NULL;
+
+   count
+  -------
+     544
+
+544 is 496 plus the 48 pump.fun rows, which repair does not touch.
+
+What is left, and why.
+
+465 events, across 150 distinct pools: neither side of the pool is wrapped SOL.
+These are token to token pools. The trades table has a NOT NULL sol_amount
+column and there is no honest value to put in it for a swap with no SOL leg.
+This is not a bug in repair, it is a limit of the data model, and 465 events
+across 150 pools is enough to say it is a normal case rather than an oddity.
+Recording these needs quote_mint and quote_amount columns and a decision about
+what a trade means when no SOL is involved.
+
+48 events, pump.fun: the amount does not fit in i64. Solana amounts are u64 and
+the sol_amount and token_amount columns are BIGINT. When the conversion fails
+the processor writes the event and drops the trade, with no counter and no log.
+Fixing this means moving those columns to NUMERIC. repair cannot help until
+then, because it would hit the same wall.
+
+31 events: the pool has never been resolved at all. These would need an RPC
+lookup. repair is deliberately local so that it stays fast and repeatable, so
+these are reported rather than fetched.

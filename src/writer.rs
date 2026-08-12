@@ -88,10 +88,17 @@ async fn flush(db: &PgPool, batch: &mut Vec<PendingWrite>) {
 
         Err(_) => {
             inc(&DB_WRITE_ERRORS);
-            eprintln!(
-                "db: batch of {} timed out after {FLUSH_TIMEOUT:?}",
-                batch.len()
-            );
+            let err = format!("flush timed out after {FLUSH_TIMEOUT:?}");
+            eprintln!("db: batch of {} {err}", batch.len());
+
+            match db::write_dead_letters(db, batch, &err).await {
+                Ok(()) => {
+                    for _ in batch.iter() {
+                        inc(&DEAD_LETTERS);
+                    }
+                }
+                Err(e) => eprintln!("db: could not park {} dead letters: {e}", batch.len()),
+            }
         }
     }
 
