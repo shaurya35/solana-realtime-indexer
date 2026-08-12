@@ -86,6 +86,7 @@ cargo run -- replay --path fixtures/golden-500.jsonl   # replay a recording
 cargo run -- verify --path fixtures/golden-500.jsonl   # check a recording against the database
 cargo run -- verify-range --from 437993119 --to 437993182  # check a slot range against the chain
 cargo run -- recover                                   # refetch whatever the gaps say is missing
+cargo run -- repair                                    # rebuild trades from stored payloads
 cargo run -- backfill --from 437993119 --to 437993182  # refetch a slot range by hand
 cargo run -- api                                       # serve it on localhost:3000
 ```
@@ -154,9 +155,16 @@ This is not a rare case. Measured on 445 real events across 92 pools:
 Half the pools where it could be established store SOL in the base slot. This checks both
 mints against the wrapped SOL address, and flips the buy/sell direction too.
 
-**Nothing is dropped silently.** An RPC call on the hot path was costing 66% of the stream,
+**Every discard is counted.** An RPC call on the hot path was costing 66% of the stream,
 invisibly, because the datasource discards without a counter when it can't keep up. Pool
-lookups now happen in the background and every discard path is counted.
+lookups now happen in the background, every discard path this code owns is counted, and
+the refusals coming from upstream are counted too.
+
+Counted, not eliminated. Carbon's queue drops transactions when the pipeline falls behind,
+and a 30 minute mainnet soak recorded 524,666 refused updates against 167,617 decoded. The
+number is visible rather than absent, which is the difference between a known limit and a
+silent one. Closing that gap is upstream work, tracked in
+[Carbon issue #580](https://github.com/sevenlabs-hq/carbon/issues/580).
 
 ```
 5.9 events/sec   ->   118 events/sec
@@ -180,6 +188,23 @@ claim more than was actually written.
 **It can replay itself.** `capture` saves raw bytes off the wire. `replay` feeds them back
 through the same decode path live traffic uses. That is how the tests prove the same input
 always produces the same output, with no network involved.
+
+**An event that could not be interpreted can be interpreted later.** A PumpSwap trade in a
+pool nobody has seen yet cannot be oriented, so no trade row is written. The raw event is
+stored anyway. Once the pool is known, `repair` rebuilds those trades from the stored
+payload, with no network and no re-fetch.
+
+```
+8,315 events with no trade row
+7,771 rebuilt
+  465 token to token pools, no SOL leg, not representable in this schema
+   31 pool never resolved
+   48 amount larger than i64
+```
+
+Running it twice writes nothing the second time. Rows are keyed the same way as the
+originals, so a repeat is a no-op rather than a duplicate. Numbers and method in
+[docs/evidence/repair.txt](docs/evidence/repair.txt).
 
 ## Coverage
 
@@ -230,9 +255,12 @@ Done:
 - Read-only query API over the indexed data
 - Docker compose, one command boot with no account and no API key
 
+- `repair`, rebuilding trades from stored payloads once the pool becomes known
+
 Next:
 
-- `repair`, rebuilding missing trade rows from the stored event payload
+- Amounts as `NUMERIC` rather than `BIGINT`, so a `u64` that exceeds `i64` is not dropped
+- Token to token pools, which need a quote asset in the schema and not just SOL
 - A metrics endpoint, rather than counters printed every ten seconds
 
 ## Notes

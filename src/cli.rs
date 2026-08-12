@@ -45,6 +45,11 @@ pub enum Commands {
         to: u64,
     },
 
+    Repair {
+        #[arg(long, default_value_t = 100_000)]
+        limit: i64,
+    },
+
     Recover,
 
     Live,

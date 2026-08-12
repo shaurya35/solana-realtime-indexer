@@ -118,7 +118,7 @@ async fn volume(
     Path(mint): Path<String>,
 ) -> Result<Json<Volume>, StatusCode> {
     let row = sqlx::query(
-        "SELECT count(*) AS trades, coalesce(sum(sol_amount), 0) AS sol_volume
+        "SELECT count(*) AS trades, coalesce(sum(sol_amount), 0)::text AS sol_volume
          FROM trades WHERE token_mint = $1",
     )
     .bind(&mint)
@@ -129,7 +129,7 @@ async fn volume(
     Ok(Json(Volume {
         token_mint: mint,
         trades: row.get("trades"),
-        sol_volume: row.get::<i64, _>("sol_volume").to_string(),
+        sol_volume: row.get("sol_volume"),
     }))
 }
 

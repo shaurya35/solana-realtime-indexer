@@ -189,7 +189,7 @@ pub async fn write_dead_letters(
     }
 
     let mut q: sqlx::QueryBuilder<sqlx::Postgres> = sqlx::QueryBuilder::new(
-        "INSERT INTO deadl_letters
+        "INSERT INTO dead_letters
                 (signature, absolute_path, event_ordinal, slot, payload, error) ",
     );
 
@@ -268,4 +268,87 @@ pub async fn mark_gap(db: &PgPool, gap_id: i64, status: &str) -> Result<(), sqlx
     .await?;
 
     Ok(())
+}
+
+pub struct UnrepairedEvent {
+    pub signature: String,
+    pub absolute_path: Vec<u8>,
+    pub event_ordinal: i32,
+    pub slot: i64,
+    pub block_time: Option<i64>,
+    pub event_type: String,
+    pub payload: Value,
+}
+
+pub struct RepairedTrade {
+    pub signature: String,
+    pub absolute_path: Vec<u8>,
+    pub event_ordinal: i32,
+    pub slot: i64,
+    pub block_time: Option<i64>,
+    pub trade: TradeRow,
+}
+
+pub async fn load_unrepaired(db: &PgPool, limit: i64) -> Result<Vec<UnrepairedEvent>, sqlx::Error> {
+    let rows = sqlx::query(
+        "SELECT e.signature, e.absolute_path, e.event_ordinal, e.slot, e.block_time,
+                e.event_type, e.payload
+           FROM events e
+           LEFT JOIN trades t
+             ON  t.signature     = e.signature
+             AND t.absolute_path = e.absolute_path
+             AND t.event_ordinal = e.event_ordinal
+          WHERE t.signature IS NULL
+            AND e.program = 'pumpswap'
+          ORDER BY e.slot
+          LIMIT $1",
+    )
+    .bind(limit)
+    .fetch_all(db)
+    .await?;
+
+    Ok(rows
+        .into_iter()
+        .map(|r| UnrepairedEvent {
+            signature: r.get("signature"),
+            absolute_path: r.get("absolute_path"),
+            event_ordinal: r.get("event_ordinal"),
+            slot: r.get("slot"),
+            block_time: r.get("block_time"),
+            event_type: r.get("event_type"),
+            payload: r.get("payload"),
+        })
+        .collect())
+}
+
+pub async fn write_repaired(db: &PgPool, rows: &[RepairedTrade]) -> Result<u64, sqlx::Error> {
+    if rows.is_empty() {
+        return Ok(0);
+    }
+
+    let mut q: sqlx::QueryBuilder<sqlx::Postgres> = sqlx::QueryBuilder::new(
+        "INSERT INTO trades
+           (signature, absolute_path, event_ordinal, slot, block_time, program,
+            pool, token_mint, side, sol_amount, token_amount, trader, fee) ",
+    );
+
+    q.push_values(rows, |mut b, r| {
+        b.push_bind(&r.signature)
+            .push_bind(&r.absolute_path)
+            .push_bind(r.event_ordinal)
+            .push_bind(r.slot)
+            .push_bind(r.block_time)
+            .push_bind("pumpswap")
+            .push_bind(&r.trade.pool)
+            .push_bind(&r.trade.token_mint)
+            .push_bind(r.trade.side)
+            .push_bind(r.trade.sol_amount)
+            .push_bind(r.trade.token_amount)
+            .push_bind(&r.trade.trader)
+            .push_bind(r.trade.fee);
+    });
+
+    q.push(" ON CONFLICT DO NOTHING");
+
+    Ok(q.build().execute(db).await?.rows_affected())
 }
