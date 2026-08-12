@@ -185,9 +185,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 mod tests {
     use super::*;
 
+    use std::collections::BTreeSet;
     use std::fs;
     use std::str::FromStr;
-    use std::collections::BTreeSet;
 
     use carbon_core::instruction::InstructionDecoder;
     use carbon_pumpfun_decoder::PumpfunDecoder;
