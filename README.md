@@ -125,18 +125,23 @@ and your numbers are wrong.
 Here is a real one from the test fixture:
 
 ```
-3ud3k16PF71eMbWpUirgaMHaxnxLiZQ87VUKcaYK7VGom8PaqKRXsh2TJ6zSAuJyPi4C6BPb2QFWVLdfDe87M3jV
+5Pi1ga4SX3wN78mLQVXshdSUHdaLgexZzZsAZWngZ3GKLc4rfoZK96svu78V5WV1jswpio4wMgjx29b3pcWsm6JZ
 
-  path [3, 5]   sold     1,365,845,649
-  path [6, 5]   received 1,462,977,130
+  path [5, 1, 6]   sell  119,569,853,093 E2ueKQ…pump   for 8,473,779 lamports
+  path [5, 4, 6]   buy    44,622,120,223 FSwrbj…pump   for 8,264,547 lamports
 ```
 
-A bot buying in one pool and selling in another, atomically. Most indexers key rows on
-`(signature, instruction_index)`. Both of these rows have the same instruction index, so
-one of them silently disappears.
+A bot rotating out of one token and into another, atomically. Two tokens, one transaction.
+
+Carbon reports instruction index 5 for both, because the index is just the first element of
+the path. Most indexers key rows on `(signature, instruction_index)`. Under that key these
+two collide, one overwrites the other with no error, and an entire token's trade is gone.
 
 This one keys on `signature + absolute_path + event_ordinal`, where `absolute_path` is the
-full route through the transaction tree. Details in [DESIGN.md](DESIGN.md).
+full route through the transaction tree, so both survive.
+
+Three of the 500 transactions in the fixture do this, and the test
+`carbon_index_alone_would_collide` asserts it. Details in [DESIGN.md](DESIGN.md).
 
 ## Other things it gets right
 
