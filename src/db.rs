@@ -3,6 +3,8 @@ use sqlx::PgPool;
 use sqlx::Row;
 use sqlx::postgres::PgPoolOptions;
 
+use rust_decimal::Decimal;
+
 pub async fn connect(url: &str) -> Result<PgPool, sqlx::Error> {
     PgPoolOptions::new().max_connections(5).connect(url).await
 }
@@ -22,10 +24,10 @@ pub struct TradeRow {
     pub pool: Option<String>,
     pub token_mint: String,
     pub side: &'static str,
-    pub sol_amount: i64,
-    pub token_amount: i64,
+    pub sol_amount: Decimal,
+    pub token_amount: Decimal,
     pub trader: String,
-    pub fee: Option<i64>,
+    pub fee: Option<Decimal>,
 }
 
 pub struct PendingWrite {
@@ -276,6 +278,7 @@ pub struct UnrepairedEvent {
     pub event_ordinal: i32,
     pub slot: i64,
     pub block_time: Option<i64>,
+    pub program: String,
     pub event_type: String,
     pub payload: Value,
 }
@@ -286,20 +289,20 @@ pub struct RepairedTrade {
     pub event_ordinal: i32,
     pub slot: i64,
     pub block_time: Option<i64>,
+    pub program: String,
     pub trade: TradeRow,
 }
 
 pub async fn load_unrepaired(db: &PgPool, limit: i64) -> Result<Vec<UnrepairedEvent>, sqlx::Error> {
     let rows = sqlx::query(
         "SELECT e.signature, e.absolute_path, e.event_ordinal, e.slot, e.block_time,
-                e.event_type, e.payload
+                e.program, e.event_type, e.payload
            FROM events e
            LEFT JOIN trades t
              ON  t.signature     = e.signature
              AND t.absolute_path = e.absolute_path
              AND t.event_ordinal = e.event_ordinal
           WHERE t.signature IS NULL
-            AND e.program = 'pumpswap'
           ORDER BY e.slot
           LIMIT $1",
     )
@@ -315,6 +318,7 @@ pub async fn load_unrepaired(db: &PgPool, limit: i64) -> Result<Vec<UnrepairedEv
             event_ordinal: r.get("event_ordinal"),
             slot: r.get("slot"),
             block_time: r.get("block_time"),
+            program: r.get("program"),
             event_type: r.get("event_type"),
             payload: r.get("payload"),
         })
@@ -338,7 +342,7 @@ pub async fn write_repaired(db: &PgPool, rows: &[RepairedTrade]) -> Result<u64, 
             .push_bind(r.event_ordinal)
             .push_bind(r.slot)
             .push_bind(r.block_time)
-            .push_bind("pumpswap")
+            .push_bind(&r.program)
             .push_bind(&r.trade.pool)
             .push_bind(&r.trade.token_mint)
             .push_bind(r.trade.side)

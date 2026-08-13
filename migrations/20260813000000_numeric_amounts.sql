@@ -1,0 +1,4 @@
+ALTER TABLE trades
+  ALTER COLUMN sol_amount   TYPE NUMERIC(20, 0),
+  ALTER COLUMN token_amount TYPE NUMERIC(20, 0),
+  ALTER COLUMN fee          TYPE NUMERIC(20, 0);

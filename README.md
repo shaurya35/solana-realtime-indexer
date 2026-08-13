@@ -212,11 +212,14 @@ payload, with no network and no re-fetch.
 
 ```
 8,315 events with no trade row
-7,771 rebuilt
+7,819 rebuilt
   465 token to token pools, no SOL leg, not representable in this schema
    31 pool never resolved
-   48 amount larger than i64
 ```
+
+The last 48 of those took a schema change. Amounts on Solana are `u64`, the columns were
+`BIGINT`, and a value that did not fit was dropped with no counter and no log. Columns are
+now `NUMERIC(20, 0)`, which is exactly the `u64` domain, so the conversion cannot fail.
 
 Running it twice writes nothing the second time. Rows are keyed the same way as the
 originals, so a repeat is a no-op rather than a duplicate. Numbers and method in
@@ -272,11 +275,13 @@ Done:
 - Docker compose, one command boot with no account and no API key
 
 - `repair`, rebuilding trades from stored payloads once the pool becomes known
+- Amounts stored as `NUMERIC(20, 0)`, the exact `u64` domain, so no on-chain value can
+  overflow the column and be dropped
 
 Next:
 
-- Amounts as `NUMERIC` rather than `BIGINT`, so a `u64` that exceeds `i64` is not dropped
 - Token to token pools, which need a quote asset in the schema and not just SOL
+- Reading the checkpoint at startup, so a restart resumes instead of starting over
 - A metrics endpoint, rather than counters printed every ten seconds
 
 ## Notes

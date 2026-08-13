@@ -65,6 +65,31 @@ Remaining afterwards:
 
 544 is 496 plus the 48 pump.fun rows, which repair does not touch.
 
+Second pass, 13 August, after amounts moved to NUMERIC.
+
+The 48 pump.fun events above were never a pool problem. sol_amount and
+token_amount were BIGINT, which is i64, while Solana amounts are u64. When
+i64::try_from failed the processor wrote the event and dropped the trade with
+no counter and no log. The columns are now NUMERIC(20,0), which is exactly the
+u64 domain, and the Rust side is rust_decimal::Decimal, so the conversion
+cannot fail.
+
+repair also only ever looked at pumpswap. load_unrepaired filtered on
+program = 'pumpswap', so those 48 rows were not examined even once. build now
+dispatches on program: pump.fun is a bonding curve, so the mint and the
+direction are in the event itself and there is no pool to resolve.
+
+  $ sqlx migrate run
+  $ cargo run -- repair
+  repair: 2642 pools known
+  repair: 544 events with no trade row
+  repair: 48 trades written
+  repair: 31 skipped, pool still not in the pools table
+  repair: 465 skipped, neither side of the pool is wrapped SOL
+  repair: 0 skipped, payload could not be read
+
+544 = 48 + 31 + 465. The ten tests pass unchanged through the type change.
+
 What is left, and why.
 
 465 events, across 150 distinct pools: neither side of the pool is wrapped SOL.
@@ -75,12 +100,18 @@ across 150 pools is enough to say it is a normal case rather than an oddity.
 Recording these needs quote_mint and quote_amount columns and a decision about
 what a trade means when no SOL is involved.
 
-48 events, pump.fun: the amount does not fit in i64. Solana amounts are u64 and
-the sol_amount and token_amount columns are BIGINT. When the conversion fails
-the processor writes the event and drops the trade, with no counter and no log.
-Fixing this means moving those columns to NUMERIC. repair cannot help until
-then, because it would hit the same wall.
-
 31 events: the pool has never been resolved at all. These would need an RPC
 lookup. repair is deliberately local so that it stays fast and repeatable, so
 these are reported rather than fetched.
+
+Nothing else remains. Every stored event now either has a trade row or falls
+into one of those two categories, both of which are stated limits rather than
+silent failures.
+
+One thing the pump.fun payload showed while writing the parser. The event
+carries quote_mint and quote_amount alongside sol_amount, and in the sample
+quote_mint is the all zero pubkey with quote_amount equal to sol_amount. The
+quote asset happens to be SOL. If a pump.fun trade is ever quoted in something
+else, the sol_amount column would label it wrong and nothing would object. That
+is the same schema question as the 465 PumpSwap events above, arrived at from
+the other side.

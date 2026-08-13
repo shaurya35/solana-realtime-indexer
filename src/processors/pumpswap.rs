@@ -4,6 +4,8 @@ use carbon_core::instruction::InstructionProcessorInputType;
 use carbon_pump_swap_decoder::instructions::{CpiEvent as PumpSwapCpiEvent, PumpSwapInstruction};
 use solana_pubkey::Pubkey;
 
+use rust_decimal::Decimal;
+
 use serde_json::Value;
 
 use crate::db::{EventRow, PendingWrite, TradeRow};
@@ -103,16 +105,14 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                         payload: serde_json::to_value(trade).unwrap_or(Value::Null),
                     };
 
-                    let row = oriented.as_ref().and_then(|t| {
-                        Some(TradeRow {
-                            pool: Some(trade.pool.to_string()),
-                            token_mint: t.token_mint.to_string(),
-                            side: if t.is_buy { "buy" } else { "sell" },
-                            sol_amount: i64::try_from(t.sol_amount).ok()?,
-                            token_amount: i64::try_from(t.token_amount).ok()?,
-                            trader: trade.user.to_string(),
-                            fee: i64::try_from(trade.protocol_fee).ok(),
-                        })
+                    let row = oriented.as_ref().map(|t| TradeRow {
+                        pool: Some(trade.pool.to_string()),
+                        token_mint: t.token_mint.to_string(),
+                        side: if t.is_buy { "buy" } else { "sell" },
+                        sol_amount: Decimal::from(t.sol_amount),
+                        token_amount: Decimal::from(t.token_amount),
+                        trader: trade.user.to_string(),
+                        fee: Some(Decimal::from(trade.protocol_fee)),
                     });
 
                     writer.send(PendingWrite { event, trade: row }).await;
@@ -165,16 +165,14 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                         payload: serde_json::to_value(trade).unwrap_or(Value::Null),
                     };
 
-                    let row = oriented.as_ref().and_then(|t| {
-                        Some(TradeRow {
-                            pool: Some(trade.pool.to_string()),
-                            token_mint: t.token_mint.to_string(),
-                            side: if t.is_buy { "buy" } else { "sell" },
-                            sol_amount: i64::try_from(t.sol_amount).ok()?,
-                            token_amount: i64::try_from(t.token_amount).ok()?,
-                            trader: trade.user.to_string(),
-                            fee: i64::try_from(trade.protocol_fee).ok(),
-                        })
+                    let row = oriented.as_ref().map(|t| TradeRow {
+                        pool: Some(trade.pool.to_string()),
+                        token_mint: t.token_mint.to_string(),
+                        side: if t.is_buy { "buy" } else { "sell" },
+                        sol_amount: Decimal::from(t.sol_amount),
+                        token_amount: Decimal::from(t.token_amount),
+                        trader: trade.user.to_string(),
+                        fee: Some(Decimal::from(trade.protocol_fee)),
                     });
 
                     writer.send(PendingWrite { event, trade: row }).await;
