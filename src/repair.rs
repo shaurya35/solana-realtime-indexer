@@ -139,3 +139,80 @@ pub async fn run_repair(db: PgPool, limit: i64) -> Result<(), Box<dyn std::error
 
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+    use sqlx::Row;
+
+    const WSOL_STR: &str = "So11111111111111111111111111111111111111112";
+
+    #[tokio::test]
+    async fn repair_fills_a_trade_once_the_pool_is_known() {
+        let Some(db) = crate::db::test_pool().await else {
+            return;
+        };
+
+        let pool_key = Pubkey::new_unique();
+        let user = Pubkey::new_unique();
+        let token = Pubkey::new_unique();
+
+        sqlx::query(
+            "INSERT INTO events (signature, absolute_path, event_ordinal, slot,
+                                 block_time, program, event_type, payload)
+             VALUES ($1, $2, 0, 1, NULL, 'pumpswap', 'BuyEvent', $3)",
+        )
+        .bind("repairsig")
+        .bind(vec![1u8, 2])
+        .bind(json!({
+            "pool": pool_key.to_bytes().to_vec(),
+            "user": user.to_bytes().to_vec(),
+            "base_amount_out": 1_000,
+            "quote_amount_in": 50,
+            "protocol_fee": 7,
+        }))
+        .execute(&db)
+        .await
+        .unwrap();
+
+        sqlx::query(
+            "INSERT INTO pools (pool, base_mint, quote_mint, base_decimals, quote_decimals)
+             VALUES ($1, $2, $3, NULL, NULL)",
+        )
+        .bind(pool_key.to_string())
+        .bind(token.to_string())
+        .bind(WSOL_STR)
+        .execute(&db)
+        .await
+        .unwrap();
+
+        run_repair(db.clone(), 100).await.unwrap();
+
+        let trades: i64 = sqlx::query_scalar("SELECT count(*) FROM trades")
+            .fetch_one(&db)
+            .await
+            .unwrap();
+
+        assert_eq!(trades, 1, "repair did not rebuild the trade");
+
+        let row = sqlx::query("SELECT side, sol_amount, token_amount, token_mint FROM trades")
+            .fetch_one(&db)
+            .await
+            .unwrap();
+
+        assert_eq!(row.get::<String, _>("side"), "buy");
+        assert_eq!(row.get::<i64, _>("sol_amount"), 50);
+        assert_eq!(row.get::<i64, _>("token_amount"), 1_000);
+        assert_eq!(row.get::<String, _>("token_mint"), token.to_string());
+
+        run_repair(db.clone(), 100).await.unwrap();
+
+        let after: i64 = sqlx::query_scalar("SELECT count(*) FROM trades")
+            .fetch_one(&db)
+            .await
+            .unwrap();
+
+        assert_eq!(after, 1, "a second run wrote a duplicate");
+    }
+}
