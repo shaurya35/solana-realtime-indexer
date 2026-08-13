@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::str::FromStr;
 
+use rust_decimal::Decimal;
 use serde_json::Value;
 use solana_pubkey::Pubkey;
 use sqlx::PgPool;
@@ -11,7 +12,6 @@ use crate::pools::PoolInfo;
 enum Skipped {
     PoolUnknown,
     NoSolSide,
-    AmountTooLarge,
     BadPayload,
 }
 
@@ -28,6 +28,52 @@ fn pubkey_from_json(v: Option<&Value>) -> Option<Pubkey> {
 }
 
 fn build(e: &UnrepairedEvent, pools: &HashMap<String, PoolInfo>) -> Result<TradeRow, Skipped> {
+    match e.program.as_str() {
+        "pumpfun" => build_pumpfun(e),
+        "pumpswap" => build_pumpswap(e, pools),
+        _ => Err(Skipped::BadPayload),
+    }
+}
+
+/// pump.fun is a bonding curve, so the mint and the direction are both in the
+/// event itself. There is no pool to look up and nothing that can be unknown
+/// later, which is why these only ever failed on the old i64 amount limit.
+fn build_pumpfun(e: &UnrepairedEvent) -> Result<TradeRow, Skipped> {
+    let p = &e.payload;
+
+    let mint = pubkey_from_json(p.get("mint")).ok_or(Skipped::BadPayload)?;
+    let user = pubkey_from_json(p.get("user")).ok_or(Skipped::BadPayload)?;
+
+    let is_buy = p
+        .get("is_buy")
+        .and_then(Value::as_bool)
+        .ok_or(Skipped::BadPayload)?;
+
+    let sol_amount = p
+        .get("sol_amount")
+        .and_then(Value::as_u64)
+        .ok_or(Skipped::BadPayload)?;
+
+    let token_amount = p
+        .get("token_amount")
+        .and_then(Value::as_u64)
+        .ok_or(Skipped::BadPayload)?;
+
+    Ok(TradeRow {
+        pool: None,
+        token_mint: mint.to_string(),
+        side: if is_buy { "buy" } else { "sell" },
+        sol_amount: Decimal::from(sol_amount),
+        token_amount: Decimal::from(token_amount),
+        trader: user.to_string(),
+        fee: p.get("fee").and_then(Value::as_u64).map(Decimal::from),
+    })
+}
+
+fn build_pumpswap(
+    e: &UnrepairedEvent,
+    pools: &HashMap<String, PoolInfo>,
+) -> Result<TradeRow, Skipped> {
     let p = &e.payload;
 
     let pool = pubkey_from_json(p.get("pool")).ok_or(Skipped::BadPayload)?;
@@ -61,20 +107,17 @@ fn build(e: &UnrepairedEvent, pools: &HashMap<String, PoolInfo>) -> Result<Trade
         .orient(base_amount, quote_amount, acquiring_base)
         .ok_or(Skipped::NoSolSide)?;
 
-    let sol_amount = i64::try_from(t.sol_amount).map_err(|_| Skipped::AmountTooLarge)?;
-    let token_amount = i64::try_from(t.token_amount).map_err(|_| Skipped::AmountTooLarge)?;
-
     Ok(TradeRow {
         pool: Some(pool.to_string()),
         token_mint: t.token_mint.to_string(),
         side: if t.is_buy { "buy" } else { "sell" },
-        sol_amount,
-        token_amount,
+        sol_amount: Decimal::from(t.sol_amount),
+        token_amount: Decimal::from(t.token_amount),
         trader: user.to_string(),
         fee: p
             .get("protocol_fee")
             .and_then(Value::as_u64)
-            .and_then(|f| i64::try_from(f).ok()),
+            .map(Decimal::from),
     })
 }
 
@@ -104,7 +147,7 @@ pub async fn run_repair(db: PgPool, limit: i64) -> Result<(), Box<dyn std::error
 
     let mut ready: Vec<RepairedTrade> = Vec::new();
     let mut written = 0u64;
-    let (mut unknown, mut no_sol, mut too_large, mut bad) = (0usize, 0usize, 0usize, 0usize);
+    let (mut unknown, mut no_sol, mut bad) = (0usize, 0usize, 0usize);
 
     for e in &events {
         match build(e, &pools) {
@@ -115,6 +158,7 @@ pub async fn run_repair(db: PgPool, limit: i64) -> Result<(), Box<dyn std::error
                     event_ordinal: e.event_ordinal,
                     slot: e.slot,
                     block_time: e.block_time,
+                    program: e.program.clone(),
                     trade,
                 });
                 if ready.len() >= 100 {
@@ -124,7 +168,6 @@ pub async fn run_repair(db: PgPool, limit: i64) -> Result<(), Box<dyn std::error
             }
             Err(Skipped::PoolUnknown) => unknown += 1,
             Err(Skipped::NoSolSide) => no_sol += 1,
-            Err(Skipped::AmountTooLarge) => too_large += 1,
             Err(Skipped::BadPayload) => bad += 1,
         }
     }
@@ -134,7 +177,6 @@ pub async fn run_repair(db: PgPool, limit: i64) -> Result<(), Box<dyn std::error
     println!("repair: {written} trades written");
     println!("repair: {unknown} skipped, pool still not in the pools table");
     println!("repair: {no_sol} skipped, neither side of the pool is wrapped SOL");
-    println!("repair: {too_large} skipped, amount does not fit in i64");
     println!("repair: {bad} skipped, payload could not be read");
 
     Ok(())
@@ -202,8 +244,8 @@ mod tests {
             .unwrap();
 
         assert_eq!(row.get::<String, _>("side"), "buy");
-        assert_eq!(row.get::<i64, _>("sol_amount"), 50);
-        assert_eq!(row.get::<i64, _>("token_amount"), 1_000);
+        assert_eq!(row.get::<Decimal, _>("sol_amount"), Decimal::from(50));
+        assert_eq!(row.get::<Decimal, _>("token_amount"), Decimal::from(1_000));
         assert_eq!(row.get::<String, _>("token_mint"), token.to_string());
 
         run_repair(db.clone(), 100).await.unwrap();

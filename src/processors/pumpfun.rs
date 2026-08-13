@@ -7,6 +7,8 @@ use crate::metrics::{EVENTS_DECODED, SKIPPED_FAILED, inc};
 
 use crate::writer::Writer;
 
+use rust_decimal::Decimal;
+
 use std::sync::Arc;
 use std::sync::atomic::AtomicU64;
 
@@ -76,21 +78,15 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, Pumpfun
                 payload: serde_json::to_value(trade).unwrap_or(Value::Null),
             };
 
-            let row = match (
-                i64::try_from(trade.sol_amount),
-                i64::try_from(trade.token_amount),
-            ) {
-                (Ok(sol), Ok(token)) => Some(TradeRow {
-                    pool: None,
-                    token_mint: trade.mint.to_string(),
-                    side: if trade.is_buy { "buy" } else { "sell" },
-                    sol_amount: sol,
-                    token_amount: token,
-                    trader: trade.user.to_string(),
-                    fee: i64::try_from(trade.fee).ok(),
-                }),
-                _ => None,
-            };
+            let row = Some(TradeRow {
+                pool: None,
+                token_mint: trade.mint.to_string(),
+                side: if trade.is_buy { "buy" } else { "sell" },
+                sol_amount: Decimal::from(trade.sol_amount),
+                token_amount: Decimal::from(trade.token_amount),
+                trader: trade.user.to_string(),
+                fee: Some(Decimal::from(trade.fee)),
+            });
 
             writer.send(PendingWrite { event, trade: row }).await;
         }

@@ -2,6 +2,7 @@ use axum::extract::{Path, Query, State};
 use axum::http::StatusCode;
 use axum::routing::get;
 use axum::{Json, Router};
+use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use sqlx::{PgPool, Row};
 
@@ -73,8 +74,8 @@ fn trade_from(r: &sqlx::postgres::PgRow) -> Trade {
         program: r.get("program"),
         token_mint: r.get("token_mint"),
         side: r.get("side"),
-        sol_amount: r.get::<i64, _>("sol_amount").to_string(),
-        token_amount: r.get::<i64, _>("token_amount").to_string(),
+        sol_amount: r.get::<Decimal, _>("sol_amount").to_string(),
+        token_amount: r.get::<Decimal, _>("token_amount").to_string(),
         trader: r.get("trader"),
     }
 }

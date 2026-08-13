@@ -124,6 +124,7 @@ async fn write_batch(
 mod tests {
     use super::*;
     use crate::db::{EventRow, TradeRow};
+    use rust_decimal::Decimal;
 
     fn one_bad_batch() -> Vec<PendingWrite> {
         vec![PendingWrite {
@@ -141,8 +142,8 @@ mod tests {
                 pool: None,
                 token_mint: "mint".to_string(),
                 side: "sideways",
-                sol_amount: 1,
-                token_amount: 1,
+                sol_amount: Decimal::from(1),
+                token_amount: Decimal::from(1),
                 trader: "trader".to_string(),
                 fee: None,
             }),
