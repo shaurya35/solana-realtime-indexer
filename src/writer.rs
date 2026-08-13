@@ -119,3 +119,57 @@ async fn write_batch(
 
     tx.commit().await
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::db::{EventRow, TradeRow};
+
+    fn one_bad_batch() -> Vec<PendingWrite> {
+        vec![PendingWrite {
+            event: EventRow {
+                signature: "testsig".to_string(),
+                absolute_path: vec![1, 2],
+                event_ordinal: 0,
+                slot: 1,
+                block_time: None,
+                program: "pumpswap",
+                event_type: "BuyEvent",
+                payload: serde_json::json!({}),
+            },
+            trade: Some(TradeRow {
+                pool: None,
+                token_mint: "mint".to_string(),
+                side: "sideways",
+                sol_amount: 1,
+                token_amount: 1,
+                trader: "trader".to_string(),
+                fee: None,
+            }),
+        }]
+    }
+
+    #[tokio::test]
+    async fn failed_batch_rolls_back_and_parks() {
+        let Some(db) = crate::db::test_pool().await else {
+            return;
+        };
+
+        let mut batch = one_bad_batch();
+        flush(&db, &mut batch).await;
+
+        let events: i64 = sqlx::query_scalar("SELECT count(*) FROM events")
+            .fetch_one(&db)
+            .await
+            .unwrap();
+
+        let dead: i64 = sqlx::query_scalar("SELECT count(*) FROM dead_letters")
+            .fetch_one(&db)
+            .await
+            .unwrap();
+
+        assert_eq!(events, 0, "...");
+        assert_eq!(dead, 1, "...");
+        assert!(batch.is_empty(), "...");
+    }
+}

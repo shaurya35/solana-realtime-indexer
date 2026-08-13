@@ -63,12 +63,23 @@ file in the repo, and it is what makes both this and the test suite run without 
 The demo does use Solana's public RPC to work out which side of a PumpSwap pool is SOL.
 That needs internet, but no account.
 
-Tests, with no Docker and no network at all:
+Tests, with no Docker and no network:
 
 ```bash
 cp .env.example .env
 cargo test
 ```
+
+Three of the ten need a database and print `SKIPPED` without one. To run all of them:
+
+```bash
+docker compose up -d postgres
+TEST_DATABASE_URL=postgres://indexer:indexer@localhost:5433/indexer \
+  cargo test -- --test-threads=1
+```
+
+Single threaded because those three share a schema and empty it between runs. CI brings up
+its own Postgres, so all ten run on every push.
 
 ## Run it against live mainnet
 

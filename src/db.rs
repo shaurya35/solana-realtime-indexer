@@ -352,3 +352,39 @@ pub async fn write_repaired(db: &PgPool, rows: &[RepairedTrade]) -> Result<u64, 
 
     Ok(q.build().execute(db).await?.rows_affected())
 }
+
+#[cfg(test)]
+pub async fn test_pool() -> Option<PgPool> {
+    let Ok(url) = std::env::var("TEST_DATABASE_URL") else {
+        eprintln!("SKIPPED: TEST_DATABASE_URL is not set, database tests did not run");
+        return None;
+    };
+
+    let pool = connect(&url)
+        .await
+        .expect("could not connect to test database");
+
+    let has_schema: bool = sqlx::query_scalar("SELECT to_regclass('public.events') IS NOT NULL")
+        .fetch_one(&pool)
+        .await
+        .unwrap_or(false);
+
+    if !has_schema {
+        sqlx::migrate::Migrator::new(std::path::Path::new("./migrations"))
+            .await
+            .expect("could not read ./migrations")
+            .run(&pool)
+            .await
+            .expect("migrations failed");
+    }
+
+    sqlx::query(
+        "TRUNCATE events, trades, pools, ingestion_checkpoints,
+                  dead_letters, stream_gaps CASCADE",
+    )
+    .execute(&pool)
+    .await
+    .expect("could not empty the test database");
+
+    Some(pool)
+}

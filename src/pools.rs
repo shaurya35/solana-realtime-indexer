@@ -173,3 +173,51 @@ pub fn spawn_pool_resolver(rpc: RpcClient, capacity: usize, db: Option<PgPool>) 
         db,
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    fn info(base: Pubkey, quote: Pubkey) -> PoolInfo {
+        PoolInfo {
+            base_mint: base,
+            quote_mint: quote,
+            base_decimals: None,
+            quote_decimals: None,
+        }
+    }
+
+    #[test]
+    fn normal_pool_sol_is_quote() {
+        let token = Pubkey::new_unique();
+        let p = info(token, *WSOL);
+
+        let t = p.orient(1_000, 50, true).unwrap();
+
+        assert_eq!(t.sol_amount, 50);
+        assert_eq!(t.token_amount, 1_000);
+        assert_eq!(t.token_mint, token);
+        assert!(t.is_buy);
+        assert!(!t.sol_is_base);
+    }
+
+    #[test]
+    fn inverted_pool_sol_is_base() {
+        let token = Pubkey::new_unique();
+        let p = info(*WSOL, token);
+
+        let t = p.orient(50, 1_000, true).unwrap();
+
+        assert_eq!(t.sol_amount, 50);
+        assert_eq!(t.token_amount, 1_000);
+        assert_eq!(t.token_mint, token);
+        assert!(!t.is_buy);
+        assert!(t.sol_is_base);
+    }
+
+    #[test]
+    fn pool_with_no_sol_side_is_refused() {
+        let p = info(Pubkey::new_unique(), Pubkey::new_unique());
+        assert!(p.orient(1_000, 50, true).is_none());
+    }
+}
