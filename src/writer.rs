@@ -1,10 +1,12 @@
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 use sqlx::PgPool;
 use tokio::sync::mpsc;
 
 use crate::db::{self, PendingWrite};
-use crate::metrics::{DB_WRITE_ERRORS, DEAD_LETTERS, inc};
+use crate::metrics::{
+    DB_WRITE_ERRORS, DEAD_LETTERS, FLUSH_TIME, RECEIVE_TO_COMMITTED, inc, set_committed_slot,
+};
 
 const BATCH_SIZE: usize = 100;
 
@@ -66,11 +68,21 @@ async fn flush(db: &PgPool, batch: &mut Vec<PendingWrite>) {
         return;
     };
 
+    let started = Instant::now();
+
     let attempt =
         tokio::time::timeout(FLUSH_TIMEOUT, write_batch(db, batch, slot, &signature)).await;
 
     match attempt {
-        Ok(Ok(())) => {}
+        Ok(Ok(())) => {
+            FLUSH_TIME.observe(started.elapsed());
+
+            for row in batch.iter() {
+                RECEIVE_TO_COMMITTED.observe(row.queued_at.elapsed());
+            }
+
+            set_committed_slot(slot as u64);
+        }
 
         Ok(Err(err)) => {
             inc(&DB_WRITE_ERRORS);
@@ -128,6 +140,7 @@ mod tests {
 
     fn one_bad_batch() -> Vec<PendingWrite> {
         vec![PendingWrite {
+            queued_at: Instant::now(),
             event: EventRow {
                 signature: "testsig".to_string(),
                 absolute_path: vec![1, 2],

@@ -1,3 +1,5 @@
+use std::time::Instant;
+
 use serde_json::Value;
 use sqlx::PgPool;
 use sqlx::Row;
@@ -33,6 +35,7 @@ pub struct TradeRow {
 pub struct PendingWrite {
     pub event: EventRow,
     pub trade: Option<TradeRow>,
+    pub queued_at: Instant,
 }
 
 pub async fn write_events(

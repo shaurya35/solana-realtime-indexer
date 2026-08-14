@@ -75,7 +75,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             run_pipeline(
                 ReplayDatasource { path, repeat },
                 rpc,
-                events.clone(),
+                Some(events.clone()),
                 db,
                 None,
             )
@@ -118,7 +118,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                     end_slot: to,
                 },
                 Some(RpcClient::new(SOLANA_RPC_URL.to_string())),
-                EventLog::default(),
+                None,
                 Some(db),
                 None,
             )
@@ -152,6 +152,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let filters = transaction_filters();
     println!("Transaction filters: {}", filters.len());
 
+    metrics::spawn_exporter(config::METRICS_PORT);
+
     let db = db::connect(&database_url().expect("DATABASE_URL not set")).await?;
 
     let gaps = spawn_gap_recorder(db.clone(), GAP_QUEUE_SIZE);
@@ -172,7 +174,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     run_pipeline(
         grpc_client,
         Some(RpcClient::new(SOLANA_RPC_URL.to_string())),
-        EventLog::default(),
+        None,
         Some(db),
         Some(gaps),
     )
@@ -332,7 +334,7 @@ mod tests {
                 repeat: 1,
             },
             None,
-            events.clone(),
+            Some(events.clone()),
             None,
             None,
         )

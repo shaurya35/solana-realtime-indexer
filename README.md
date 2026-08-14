@@ -57,6 +57,11 @@ curl -s 'localhost:3000/trades/recent?limit=5' | jq
 No account and no API key. Postgres comes up empty, gets loaded from
 `fixtures/golden-500.jsonl`, and the API serves it.
 
+The same command brings up Prometheus on `localhost:9090` and Grafana on
+`localhost:3001`, with the dashboard already loaded from
+`docker/grafana/dashboards/indexer.json`. It stays empty until something is running to
+scrape, which means `live` below rather than the fixture.
+
 That fixture is 500 real mainnet transactions saved as raw wire bytes. It is the largest
 file in the repo, and it is what makes both this and the test suite run without an endpoint.
 
@@ -101,6 +106,8 @@ cargo run -- repair                                    # rebuild trades from sto
 cargo run -- backfill --from 437993119 --to 437993182  # refetch a slot range by hand
 cargo run -- api                                       # serve it on localhost:3000
 ```
+
+`live` also serves Prometheus metrics on `localhost:9100/metrics`.
 
 ## Query it
 
@@ -188,6 +195,10 @@ zero updates dropped over a 190 second run
 92% cache hit rate, 457 RPC calls covering 1,486 misses
 ```
 
+Those two figures measure different runs. Zero dropped is the 190 second window after the
+hot-path RPC call was removed. The 524,666 is a 30 minute soak at a much higher rate, where
+the limit is upstream rather than here.
+
 **Writes are batched.** Saving one row at a time to a hosted Postgres meant two network
 round trips per trade. Measured on the 500 transaction fixture: 344 ms per event, with the
 process idle for 99% of it.
@@ -200,6 +211,31 @@ process idle for 99% of it.
 Rows are buffered and written in groups of 100, or every 500 ms, whichever comes first. The
 progress marker is committed inside the same transaction as its batch, so it can never
 claim more than was actually written.
+
+**Nothing here was slow. The database was far away.** `live` serves Prometheus metrics on
+`:9100`. Alongside the counters there are three histograms, timing one decode, one batch
+commit, and the wait from a row reaching the writer to its batch landing, plus a lag gauge
+measured in slots.
+
+The first thing they found was not in this code. Flushes were taking 530 ms because the
+database was a hosted Postgres in another region, and one batch makes five round trips:
+begin, events, trades, checkpoint, commit. That was enough to back the write queue up,
+block the processors, fill Carbon's channel and start discarding transactions.
+
+```
+                     hosted, ap-southeast-1      local Postgres
+mean flush                   530 ms                 19.5 ms
+commit lag               150 slots (~64 s)          0 slots
+flushes in 2 minutes            14                    355
+```
+
+Same binary, same machine, one line of configuration. Any throughput figure published
+before this would have been measuring the distance to Singapore.
+
+Histograms rather than averages, because an average hides the case worth catching. Ninety
+nine flushes at 5 ms and one at 9 seconds average to 95 ms and look healthy. Decoding, over
+the same window, put all 601 events in the fastest bucket, which is the answer rather than
+a bug: decode is not the bottleneck and there is now a measurement that says so.
 
 **It can replay itself.** `capture` saves raw bytes off the wire. `replay` feeds them back
 through the same decode path live traffic uses. That is how the tests prove the same input
@@ -273,6 +309,8 @@ Done:
 - A recovered range can be checked against the chain, not just against a saved file
 - Read-only query API over the indexed data
 - Docker compose, one command boot with no account and no API key
+- Prometheus metrics on `:9100`, with a Grafana dashboard provisioned from the repo
+- Decode, flush and receive-to-committed timed as histograms; lag reported in slots
 
 - `repair`, rebuilding trades from stored payloads once the pool becomes known
 - Amounts stored as `NUMERIC(20, 0)`, the exact `u64` domain, so no on-chain value can
@@ -282,7 +320,6 @@ Next:
 
 - Token to token pools, which need a quote asset in the schema and not just SOL
 - Reading the checkpoint at startup, so a restart resumes instead of starting over
-- A metrics endpoint, rather than counters printed every ten seconds
 
 ## Notes
 

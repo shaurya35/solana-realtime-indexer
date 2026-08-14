@@ -4,7 +4,6 @@ use sqlx::PgPool;
 use crate::config::{GAP_OVERLAP_SLOTS, SOLANA_RPC_URL};
 use crate::datasources::backfill::BackfillDatasource;
 use crate::db;
-use crate::identity::EventLog;
 use crate::pipeline::run_pipeline;
 
 pub async fn run_recover(db_pool: PgPool) -> Result<(), Box<dyn std::error::Error>> {
@@ -35,7 +34,7 @@ pub async fn run_recover(db_pool: PgPool) -> Result<(), Box<dyn std::error::Erro
                 end_slot: to,
             },
             Some(RpcClient::new(SOLANA_RPC_URL.to_string())),
-            EventLog::default(),
+            None,
             Some(db_pool.clone()),
             None,
         )

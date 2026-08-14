@@ -24,7 +24,7 @@ use crate::writer::spawn_writer;
 pub async fn run_pipeline(
     datasource: impl Datasource + 'static,
     rpc: Option<RpcClient>,
-    events: EventLog,
+    events: Option<EventLog>,
     db: Option<PgPool>,
     gaps: Option<Sender<DatasourceDisconnection>>,
 ) -> Result<(), Box<dyn std::error::Error>> {

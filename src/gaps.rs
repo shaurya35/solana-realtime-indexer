@@ -9,7 +9,7 @@ use tokio::sync::mpsc;
 
 use crate::config::SLOT_GAP_TOLERANCE;
 use crate::db;
-use crate::metrics::{DB_WRITE_ERRORS, GAP_DETECTED, inc};
+use crate::metrics::{DB_WRITE_ERRORS, GAP_DETECTED, inc, set_head_slot};
 
 pub fn spawn_gap_recorder(db: PgPool, capacity: usize) -> mpsc::Sender<DatasourceDisconnection> {
     let (tx, mut rx) = mpsc::channel::<DatasourceDisconnection>(capacity);
@@ -50,6 +50,8 @@ pub fn check_slot(
     slot: u64,
 ) {
     let previous = watermark.fetch_max(slot, Ordering::Relaxed);
+
+    set_head_slot(slot);
 
     if previous == 0 || slot <= previous + SLOT_GAP_TOLERANCE {
         return;

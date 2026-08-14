@@ -3,7 +3,7 @@ use carbon_pumpfun_decoder::instructions::{CpiEvent, PumpfunInstruction};
 
 use crate::db::{EventRow, PendingWrite, TradeRow};
 use crate::identity::{EventId, EventLog};
-use crate::metrics::{EVENTS_DECODED, SKIPPED_FAILED, inc};
+use crate::metrics::{DECODE_TIME, EVENTS_DECODED, SKIPPED_FAILED, inc};
 
 use crate::writer::Writer;
 
@@ -11,6 +11,7 @@ use rust_decimal::Decimal;
 
 use std::sync::Arc;
 use std::sync::atomic::AtomicU64;
+use std::time::Instant;
 
 use carbon_core::datasource::DatasourceDisconnection;
 use tokio::sync::mpsc::Sender;
@@ -20,7 +21,7 @@ use crate::gaps;
 use serde_json::Value;
 
 pub struct TradeEventProcessor {
-    pub events: EventLog,
+    pub events: Option<EventLog>,
     pub writer: Option<Writer>,
     pub watermark: Arc<AtomicU64>,
     pub gaps: Option<Sender<DatasourceDisconnection>>,
@@ -33,6 +34,8 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, Pumpfun
         &mut self,
         data: &InstructionProcessorInputType<'_, PumpfunInstruction>,
     ) -> carbon_core::error::CarbonResult<()> {
+        let started = Instant::now();
+
         if data.metadata.transaction_metadata.meta.status.is_err() {
             inc(&SKIPPED_FAILED);
             return Ok(());
@@ -54,15 +57,18 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, Pumpfun
 
         let meta = &data.metadata;
 
-        {
-            let mut log = self.events.lock().unwrap();
+        inc(&EVENTS_DECODED);
+
+        if let Some(events) = &self.events {
+            let mut log = events.lock().unwrap();
             log.push(EventId {
                 signature: meta.transaction_metadata.signature.to_string(),
                 absolute_path: meta.absolute_path.clone(),
                 event_ordinal: 0,
             });
-            inc(&EVENTS_DECODED);
         }
+
+        DECODE_TIME.observe(started.elapsed());
 
         if let Some(writer) = &self.writer {
             let sig = meta.transaction_metadata.signature.to_string();
@@ -88,7 +94,13 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, Pumpfun
                 fee: Some(Decimal::from(trade.fee)),
             });
 
-            writer.send(PendingWrite { event, trade: row }).await;
+            writer
+                .send(PendingWrite {
+                    event,
+                    trade: row,
+                    queued_at: Instant::now(),
+                })
+                .await;
         }
 
         Ok(())

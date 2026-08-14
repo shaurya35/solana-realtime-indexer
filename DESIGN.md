@@ -284,7 +284,8 @@ The writer is its own task behind a channel. When that channel is full the sende
 instead of discarding, which is the opposite of what Carbon's datasource does. A writer
 falling behind shows up as backpressure, not as missing rows.
 
-A flush is given 10 seconds. A normal one takes about 170 ms, so this only trips when
+A flush is given 10 seconds. A normal one takes about 20 ms against a local Postgres, and
+about 530 ms against a hosted one in another region, so this only trips when
 something is wrong. Without it, a hung database holds the writer open indefinitely and
 shutdown waits behind it. That was not theoretical: one insert took 59.9 seconds during a
 network outage, and Ctrl+C did nothing until the network came back.
@@ -464,6 +465,45 @@ opinion.
 Two limits. It compares events, not trades: no RPC client is passed to the pipeline, so pools
 are never resolved and amounts are never oriented. And if the decoder itself misses
 something, both sides miss it equally and the check still passes.
+
+## Measuring it
+
+Counters printed every ten seconds answer "is it alive". They cannot answer "is it keeping
+up right now", because a total that only rises has no way to fall.
+
+`live` serves the Prometheus text format on `:9100`. Prometheus scrapes it every 15 seconds
+and Grafana draws the history. The dashboard is provisioned from
+`docker/grafana/dashboards/indexer.json`, so a clone gets it without anyone clicking.
+
+### Written by hand, not with a metrics crate
+
+The exposition format is four lines per metric. A registry and a set of macros would add a
+dependency and a global to defend, for output that `format!` produces directly.
+
+### Histograms, not averages
+
+Ninety nine flushes at 5 ms and one at 9 seconds average to 95 ms, which looks healthy and
+is exactly the case worth catching. Buckets keep the outlier visible. Edges run from 0.5 ms
+to 60 s, with an overflow bucket so a pathological measurement is never dropped off the end.
+
+### Lag is counted in slots, not seconds
+
+The obvious version subtracts the newest committed row's `block_time` from the clock.
+Measured across 23,832 rows from live traffic, `block_time` was NULL on every one.
+Transactions arriving over the stream do not carry it; only rows refetched from RPC do. A
+gauge that never updates reads zero, and zero is also the value that means healthy, so the
+failure would have been invisible.
+
+What is used instead is the distance between the newest slot the stream has shown and the
+newest slot committed. Both numbers already existed: the gap check keeps the first, the
+writer holds the second. Slots rather than seconds because slot time varies, and converting
+would invent precision the number does not have.
+
+### What it does not see
+
+This measures how far the database is behind the stream, not behind the chain. If the
+stream stalls, both numbers freeze and the lag reads zero. The decoded-events rate is what
+catches that case.
 
 ## Testing
 
