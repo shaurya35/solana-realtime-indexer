@@ -74,6 +74,11 @@ Everything else is decoded and ignored rather than stored. Unknown variants are 
 never cause a panic. See the coverage table in the README for what that looks like on a
 real sample.
 
+Most volume reaches these programs from inside another instruction. Routers and trading
+bots call pump.fun from within their own program, so a transaction's top level shows the
+router and not the trade. Matching only top-level instructions misses the majority of real
+activity. Carbon walks the full instruction tree, so a fill is found wherever it sits.
+
 Failed transactions are excluded twice. The subscription sets `failed: false` so the server
 never sends them live. A check on the transaction status covers replay, where saved files
 can contain failures.
@@ -231,6 +236,10 @@ A 190 second live run. Raw output in `docs/evidence/drop-fix-stats.txt`.
 
 The throughput comparison is indicative, not controlled. The two runs happened on different
 days, so market volume differed. The drop count and cache numbers are not affected by that.
+
+At higher volume the remaining limit is upstream rather than here. A 30 minute mainnet soak
+recorded 524,666 refused updates against 167,617 decoded. Those refusals happen inside
+Carbon's datasource, before this code is called. They are counted, not removed.
 
 The cost: 1,495 of 19,428 PumpSwap fills, or 7.7%, were emitted without a resolved token.
 That is an acceptable trade because a missing token can be recovered and a missing event
@@ -416,6 +425,36 @@ starts, so a crash leaves it visibly stuck rather than looking untried. Only a c
 when and how, which means the timestamp is evidence of a real recovery and the status is
 just a label.
 
+## Rebuilding trades later
+
+A PumpSwap trade in a pool nobody has seen yet cannot be oriented. Which mint is the token
+and which is SOL is unknown, so no trade row is written. The raw event is stored anyway.
+
+`repair` reads those events back and writes the missing trade rows once the pool is known. It
+works from the stored payload, so it needs no network and no refetch. That is only possible
+because `events.payload` keeps the whole decoded event rather than the fields the schema
+happened to need at the time.
+
+```
+8,315 events with no trade row
+7,819 rebuilt
+  465 token to token pools, no SOL leg, not representable in this schema
+   31 pool never resolved
+```
+
+The two remainders are stated limits, not silent failures. Both are counted and both are
+listed above.
+
+A second run writes nothing. Rows are keyed the same way as the originals, so a repeat is a
+no-op rather than a duplicate, and a test asserts it.
+
+The last 48 of those rebuilds needed a schema change first. Amounts on Solana are `u64` and
+the columns were `BIGINT`. A value above `i64::MAX` failed conversion and was dropped with no
+counter and no log. The columns are now `NUMERIC(20, 0)`, which is exactly the `u64` range, so
+the conversion cannot fail.
+
+Numbers and method in `docs/evidence/repair.txt`.
+
 ## Knowing nothing was lost
 
 `verify` answers one question. Does the database hold exactly what a file decodes to.
@@ -474,6 +513,23 @@ up right now", because a total that only rises has no way to fall.
 `live` serves the Prometheus text format on `:9100`. Prometheus scrapes it every 15 seconds
 and Grafana draws the history. The dashboard is provisioned from
 `docker/grafana/dashboards/indexer.json`, so a clone gets it without anyone clicking.
+
+### What it found first
+
+Flushes were taking 530 ms. The database was a hosted Postgres in another region, and one
+batch makes five round trips: begin, events, trades, checkpoint, commit. That was enough to
+back the write queue up, block the processors, fill Carbon's channel and start discarding
+transactions.
+
+| | Hosted, ap-southeast-1 | Local Postgres |
+|---|---|---|
+| Mean flush | 530 ms | 19.5 ms |
+| Commit lag | 150 slots, about 64 s | 0 slots |
+| Flushes in 2 minutes | 14 | 355 |
+
+Same binary, same machine, one line of configuration. Decoding over the same window put all
+601 events in the fastest bucket, which is the answer rather than a fault: decode is not the
+bottleneck, and there is now a measurement that says so instead of an assumption.
 
 ### Written by hand, not with a metrics crate
 

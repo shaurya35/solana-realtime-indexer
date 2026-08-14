@@ -16,9 +16,8 @@ Work in progress, built in public.
 Live traffic, a saved file, and a range of slots all enter through the same function.
 `run_pipeline` takes a datasource and does not care which one it got.
 
-That is the decision the rest of the project rests on. The decoder that handles mainnet is
-the decoder the tests run, and the decoder that fills a gap. There is no second path that
-could quietly drift from the first.
+So the decoder that handles mainnet is the same one the tests run, and the same one that
+fills a gap. There is no second path to drift.
 
 Everything after that box is the same four steps, whichever way the data came in.
 
@@ -62,8 +61,8 @@ The same command brings up Prometheus on `localhost:9090` and Grafana on
 `docker/grafana/dashboards/indexer.json`. It stays empty until something is running to
 scrape, which means `live` below rather than the fixture.
 
-That fixture is 500 real mainnet transactions saved as raw wire bytes. It is the largest
-file in the repo, and it is what makes both this and the test suite run without an endpoint.
+That fixture is 500 real mainnet transactions saved as raw wire bytes. It is what lets this
+and the test suite run without an endpoint.
 
 The demo does use Solana's public RPC to work out which side of a PumpSwap pool is SOL.
 That needs internet, but no account.
@@ -96,15 +95,32 @@ which you generate for free at [allnodes.com/publicnode](https://www.allnodes.co
 It goes in `.env` as `YELLOWSTONE_X_TOKEN`. Without it the connection is refused.
 
 ```bash
-cargo run -- live                                      # decode trades as they happen
-cargo run -- capture --minutes 5                       # record traffic to a file
-cargo run -- replay --path fixtures/golden-500.jsonl   # replay a recording
-cargo run -- verify --path fixtures/golden-500.jsonl   # check a recording against the database
-cargo run -- verify-range --from 437993119 --to 437993182  # check a slot range against the chain
-cargo run -- recover                                   # refetch whatever the gaps say is missing
-cargo run -- repair                                    # rebuild trades from stored payloads
-cargo run -- backfill --from 437993119 --to 437993182  # refetch a slot range by hand
-cargo run -- api                                       # serve it on localhost:3000
+# decode trades as they happen
+cargo run -- live
+
+# record traffic to a file
+cargo run -- capture --minutes 5
+
+# replay a recording
+cargo run -- replay --path fixtures/golden-500.jsonl
+
+# check a recording against the database
+cargo run -- verify --path fixtures/golden-500.jsonl
+
+# check a slot range against the chain
+cargo run -- verify-range --from 437993119 --to 437993182
+
+# refetch whatever the gaps say is missing
+cargo run -- recover
+
+# rebuild trades from stored payloads
+cargo run -- repair
+
+# refetch a slot range by hand
+cargo run -- backfill --from 437993119 --to 437993182
+
+# serve it on localhost:3000
+cargo run -- api
 ```
 
 `live` also serves Prometheus metrics on `localhost:9100/metrics`.
@@ -121,145 +137,6 @@ GET /volume/token/{mint}          trade count and total SOL for one token
 Amounts are returned as strings. They are stored as raw integers and can exceed what a JSON
 number holds exactly, so sending them as numbers would let a JavaScript client round them
 without saying so.
-
-## What makes indexing this hard
-
-Three problems that trip up most naive implementations.
-
-**1. The trade is usually buried.**
-
-Most volume goes through routers and bots, which call pump.fun from inside their own
-instruction. If you only read the top level of a transaction, you see the router and miss
-the trade completely.
-
-**2. The instruction is not the trade.**
-
-A `Buy` instruction says what the user asked for. The `TradeEvent` the program emits says
-what actually executed. The price moves between those two moments. Index the instruction
-and your numbers are wrong.
-
-**3. One transaction can hold several trades.**
-
-Here is a real one from the test fixture:
-
-```
-5Pi1ga4SX3wN78mLQVXshdSUHdaLgexZzZsAZWngZ3GKLc4rfoZK96svu78V5WV1jswpio4wMgjx29b3pcWsm6JZ
-
-  path [5, 1, 6]   sell  119,569,853,093 E2ueKQ…pump   for 8,473,779 lamports
-  path [5, 4, 6]   buy    44,622,120,223 FSwrbj…pump   for 8,264,547 lamports
-```
-
-A bot rotating out of one token and into another, atomically. Two tokens, one transaction.
-
-Carbon reports instruction index 5 for both, because the index is just the first element of
-the path. Most indexers key rows on `(signature, instruction_index)`. Under that key these
-two collide, one overwrites the other with no error, and an entire token's trade is gone.
-
-This one keys on `signature + absolute_path + event_ordinal`, where `absolute_path` is the
-full route through the transaction tree, so both survive.
-
-Three of the 500 transactions in the fixture do this, and the test
-`carbon_index_alone_would_collide` asserts it. Details in [DESIGN.md](DESIGN.md).
-
-## Other things it gets right
-
-**Pool direction is not assumed.** PumpSwap pools store two tokens, and which one is SOL is
-not fixed. Read them positionally and you report the wrong number, with no error, because
-both values are just integers.
-
-This is not a rare case. Measured on 445 real events across 92 pools:
-
-```
-116  base is the token   (normal)
-115  base is wrapped SOL (inverted)
-214  undetermined (native SOL, nothing to compare against)
-```
-
-Half the pools where it could be established store SOL in the base slot. This checks both
-mints against the wrapped SOL address, and flips the buy/sell direction too.
-
-**Every discard is counted.** An RPC call on the hot path was costing 66% of the stream,
-invisibly, because the datasource discards without a counter when it can't keep up. Pool
-lookups now happen in the background, every discard path this code owns is counted, and
-the refusals coming from upstream are counted too.
-
-Counted, not eliminated. Carbon's queue drops transactions when the pipeline falls behind,
-and a 30 minute mainnet soak recorded 524,666 refused updates against 167,617 decoded. The
-number is visible rather than absent, which is the difference between a known limit and a
-silent one. Closing that gap is upstream work, tracked in
-[Carbon issue #580](https://github.com/sevenlabs-hq/carbon/issues/580).
-
-```
-5.9 events/sec   ->   118 events/sec
-zero updates dropped over a 190 second run
-92% cache hit rate, 457 RPC calls covering 1,486 misses
-```
-
-Those two figures measure different runs. Zero dropped is the 190 second window after the
-hot-path RPC call was removed. The 524,666 is a 30 minute soak at a much higher rate, where
-the limit is upstream rather than here.
-
-**Writes are batched.** Saving one row at a time to a hosted Postgres meant two network
-round trips per trade. Measured on the 500 transaction fixture: 344 ms per event, with the
-process idle for 99% of it.
-
-```
-344 ms per event   ->   8.7 ms per event
-3.1 events/sec     ->   181 events/sec on live mainnet
-```
-
-Rows are buffered and written in groups of 100, or every 500 ms, whichever comes first. The
-progress marker is committed inside the same transaction as its batch, so it can never
-claim more than was actually written.
-
-**Nothing here was slow. The database was far away.** `live` serves Prometheus metrics on
-`:9100`. Alongside the counters there are three histograms, timing one decode, one batch
-commit, and the wait from a row reaching the writer to its batch landing, plus a lag gauge
-measured in slots.
-
-The first thing they found was not in this code. Flushes were taking 530 ms because the
-database was a hosted Postgres in another region, and one batch makes five round trips:
-begin, events, trades, checkpoint, commit. That was enough to back the write queue up,
-block the processors, fill Carbon's channel and start discarding transactions.
-
-```
-                     hosted, ap-southeast-1      local Postgres
-mean flush                   530 ms                 19.5 ms
-commit lag               150 slots (~64 s)          0 slots
-flushes in 2 minutes            14                    355
-```
-
-Same binary, same machine, one line of configuration. Any throughput figure published
-before this would have been measuring the distance to Singapore.
-
-Histograms rather than averages, because an average hides the case worth catching. Ninety
-nine flushes at 5 ms and one at 9 seconds average to 95 ms and look healthy. Decoding, over
-the same window, put all 601 events in the fastest bucket, which is the answer rather than
-a bug: decode is not the bottleneck and there is now a measurement that says so.
-
-**It can replay itself.** `capture` saves raw bytes off the wire. `replay` feeds them back
-through the same decode path live traffic uses. That is how the tests prove the same input
-always produces the same output, with no network involved.
-
-**An event that could not be interpreted can be interpreted later.** A PumpSwap trade in a
-pool nobody has seen yet cannot be oriented, so no trade row is written. The raw event is
-stored anyway. Once the pool is known, `repair` rebuilds those trades from the stored
-payload, with no network and no re-fetch.
-
-```
-8,315 events with no trade row
-7,819 rebuilt
-  465 token to token pools, no SOL leg, not representable in this schema
-   31 pool never resolved
-```
-
-The last 48 of those took a schema change. Amounts on Solana are `u64`, the columns were
-`BIGINT`, and a value that did not fit was dropped with no counter and no log. Columns are
-now `NUMERIC(20, 0)`, which is exactly the `u64` domain, so the conversion cannot fail.
-
-Running it twice writes nothing the second time. Rows are keyed the same way as the
-originals, so a repeat is a no-op rather than a duplicate. Numbers and method in
-[docs/evidence/repair.txt](docs/evidence/repair.txt).
 
 ## Coverage
 
@@ -280,46 +157,36 @@ What the indexer handles, and what showed up in a 500-transaction mainnet sample
 The instructions are ignored on purpose. They record what a user asked for. The CPI events
 record what executed. See [DESIGN.md](DESIGN.md).
 
-## Verified against the chain
-
-Ten trades across ten different pools were checked against the token balance changes
-recorded in each transaction. Token amounts matched exactly in every case.
-
-Orientation was checked across all 445 events, which is where the 50/50 split above comes
-from.
+Ten trades across ten different pools were checked by hand against the token balance changes
+recorded in each transaction. Token amounts matched exactly. Orientation was checked across
+all 445 PumpSwap events.
 
 ## Status
 
-Done:
+Working:
 
-- Live pump.fun and PumpSwap decoding
-- Pool to token resolution, direction handled
-- Pool cache loaded from Postgres at startup, so a restart is not blind
-- Stable event IDs
-- Capture, replay, deterministic tests
-- Bounded queues with a stated overflow policy, counters every 10 seconds
-- Postgres schema and migrations
-- Batched writes, with the progress marker committed in the same transaction as its batch
-- Graceful shutdown that flushes the last batch before exiting
-- `verify`, an independent check for missing or duplicated rows, exits non-zero on either
-- `dead_letters`, so a failed batch is kept with its error instead of discarded
-- CI on every push: format, lint, tests
-- Gap detection, two independent ways: the disconnect signal, and a jump in slot numbers
-- Recovery: gaps are refetched from the chain through the same decode path as live traffic
-- A recovered range can be checked against the chain, not just against a saved file
-- Read-only query API over the indexed data
-- Docker compose, one command boot with no account and no API key
-- Prometheus metrics on `:9100`, with a Grafana dashboard provisioned from the repo
-- Decode, flush and receive-to-committed timed as histograms; lag reported in slots
+- [x] Live pump.fun and PumpSwap decoding over Yellowstone gRPC
+- [x] Trades found at any depth, including behind routers and bots
+- [x] Pool direction checked against wrapped SOL rather than assumed
+- [x] Batched writes, with the progress marker committed in the same transaction
+- [x] Graceful shutdown that flushes the last batch
+- [x] Gap detection and recovery through the same decode path as live traffic
+- [x] `verify`, an independent check for missing or duplicated rows
+- [x] `repair`, rebuilding trades once a pool becomes known
+- [x] `dead_letters`, so a failed batch is kept with its error instead of discarded
+- [x] Read-only query API
+- [x] Prometheus metrics and a Grafana dashboard
+- [x] One command boot, no account and no API key
+- [x] CI on every push: format, lint, tests
 
-- `repair`, rebuilding trades from stored payloads once the pool becomes known
-- Amounts stored as `NUMERIC(20, 0)`, the exact `u64` domain, so no on-chain value can
-  overflow the column and be dropped
+Planned:
 
-Next:
+- [ ] Token to token pools, which need a quote asset in the schema and not just SOL
+- [ ] Reading the checkpoint at startup, so a restart resumes instead of starting over
+- [ ] A bench command and published throughput numbers
+- [ ] Reorg handling
 
-- Token to token pools, which need a quote asset in the schema and not just SOL
-- Reading the checkpoint at startup, so a restart resumes instead of starting over
+Known limits are listed in [DESIGN.md](DESIGN.md).
 
 ## Notes
 
