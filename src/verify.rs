@@ -13,7 +13,7 @@ pub async fn run_verify(path: String, db: &PgPool) -> Result<bool, Box<dyn std::
     run_pipeline(
         ReplayDatasource { path, repeat: 1 },
         None,
-        events.clone(),
+        Some(events.clone()),
         None,
         None,
     )
@@ -83,7 +83,7 @@ pub async fn run_verify_range(
             end_slot: to,
         },
         None,
-        events.clone(),
+        Some(events.clone()),
         None,
         None,
     )

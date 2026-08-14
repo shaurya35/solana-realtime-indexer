@@ -10,12 +10,15 @@ use serde_json::Value;
 
 use crate::db::{EventRow, PendingWrite, TradeRow};
 use crate::identity::{EventId, EventLog};
-use crate::metrics::{EVENTS_DECODED, POOL_CACHE_HITS, POOL_CACHE_MISSES, SKIPPED_FAILED, inc};
+use crate::metrics::{
+    DECODE_TIME, EVENTS_DECODED, POOL_CACHE_HITS, POOL_CACHE_MISSES, SKIPPED_FAILED, inc,
+};
 use crate::pools::{PoolInfo, PoolResolver};
 use crate::writer::Writer;
 
 use std::sync::Arc;
 use std::sync::atomic::AtomicU64;
+use std::time::Instant;
 
 use carbon_core::datasource::DatasourceDisconnection;
 use tokio::sync::mpsc::Sender;
@@ -25,7 +28,7 @@ use crate::gaps;
 pub struct PumpSwapEventProcessor {
     pub resolver: Option<PoolResolver>,
     pub requested: HashSet<Pubkey>,
-    pub events: EventLog,
+    pub events: Option<EventLog>,
     pub writer: Option<Writer>,
     pub watermark: Arc<AtomicU64>,
     pub gaps: Option<Sender<DatasourceDisconnection>>,
@@ -49,14 +52,19 @@ impl PumpSwapEventProcessor {
         None
     }
 
-    fn record(&self, meta: &carbon_core::instruction::InstructionMetadata) {
-        let mut log = self.events.lock().unwrap();
-        log.push(EventId {
-            signature: meta.transaction_metadata.signature.to_string(),
-            absolute_path: meta.absolute_path.clone(),
-            event_ordinal: 0,
-        });
+    fn record(&self, meta: &carbon_core::instruction::InstructionMetadata, started: Instant) {
         inc(&EVENTS_DECODED);
+
+        if let Some(events) = &self.events {
+            let mut log = events.lock().unwrap();
+            log.push(EventId {
+                signature: meta.transaction_metadata.signature.to_string(),
+                absolute_path: meta.absolute_path.clone(),
+                event_ordinal: 0,
+            });
+        }
+
+        DECODE_TIME.observe(started.elapsed());
     }
 }
 
@@ -67,6 +75,8 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
         &mut self,
         data: &InstructionProcessorInputType<'_, PumpSwapInstruction>,
     ) -> carbon_core::error::CarbonResult<()> {
+        let started = Instant::now();
+
         if data.metadata.transaction_metadata.meta.status.is_err() {
             inc(&SKIPPED_FAILED);
             return Ok(());
@@ -86,7 +96,7 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
 
         match cpi_data {
             PumpSwapCpiEvent::BuyEvent(trade) => {
-                self.record(meta);
+                self.record(meta, started);
                 let oriented = self.resolve(trade.pool).and_then(|info| {
                     info.orient(trade.base_amount_out, trade.quote_amount_in, true)
                 });
@@ -115,7 +125,13 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                         fee: Some(Decimal::from(trade.protocol_fee)),
                     });
 
-                    writer.send(PendingWrite { event, trade: row }).await;
+                    writer
+                        .send(PendingWrite {
+                            event,
+                            trade: row,
+                            queued_at: Instant::now(),
+                        })
+                        .await;
                 }
 
                 match oriented {
@@ -146,7 +162,7 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
             }
 
             PumpSwapCpiEvent::SellEvent(trade) => {
-                self.record(meta);
+                self.record(meta, started);
                 let oriented = self.resolve(trade.pool).and_then(|info| {
                     info.orient(trade.base_amount_in, trade.quote_amount_out, false)
                 });
@@ -175,7 +191,13 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                         fee: Some(Decimal::from(trade.protocol_fee)),
                     });
 
-                    writer.send(PendingWrite { event, trade: row }).await;
+                    writer
+                        .send(PendingWrite {
+                            event,
+                            trade: row,
+                            queued_at: Instant::now(),
+                        })
+                        .await;
                 }
 
                 match oriented {
