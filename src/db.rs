@@ -219,10 +219,11 @@ pub async fn write_gap(
     missed_slots: i64,
     detected_at: chrono::DateTime<chrono::Utc>,
     detected_by: &str,
-) -> Result<(), sqlx::Error> {
-    sqlx::query(
+) -> Result<bool, sqlx::Error> {
+    let done = sqlx::query(
         "INSERT INTO stream_gaps (start_slot, end_slot, missed_slots, detected_at, detected_by)
-         VALUES ($1, $2, $3, $4, $5)",
+         VALUES ($1, $2, $3, $4, $5)
+         ON CONFLICT (start_slot, end_slot) DO NOTHING",
     )
     .bind(start_slot)
     .bind(end_slot)
@@ -232,7 +233,7 @@ pub async fn write_gap(
     .execute(db)
     .await?;
 
-    Ok(())
+    Ok(done.rows_affected() > 0)
 }
 
 pub struct OpenGap {
