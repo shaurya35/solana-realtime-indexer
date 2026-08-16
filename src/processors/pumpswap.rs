@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::collections::HashMap;
 
 use carbon_core::instruction::InstructionProcessorInputType;
 use carbon_pump_swap_decoder::instructions::{CpiEvent as PumpSwapCpiEvent, PumpSwapInstruction};
@@ -8,6 +8,7 @@ use rust_decimal::Decimal;
 
 use serde_json::Value;
 
+use crate::config::POOL_RETRY_AFTER;
 use crate::db::{EventRow, PendingWrite, TradeRow};
 use crate::identity::{EventId, EventLog};
 use crate::metrics::{
@@ -27,7 +28,7 @@ use crate::gaps;
 
 pub struct PumpSwapEventProcessor {
     pub resolver: Option<PoolResolver>,
-    pub requested: HashSet<Pubkey>,
+    pub requested: HashMap<Pubkey, Instant>,
     pub events: Option<EventLog>,
     pub writer: Option<Writer>,
     pub watermark: Arc<AtomicU64>,
@@ -45,7 +46,13 @@ impl PumpSwapEventProcessor {
 
         inc(&POOL_CACHE_MISSES);
 
-        if self.requested.insert(pool) {
+        let stale = match self.requested.get(&pool) {
+            Some(at) => at.elapsed() >= POOL_RETRY_AFTER,
+            None => true,
+        };
+
+        if stale {
+            self.requested.insert(pool, Instant::now());
             resolver.request(pool);
         }
 
