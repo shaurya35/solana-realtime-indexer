@@ -1,0 +1,34 @@
+Recovery and verification of the gap from the 12 hour unattended run, 15-16 August 2026.
+
+The stream dropped once overnight, losing slots 439465876 to 439466814. 938 slots, about
+seven minutes of chain time. `recover` refetched the range from RPC through the same decode
+path live traffic uses. `verify-range` then rebuilt the expected set by reading the chain
+directly, with the database disconnected, and compared both directions.
+
+  $ solana-realtime-indexer verify-range --from 439465876 --to 439466814
+
+  shutdown: pipeline stopped!
+  shutdown: pipeline dropped!
+  shutdown: writer stopped!
+
+  expected 105481
+  actual   105481
+  missing  0
+  extra    0
+
+Nothing missing, nothing duplicated, across 105,481 events in the stitched range. Run twice,
+same result both times.
+
+Cost: 938 slots took about 20 minutes, roughly 1.3 seconds a slot, almost all of it waiting
+on one `getBlock` call per slot. Verifying a full twelve hour run this way would mean about
+100,700 slots and take longer than the run itself. This command is a spot check for a known
+window. `verify` against a saved fixture is the one that runs in CI.
+
+Omitted from this file: 77480 lines of the form
+
+  pumpswap ???? sig=... pool=... base=... quote=... (unresolved)
+
+covering 941 distinct pools. Each one is a PumpSwap trade whose pool could not be
+oriented, so the event was stored and no trade row was written. That is the no-guess rule.
+The raw output was 25 MB of the same message, which is a reason to make the command count
+them rather than print each one.

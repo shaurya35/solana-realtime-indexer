@@ -1,0 +1,78 @@
+# HELP indexer_events_decoded_total events decoded from the stream
+# TYPE indexer_events_decoded_total counter
+indexer_events_decoded_total 12180605
+# HELP indexer_skipped_failed_total transactions skipped because they failed on chain
+# TYPE indexer_skipped_failed_total counter
+indexer_skipped_failed_total 0
+# HELP indexer_pool_cache_hits_total pool lookups answered from memory
+# TYPE indexer_pool_cache_hits_total counter
+indexer_pool_cache_hits_total 10282851
+# HELP indexer_pool_cache_misses_total pool lookups not in memory
+# TYPE indexer_pool_cache_misses_total counter
+indexer_pool_cache_misses_total 12448
+# HELP indexer_pool_lookups_total pool lookups sent to RPC
+# TYPE indexer_pool_lookups_total counter
+indexer_pool_lookups_total 9995
+# HELP indexer_pool_lookup_errors_total pool lookups RPC could not answer
+# TYPE indexer_pool_lookup_errors_total counter
+indexer_pool_lookup_errors_total 28
+# HELP indexer_lookups_dropped_total pool lookups discarded because the queue was full
+# TYPE indexer_lookups_dropped_total counter
+indexer_lookups_dropped_total 0
+# HELP indexer_replay_skipped_total fixture lines replay could not use
+# TYPE indexer_replay_skipped_total counter
+indexer_replay_skipped_total 0
+# HELP indexer_db_write_errors_total batches the database refused
+# TYPE indexer_db_write_errors_total counter
+indexer_db_write_errors_total 0
+# HELP indexer_dead_letters_total rows parked after a failed batch
+# TYPE indexer_dead_letters_total counter
+indexer_dead_letters_total 0
+# HELP indexer_gaps_detected_total stream gaps recorded
+# TYPE indexer_gaps_detected_total counter
+indexer_gaps_detected_total 2
+# HELP indexer_commit_lag_slots slots between the newest slot seen and the newest committed
+# TYPE indexer_commit_lag_slots gauge
+indexer_commit_lag_slots 1
+# HELP indexer_decode_seconds time from an instruction arriving to it being counted as decoded
+# TYPE indexer_decode_seconds histogram
+indexer_decode_seconds_bucket{le="0.0005"} 12180605
+indexer_decode_seconds_bucket{le="0.001"} 12180605
+indexer_decode_seconds_bucket{le="0.005"} 12180605
+indexer_decode_seconds_bucket{le="0.025"} 12180605
+indexer_decode_seconds_bucket{le="0.1"} 12180605
+indexer_decode_seconds_bucket{le="0.5"} 12180605
+indexer_decode_seconds_bucket{le="2"} 12180605
+indexer_decode_seconds_bucket{le="10"} 12180605
+indexer_decode_seconds_bucket{le="60"} 12180605
+indexer_decode_seconds_bucket{le="+Inf"} 12180605
+indexer_decode_seconds_sum 0.015742
+indexer_decode_seconds_count 12180605
+# HELP indexer_flush_seconds time to commit one batch
+# TYPE indexer_flush_seconds histogram
+indexer_flush_seconds_bucket{le="0.0005"} 0
+indexer_flush_seconds_bucket{le="0.001"} 0
+indexer_flush_seconds_bucket{le="0.005"} 5285
+indexer_flush_seconds_bucket{le="0.025"} 51187
+indexer_flush_seconds_bucket{le="0.1"} 162496
+indexer_flush_seconds_bucket{le="0.5"} 162890
+indexer_flush_seconds_bucket{le="2"} 162891
+indexer_flush_seconds_bucket{le="10"} 162891
+indexer_flush_seconds_bucket{le="60"} 162891
+indexer_flush_seconds_bucket{le="+Inf"} 162891
+indexer_flush_seconds_sum 4976.28984
+indexer_flush_seconds_count 162891
+# HELP indexer_receive_to_committed_seconds time from a row reaching the writer to its batch committing
+# TYPE indexer_receive_to_committed_seconds histogram
+indexer_receive_to_committed_seconds_bucket{le="0.0005"} 0
+indexer_receive_to_committed_seconds_bucket{le="0.001"} 0
+indexer_receive_to_committed_seconds_bucket{le="0.005"} 85
+indexer_receive_to_committed_seconds_bucket{le="0.025"} 114406
+indexer_receive_to_committed_seconds_bucket{le="0.1"} 4607005
+indexer_receive_to_committed_seconds_bucket{le="0.5"} 12006479
+indexer_receive_to_committed_seconds_bucket{le="2"} 12180531
+indexer_receive_to_committed_seconds_bucket{le="10"} 12180531
+indexer_receive_to_committed_seconds_bucket{le="60"} 12180531
+indexer_receive_to_committed_seconds_bucket{le="+Inf"} 12180531
+indexer_receive_to_committed_seconds_sum 2070824.79662
+indexer_receive_to_committed_seconds_count 12180531
