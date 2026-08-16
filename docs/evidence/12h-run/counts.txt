@@ -1,0 +1,16 @@
+Row counts after the 12 hour unattended run of 15-16 August 2026, taken after recover
+refilled the 938 slot gap.
+
+indexer=# SELECT (SELECT count(*) FROM events)       AS events,
+                 (SELECT count(*) FROM trades)       AS trades,
+                 (SELECT count(*) FROM dead_letters) AS dead_letters;
+
+  events  |  trades  | dead_letters
+----------+----------+--------------
+ 12439266 | 12415571 |            0
+(1 row)
+
+12,297,606 of those events were decoded live. The rest came from recovery.
+
+23,695 events carry no trade row, 0.19 percent. Those are token to token pools with no SOL
+leg, and pools that were never resolved. Both are stated limits rather than silent failures.

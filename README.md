@@ -161,6 +161,26 @@ Ten trades across ten different pools were checked by hand against the token bal
 recorded in each transaction. Token amounts matched exactly. Orientation was checked across
 all 445 PumpSwap events.
 
+## Twelve hours unattended
+
+![The dashboard over the run](docs/images/grafana-dashboard.png)
+
+One unattended run against mainnet, 15 to 16 August 2026.
+
+```
+12,439,266 events           0 panics
+12,415,571 trades           0 updates dropped
+        0 dead letters      memory flat, 29 to 36 MB
+```
+
+The stream dropped once, for 938 slots. Both gap detectors recorded the same range
+independently. `recover` refetched it and `verify-range` checked the result against the
+chain: 105,481 events expected, 105,481 found, nothing missing and nothing extra.
+
+Latency from a row reaching the writer to its batch committing averaged 170 ms, with a p99
+between 0.6 and 1.4 seconds. Method and full numbers in [DESIGN.md](DESIGN.md), raw output
+in `docs/evidence/`.
+
 ## Status
 
 Working:

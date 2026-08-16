@@ -14,6 +14,10 @@ pub static DEAD_LETTERS: AtomicU64 = AtomicU64::new(0);
 pub static GAP_DETECTED: AtomicU64 = AtomicU64::new(0);
 pub static HEAD_SLOT: AtomicU64 = AtomicU64::new(0);
 pub static COMMITTED_SLOT: AtomicU64 = AtomicU64::new(0);
+pub static TRADES_WRITTEN: AtomicU64 = AtomicU64::new(0);
+pub static UNORIENTED: AtomicU64 = AtomicU64::new(0);
+pub static ORIENTED_NORMAL: AtomicU64 = AtomicU64::new(0);
+pub static ORIENTED_INVERTED: AtomicU64 = AtomicU64::new(0);
 
 const BUCKETS: usize = 10;
 
@@ -90,7 +94,7 @@ pub fn spawn_reporter() {
             last_decoded = decoded;
 
             println!(
-                "[stats] decoded={decoded} ({rate:.1}/s) cache_hits={} cache_misses={} lookups={} lookup_errors={} lookups_dropped={} skipped_failed={} replay_skipped={} db_errors={} dead_letters={}, gaps={} lag={} slots",
+                "[stats] decoded={decoded} ({rate:.1}/s) cache_hits={} cache_misses={} lookups={} lookup_errors={} lookups_dropped={} skipped_failed={} replay_skipped={} db_errors={} dead_letters={}, gaps={} lag={} slots trades={} unoriented={}",
                 get(&POOL_CACHE_HITS),
                 get(&POOL_CACHE_MISSES),
                 get(&POOL_LOOKUPS),
@@ -102,6 +106,8 @@ pub fn spawn_reporter() {
                 get(&DEAD_LETTERS),
                 get(&GAP_DETECTED),
                 commit_lag_slots(),
+                get(&TRADES_WRITTEN),
+                get(&UNORIENTED),
             );
         }
     });
@@ -165,6 +171,26 @@ pub fn render() -> String {
             "indexer_gaps_detected_total",
             "stream gaps recorded",
             &GAP_DETECTED,
+        ),
+        (
+            "indexer_trades_written_total",
+            "events that produced a trade row",
+            &TRADES_WRITTEN,
+        ),
+        (
+            "indexer_unoriented_total",
+            "events stored with no trade row, pool could not be oriented",
+            &UNORIENTED,
+        ),
+        (
+            "indexer_oriented_normal_total",
+            "trades from pools where the quote side is wrapped SOL",
+            &ORIENTED_NORMAL,
+        ),
+        (
+            "indexer_oriented_inverted_total",
+            "trades from pools where the base side is wrapped SOL",
+            &ORIENTED_INVERTED,
         ),
     ];
 

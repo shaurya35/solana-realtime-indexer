@@ -32,7 +32,8 @@ pub fn spawn_gap_recorder(db: PgPool, capacity: usize) -> mpsc::Sender<Datasourc
             .await;
 
             match written {
-                Ok(()) => inc(&GAP_DETECTED),
+                Ok(true) => inc(&GAP_DETECTED),
+                Ok(false) => {}
                 Err(err) => {
                     inc(&DB_WRITE_ERRORS);
                     eprintln!("db: could not record gaps, {err}");

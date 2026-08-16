@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use std::collections::HashMap;
 
 use carbon_core::instruction::InstructionProcessorInputType;
 use carbon_pump_swap_decoder::instructions::{CpiEvent as PumpSwapCpiEvent, PumpSwapInstruction};
@@ -8,10 +8,12 @@ use rust_decimal::Decimal;
 
 use serde_json::Value;
 
+use crate::config::POOL_RETRY_AFTER;
 use crate::db::{EventRow, PendingWrite, TradeRow};
 use crate::identity::{EventId, EventLog};
 use crate::metrics::{
-    DECODE_TIME, EVENTS_DECODED, POOL_CACHE_HITS, POOL_CACHE_MISSES, SKIPPED_FAILED, inc,
+    DECODE_TIME, EVENTS_DECODED, POOL_CACHE_HITS, POOL_CACHE_MISSES, SKIPPED_FAILED,
+    TRADES_WRITTEN, UNORIENTED, inc,
 };
 use crate::pools::{PoolInfo, PoolResolver};
 use crate::writer::Writer;
@@ -27,7 +29,7 @@ use crate::gaps;
 
 pub struct PumpSwapEventProcessor {
     pub resolver: Option<PoolResolver>,
-    pub requested: HashSet<Pubkey>,
+    pub requested: HashMap<Pubkey, Instant>,
     pub events: Option<EventLog>,
     pub writer: Option<Writer>,
     pub watermark: Arc<AtomicU64>,
@@ -45,7 +47,13 @@ impl PumpSwapEventProcessor {
 
         inc(&POOL_CACHE_MISSES);
 
-        if self.requested.insert(pool) {
+        let stale = match self.requested.get(&pool) {
+            Some(at) => at.elapsed() >= POOL_RETRY_AFTER,
+            None => true,
+        };
+
+        if stale {
+            self.requested.insert(pool, Instant::now());
             resolver.request(pool);
         }
 
@@ -135,29 +143,8 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                 }
 
                 match oriented {
-                    Some(t) => println!(
-                        "pumpswap {} sig={} slot={} path={:?} ord=0 pool={} user={} mint={} sol={} token={} inverted={}",
-                        if t.is_buy { "buy " } else { "sell" },
-                        meta.transaction_metadata.signature,
-                        meta.transaction_metadata.slot,
-                        meta.absolute_path,
-                        trade.pool,
-                        trade.user,
-                        t.token_mint,
-                        t.sol_amount,
-                        t.token_amount,
-                        t.sol_is_base,
-                    ),
-                    None => println!(
-                        "pumpswap ???? sig={} slot={} path={:?} ord=0 pool={} user={} base={} quote={} (unresolved)",
-                        meta.transaction_metadata.signature,
-                        meta.transaction_metadata.slot,
-                        meta.absolute_path,
-                        trade.pool,
-                        trade.user,
-                        trade.base_amount_out,
-                        trade.quote_amount_in,
-                    ),
+                    Some(_) => inc(&TRADES_WRITTEN),
+                    None => inc(&UNORIENTED),
                 }
             }
 
@@ -201,29 +188,8 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                 }
 
                 match oriented {
-                    Some(t) => println!(
-                        "pumpswap {} sig={} slot={} path={:?} ord=0 pool={} user={} mint={} sol={} token={} inverted={}",
-                        if t.is_buy { "buy " } else { "sell" },
-                        meta.transaction_metadata.signature,
-                        meta.transaction_metadata.slot,
-                        meta.absolute_path,
-                        trade.pool,
-                        trade.user,
-                        t.token_mint,
-                        t.sol_amount,
-                        t.token_amount,
-                        t.sol_is_base,
-                    ),
-                    None => println!(
-                        "pumpswap ???? sig={} slot={} path={:?} ord=0 pool={} user={} base={} quote={} (unresolved)",
-                        meta.transaction_metadata.signature,
-                        meta.transaction_metadata.slot,
-                        meta.absolute_path,
-                        trade.pool,
-                        trade.user,
-                        trade.base_amount_in,
-                        trade.quote_amount_out,
-                    ),
+                    Some(_) => inc(&TRADES_WRITTEN),
+                    None => inc(&UNORIENTED),
                 }
             }
 

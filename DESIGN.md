@@ -225,7 +225,7 @@ than an accident.
 
 ### Results
 
-A 190 second live run. Raw output in `docs/evidence/drop-fix-stats.txt`.
+A 190 second live run. Raw output in `docs/evidence/throughput/drop-fix-stats.txt`.
 
 | | Before | After |
 |---|---|---|
@@ -237,9 +237,13 @@ A 190 second live run. Raw output in `docs/evidence/drop-fix-stats.txt`.
 The throughput comparison is indicative, not controlled. The two runs happened on different
 days, so market volume differed. The drop count and cache numbers are not affected by that.
 
-At higher volume the remaining limit is upstream rather than here. A 30 minute mainnet soak
-recorded 524,666 refused updates against 167,617 decoded. Those refusals happen inside
-Carbon's datasource, before this code is called. They are counted, not removed.
+At higher volume the limit moved somewhere else entirely. A 30 minute soak against a hosted
+database in another region recorded 524,666 refused updates against 167,617 decoded. Those
+refusals happen inside Carbon's datasource, before this code is called.
+
+Against a local Postgres the same binary decoded 12.3 million events over twelve hours and
+refused none. The refusals were never a throughput ceiling. They were the write path being
+slow enough to stall the reader, and the reader discarding rather than waiting.
 
 The cost: 1,495 of 19,428 PumpSwap fills, or 7.7%, were emitted without a resolved token.
 That is an acceptable trade because a missing token can be recovered and a missing event
@@ -388,6 +392,34 @@ slots, one from each detector. Two independent methods agreeing exactly is the u
 The duplicate is left alone: those rows record observations rather than work items, and
 refetching a range twice costs nothing because the writes are idempotent.
 
+### What a real outage looked like
+
+During a twelve hour unattended run the stream dropped once. Both detectors fired and wrote
+the same range:
+
+| gap_id | start_slot | end_slot | missed | detected_by |
+|---|---|---|---|---|
+| 1 | 439465876 | 439466814 | 938 | yellowstone-grpc |
+| 2 | 439465876 | 439466814 | 938 | watermark |
+
+Two independent methods, identical to the slot. That matters because neither detector can be
+checked against anything else at the moment it fires; agreement between them is the only
+evidence available at the time.
+
+`recover` refetched the range and `verify-range` checked the result against the chain:
+
+```
+expected 105481
+actual   105481
+missing  0
+extra    0
+```
+
+It also exposed what is missing. Nothing reconciles the two detectors, so one hole produced
+two rows and `recover` fetched the range twice. The second pass wrote nothing, because the
+primary key makes it a no-op, so no data is wrong. But the gap count is double the number of
+real outages, which makes the table misleading to anyone reading it.
+
 ## Filling them back in
 
 A gap row says what is missing. Getting it back means asking an RPC node for those blocks.
@@ -453,7 +485,7 @@ the columns were `BIGINT`. A value above `i64::MAX` failed conversion and was dr
 counter and no log. The columns are now `NUMERIC(20, 0)`, which is exactly the `u64` range, so
 the conversion cannot fail.
 
-Numbers and method in `docs/evidence/repair.txt`.
+Numbers and method in `docs/evidence/correctness/repair.txt`.
 
 ## Knowing nothing was lost
 
@@ -604,9 +636,14 @@ replacement test, and there isn't one.
 **Coverage is partial.** Instruction and event types beyond those listed are decoded and
 ignored rather than stored. Unknown types are logged and never panic.
 
-**The slot watermark has not caught a gap on its own.** Every outage tested so far was long
-enough that Carbon's disconnection signal fired too. The case only the watermark can catch,
-a stream that stays open and skips ahead, has not been reproduced.
+**The slot watermark has not caught a gap on its own.** Every outage seen so far, including
+the one during the twelve hour run, was long enough that Carbon's disconnection signal fired
+too. Both detectors agreed on the range exactly, so the watermark demonstrably works, but the
+case only it can catch, a stream that stays open and skips ahead, has not been reproduced.
+
+**Gap rows are not deduplicated.** When both detectors fire on the same outage, two rows are
+written for one hole and `recover` fetches the range twice. The refetch is idempotent, so no
+data is affected, but counts of gaps overstate the number of outages.
 
 **Verification does not cover amounts.** Both versions of `verify` compare event identities.
 Nothing automatically checks that a stored `sol_amount` matches the chain. That was done by

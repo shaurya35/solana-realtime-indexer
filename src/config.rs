@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::env;
 use std::sync::LazyLock;
+use std::time::Duration;
 
 use yellowstone_grpc_proto::geyser::SubscribeRequestFilterTransactions;
 
@@ -28,6 +29,8 @@ pub const GAP_OVERLAP_SLOTS: u64 = 64;
 pub const SLOT_GAP_TOLERANCE: u64 = 50;
 
 pub const RPC_MAX_ATTEMPTS: u32 = 4;
+
+pub const POOL_RETRY_AFTER: Duration = Duration::from_secs(60);
 
 pub const WSOL_MINT: &str = "So11111111111111111111111111111111111111112";
 

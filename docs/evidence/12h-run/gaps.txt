@@ -1,0 +1,29 @@
+Gap table after the 12 hour unattended run of 15-16 August 2026, captured before the
+deduplication migration removed the second row.
+
+One outage. Two detectors. Identical range, to the slot.
+
+indexer=# SELECT gap_id, start_slot, end_slot, missed_slots, status, detected_by
+          FROM stream_gaps ORDER BY gap_id DESC LIMIT 5;
+
+ gap_id | start_slot | end_slot  | missed_slots | status |   detected_by
+--------+------------+-----------+--------------+--------+------------------
+      2 |  439465876 | 439466814 |          938 | closed | watermark
+      1 |  439465876 | 439466814 |          938 | closed | yellowstone-grpc
+(2 rows)
+
+Raw detection lines, runs/20260815-213913/run.log lines 62 and 63:
+
+  gap detected: slots 439465876 to 439466814, 938 missed
+  gap detected: slots 439465876 to 439466814, 938 missed
+
+After recover, verify-range checked the stitched range against the chain:
+
+  expected 105481
+  actual   105481
+  missing  0
+  extra    0
+
+Migration 20260816000000_stream_gaps_unique_range.sql now keeps one row per range, so a
+future run of this shape records a single gap. The count of gaps was double the number of
+real outages until then.

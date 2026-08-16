@@ -1,6 +1,6 @@
 use sqlx::PgPool;
 
-use std::collections::HashSet;
+use std::collections::HashMap;
 
 use carbon_core::datasource::Datasource;
 use carbon_core::pipeline::Pipeline;
@@ -63,7 +63,7 @@ pub async fn run_pipeline(
             PumpSwapDecoder,
             PumpSwapEventProcessor {
                 resolver,
-                requested: HashSet::new(),
+                requested: HashMap::new(),
                 events,
                 writer,
                 watermark,
