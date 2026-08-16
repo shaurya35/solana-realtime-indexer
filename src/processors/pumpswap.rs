@@ -12,7 +12,8 @@ use crate::config::POOL_RETRY_AFTER;
 use crate::db::{EventRow, PendingWrite, TradeRow};
 use crate::identity::{EventId, EventLog};
 use crate::metrics::{
-    DECODE_TIME, EVENTS_DECODED, POOL_CACHE_HITS, POOL_CACHE_MISSES, SKIPPED_FAILED, inc,
+    DECODE_TIME, EVENTS_DECODED, POOL_CACHE_HITS, POOL_CACHE_MISSES, SKIPPED_FAILED,
+    TRADES_WRITTEN, UNORIENTED, inc,
 };
 use crate::pools::{PoolInfo, PoolResolver};
 use crate::writer::Writer;
@@ -142,29 +143,8 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                 }
 
                 match oriented {
-                    Some(t) => println!(
-                        "pumpswap {} sig={} slot={} path={:?} ord=0 pool={} user={} mint={} sol={} token={} inverted={}",
-                        if t.is_buy { "buy " } else { "sell" },
-                        meta.transaction_metadata.signature,
-                        meta.transaction_metadata.slot,
-                        meta.absolute_path,
-                        trade.pool,
-                        trade.user,
-                        t.token_mint,
-                        t.sol_amount,
-                        t.token_amount,
-                        t.sol_is_base,
-                    ),
-                    None => println!(
-                        "pumpswap ???? sig={} slot={} path={:?} ord=0 pool={} user={} base={} quote={} (unresolved)",
-                        meta.transaction_metadata.signature,
-                        meta.transaction_metadata.slot,
-                        meta.absolute_path,
-                        trade.pool,
-                        trade.user,
-                        trade.base_amount_out,
-                        trade.quote_amount_in,
-                    ),
+                    Some(_) => inc(&TRADES_WRITTEN),
+                    None => inc(&UNORIENTED),
                 }
             }
 
@@ -208,29 +188,8 @@ impl carbon_core::processor::Processor<InstructionProcessorInputType<'_, PumpSwa
                 }
 
                 match oriented {
-                    Some(t) => println!(
-                        "pumpswap {} sig={} slot={} path={:?} ord=0 pool={} user={} mint={} sol={} token={} inverted={}",
-                        if t.is_buy { "buy " } else { "sell" },
-                        meta.transaction_metadata.signature,
-                        meta.transaction_metadata.slot,
-                        meta.absolute_path,
-                        trade.pool,
-                        trade.user,
-                        t.token_mint,
-                        t.sol_amount,
-                        t.token_amount,
-                        t.sol_is_base,
-                    ),
-                    None => println!(
-                        "pumpswap ???? sig={} slot={} path={:?} ord=0 pool={} user={} base={} quote={} (unresolved)",
-                        meta.transaction_metadata.signature,
-                        meta.transaction_metadata.slot,
-                        meta.absolute_path,
-                        trade.pool,
-                        trade.user,
-                        trade.base_amount_in,
-                        trade.quote_amount_out,
-                    ),
+                    Some(_) => inc(&TRADES_WRITTEN),
+                    None => inc(&UNORIENTED),
                 }
             }
 

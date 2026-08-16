@@ -12,7 +12,10 @@ use sqlx::PgPool;
 
 use crate::config::WSOL_MINT;
 use crate::db::{load_pools, write_pool};
-use crate::metrics::{DB_WRITE_ERRORS, LOOKUPS_DROPPED, POOL_LOOKUP_ERRORS, POOL_LOOKUPS, inc};
+use crate::metrics::{
+    DB_WRITE_ERRORS, LOOKUPS_DROPPED, ORIENTED_INVERTED, ORIENTED_NORMAL, POOL_LOOKUP_ERRORS,
+    POOL_LOOKUPS, inc,
+};
 
 static WSOL: LazyLock<Pubkey> = LazyLock::new(|| Pubkey::from_str(WSOL_MINT).unwrap());
 
@@ -21,7 +24,6 @@ pub struct Trade {
     pub token_amount: u64,
     pub token_mint: Pubkey,
     pub is_buy: bool,
-    pub sol_is_base: bool,
 }
 
 impl PoolInfo {
@@ -32,20 +34,20 @@ impl PoolInfo {
         acquiring_base: bool,
     ) -> Option<Trade> {
         if self.quote_mint == *WSOL {
+            inc(&ORIENTED_NORMAL);
             Some(Trade {
                 sol_amount: quote_amount,
                 token_amount: base_amount,
                 token_mint: self.base_mint,
                 is_buy: acquiring_base,
-                sol_is_base: false,
             })
         } else if self.base_mint == *WSOL {
+            inc(&ORIENTED_INVERTED);
             Some(Trade {
                 sol_amount: base_amount,
                 token_amount: quote_amount,
                 token_mint: self.quote_mint,
                 is_buy: !acquiring_base,
-                sol_is_base: true,
             })
         } else {
             None
@@ -198,7 +200,6 @@ mod test {
         assert_eq!(t.token_amount, 1_000);
         assert_eq!(t.token_mint, token);
         assert!(t.is_buy);
-        assert!(!t.sol_is_base);
     }
 
     #[test]
@@ -212,7 +213,6 @@ mod test {
         assert_eq!(t.token_amount, 1_000);
         assert_eq!(t.token_mint, token);
         assert!(!t.is_buy);
-        assert!(t.sol_is_base);
     }
 
     #[test]
