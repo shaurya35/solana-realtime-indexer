@@ -11,6 +11,12 @@ Work in progress, built in public.
 
 ## How it works
 
+![The path a trade takes, including repair](docs/images/pipeline-overview.png)
+
+Trades arrive over gRPC, get decoded, batched and written. When the stream breaks, the
+missing slots are recorded, refetched from the chain, and checked against what is already
+stored.
+
 ![One decode path, three ways in](docs/images/three-way-architecture.png)
 
 Live traffic, a saved file, and a range of slots all enter through the same function.
