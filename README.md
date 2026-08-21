@@ -9,6 +9,13 @@ Written in Rust. Streams over Yellowstone gRPC, decodes with
 
 Work in progress, built in public.
 
+## Demo
+
+**[Watch the demo](https://youtu.be/URRNNI0bn_Q)** — 3 minutes.
+
+Booting from one command, decoding live mainnet, surviving a `kill -9` mid-write, and
+detecting and repairing a gap in the stream.
+
 ## How it works
 
 ![The path a trade takes, including repair](docs/images/pipeline-overview.png)
@@ -169,7 +176,7 @@ all 445 PumpSwap events.
 
 ## Twelve hours unattended
 
-![The dashboard over the run](docs/images/grafana-dashboard.png)
+![The dashboard over the run](docs/images/grafana-stats.png)
 
 One unattended run against mainnet, 15 to 16 August 2026.
 
@@ -228,6 +235,8 @@ what this does not do yet.
 
 [Real-Time Indexing on Solana in Rust: streaming, decoding, and proving completeness](https://medium.com/@shauryajha35/indexing-on-solana-in-rust-streaming-decoding-and-proving-completeness-982812209b2b)
 — how this was built, and what went wrong on the way.
+
+[Demo video](https://youtu.be/URRNNI0bn_Q) — three minutes, running and recovering.
 
 ## License
 
