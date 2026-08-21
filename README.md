@@ -224,6 +224,11 @@ Recordings are large, around 340 MB for two minutes, so they are gitignored.
 [DESIGN.md](DESIGN.md) covers the reasoning behind each decision, the measurements, and
 what this does not do yet.
 
+## Writing
+
+[Real-Time Indexing on Solana in Rust: streaming, decoding, and proving completeness](https://medium.com/@shauryajha35/indexing-on-solana-in-rust-streaming-decoding-and-proving-completeness-982812209b2b)
+— how this was built, and what went wrong on the way.
+
 ## License
 
 MIT
