@@ -86,7 +86,7 @@ pub async fn run_capture(minutes: u64) -> Result<(), Box<dyn std::error::Error>>
 
     out.flush()?;
 
-    println!("done — {written} transactions in {path}");
+    println!("done, {written} transactions in {path}");
 
     Ok(())
 }

@@ -11,7 +11,7 @@ Work in progress, built in public.
 
 ## Demo
 
-**[Watch the demo](https://youtu.be/URRNNI0bn_Q)** - 3 minutes.
+**[Watch the demo](https://youtu.be/URRNNI0bn_Q)** (3 minutes)
 
 Booting from one command, decoding live mainnet, surviving a `kill -9` mid-write, and
 detecting and repairing a gap in the stream.
@@ -234,9 +234,9 @@ what this does not do yet.
 ## Writing
 
 [Real-Time Indexing on Solana in Rust: streaming, decoding, and proving completeness](https://medium.com/@shauryajha35/indexing-on-solana-in-rust-streaming-decoding-and-proving-completeness-982812209b2b)
-— how this was built, and what went wrong on the way.
+How this was built, and what went wrong on the way.
 
-[Demo video](https://youtu.be/URRNNI0bn_Q) — three minutes, running and recovering.
+[Demo video](https://youtu.be/URRNNI0bn_Q). Three minutes, running and recovering.
 
 ## License
 
