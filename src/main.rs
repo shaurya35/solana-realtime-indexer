@@ -1,4 +1,5 @@
 mod api;
+mod bench;
 mod capture;
 mod cli;
 mod config;
@@ -23,6 +24,7 @@ use solana_rpc_client::nonblocking::rpc_client::RpcClient;
 use carbon_yellowstone_grpc_datasource::YellowstoneGrpcGeyserClient;
 
 use api::run_api;
+use bench::run_benchmark;
 use capture::run_capture;
 use cli::{Cli, Commands};
 use config::{
@@ -145,6 +147,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             let db = db::connect(&database_url().expect("DATABASE_URL not set")).await?;
 
             run_api(db, port).await?;
+            return Ok(());
+        }
+
+        Commands::Bench {
+            path,
+            rate,
+            repeat,
+            expected_events_per_pass,
+            output,
+        } => {
+            run_benchmark(path, rate, repeat, expected_events_per_pass, output).await?;
+
             return Ok(());
         }
     }

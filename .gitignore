@@ -17,3 +17,6 @@ fixtures/capture-*.jsonl
 
 # unattended run output
 runs/
+
+# local benchmark scratch output
+/results/

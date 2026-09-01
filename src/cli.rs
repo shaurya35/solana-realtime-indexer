@@ -58,4 +58,21 @@ pub enum Commands {
         #[arg(long, default_value_t = 3000)]
         port: u16,
     },
+
+    Bench {
+        #[arg(long, default_value = "fixtures/golden-500.jsonl")]
+        path: String,
+
+        #[arg(long)]
+        rate: u64,
+
+        #[arg(long, default_value_t = 1)]
+        repeat: u32,
+
+        #[arg(long, default_value_t = 503)]
+        expected_events_per_pass: u64,
+
+        #[arg(long)]
+        output: String,
+    },
 }
