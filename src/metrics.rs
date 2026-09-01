@@ -25,6 +25,15 @@ const BUCKET_EDGES_US: [u64; BUCKETS - 1] = [
     500, 1_000, 5_000, 25_000, 100_000, 500_000, 2_000_000, 10_000_000, 60_000_000,
 ];
 
+#[derive(Debug, Clone, serde::Serialize)]
+pub struct HistogramSummary {
+    pub count: u64,
+    pub mean_ms: Option<f64>,
+    pub p50_upper_ms: Option<f64>,
+    pub p95_upper_ms: Option<f64>,
+    pub p99_upper_ms: Option<f64>,
+}
+
 pub struct Histogram {
     buckets: [AtomicU64; BUCKETS],
     sum_us: AtomicU64,
@@ -49,6 +58,47 @@ impl Histogram {
         self.buckets[slot].fetch_add(1, Ordering::Relaxed);
         self.sum_us.fetch_add(us, Ordering::Relaxed);
     }
+
+    pub fn summary(&self) -> HistogramSummary {
+        let buckets: [u64; BUCKETS] =
+            std::array::from_fn(|index| self.buckets[index].load(Ordering::Relaxed));
+
+        let count = buckets.iter().sum();
+        let sum_us = self.sum_us.load(Ordering::Relaxed);
+
+        HistogramSummary {
+            count,
+            mean_ms: if count == 0 {
+                None
+            } else {
+                Some(sum_us as f64 / count as f64 / 1_000.0)
+            },
+            p50_upper_ms: percentile_upper_ms(&buckets, count, 0.50),
+            p95_upper_ms: percentile_upper_ms(&buckets, count, 0.95),
+            p99_upper_ms: percentile_upper_ms(&buckets, count, 0.99),
+        }
+    }
+}
+
+fn percentile_upper_ms(buckets: &[u64; BUCKETS], count: u64, percentile: f64) -> Option<f64> {
+    if count == 0 {
+        return None;
+    }
+
+    let target = (count as f64 * percentile).ceil() as u64;
+    let mut running = 0u64;
+
+    for (index, value) in buckets.iter().enumerate() {
+        running += value;
+
+        if running >= target {
+            return BUCKET_EDGES_US
+                .get(index)
+                .map(|edge| *edge as f64 / 1_000.0);
+        }
+    }
+
+    None
 }
 
 pub static DECODE_TIME: Histogram = Histogram::new();
@@ -265,4 +315,26 @@ pub fn spawn_exporter(port: u16) {
             Err(err) => eprintln!("metrics: could not bind port {port}: {err}"),
         }
     });
+}
+
+#[cfg(test)]
+mod histogram_tests {
+    use super::*;
+
+    #[test]
+    fn summary_reports_percentile_bucket_bounds() {
+        let histogram = Histogram::new();
+
+        histogram.observe(Duration::from_millis(1));
+        histogram.observe(Duration::from_millis(20));
+        histogram.observe(Duration::from_millis(80));
+        histogram.observe(Duration::from_millis(600));
+
+        let summary = histogram.summary();
+
+        assert_eq!(summary.count, 4);
+        assert_eq!(summary.p50_upper_ms, Some(25.0));
+        assert_eq!(summary.p95_upper_ms, Some(2_000.0));
+        assert_eq!(summary.p99_upper_ms, Some(2_000.0));
+    }
 }

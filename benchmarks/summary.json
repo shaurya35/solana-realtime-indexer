@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "measured_on": "2026-09-01",
+  "fixture": {
+    "path": "fixtures/golden-500.jsonl",
+    "transactions_per_pass": 500,
+    "events_per_pass": 503
+  },
+  "method": {
+    "trials_per_rate": 3,
+    "minimum_achieved_ratio": 0.95,
+    "maximum_schedule_lag_ms": 1000,
+    "build_profile": "release"
+  },
+  "environment": {
+    "machine": "MacBook Pro",
+    "chip": "Apple M5 Pro",
+    "cpu_cores": 15,
+    "memory_gb": 24,
+    "operating_system": "macOS 26.5.2",
+    "rust": "1.96.1",
+    "postgresql": "16 (Docker)"
+  },
+  "totals": {
+    "valid_trials": 18,
+    "input_transactions": 1686000,
+    "expected_events": 1696116,
+    "decoded_events": 1696116,
+    "missing_events": 0,
+    "uncommitted_rows": 0,
+    "database_write_errors": 0,
+    "dead_letters": 0
+  },
+  "rates": [
+    {
+      "requested_tps": 120,
+      "median_achieved_tps": 120.02467707360634,
+      "median_schedule_lag_ms": 3.004,
+      "median_writer_mean_ms": 272.88986182902585,
+      "median_writer_p99_upper_ms": 2000.0,
+      "falling_behind_trials": 0,
+      "result": "clean"
+    },
+    {
+      "requested_tps": 600,
+      "median_achieved_tps": 600.007940105074,
+      "median_schedule_lag_ms": 5.287,
+      "median_writer_mean_ms": 102.1244800640601,
+      "median_writer_p99_upper_ms": 500.0,
+      "falling_behind_trials": 0,
+      "result": "clean"
+    },
+    {
+      "requested_tps": 1200,
+      "median_achieved_tps": 1199.9815202845878,
+      "median_schedule_lag_ms": 4.62,
+      "median_writer_mean_ms": 60.48713043958471,
+      "median_writer_p99_upper_ms": 500.0,
+      "falling_behind_trials": 0,
+      "result": "clean"
+    },
+    {
+      "requested_tps": 2400,
+      "median_achieved_tps": 2399.946321200616,
+      "median_schedule_lag_ms": 8.719,
+      "median_writer_mean_ms": 35.755501145902365,
+      "median_writer_p99_upper_ms": 100.0,
+      "falling_behind_trials": 0,
+      "result": "clean"
+    },
+    {
+      "requested_tps": 4800,
+      "median_achieved_tps": 4799.848964752576,
+      "median_schedule_lag_ms": 84.501,
+      "median_writer_mean_ms": 25.96378242351447,
+      "median_writer_p99_upper_ms": 100.0,
+      "falling_behind_trials": 0,
+      "result": "clean"
+    },
+    {
+      "requested_tps": 9600,
+      "median_achieved_tps": 8502.814151009212,
+      "median_schedule_lag_ms": 3879.29,
+      "median_writer_mean_ms": 1164.313014838055,
+      "median_writer_p99_upper_ms": 2000.0,
+      "falling_behind_trials": 3,
+      "result": "fell_behind"
+    }
+  ],
+  "conclusion": {
+    "highest_tested_clean_tps": 4800,
+    "first_tested_falling_behind_tps": 9600,
+    "failure_mode": "backpressure_without_data_loss"
+  }
+}

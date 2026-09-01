@@ -216,7 +216,7 @@ Planned:
 
 - [ ] Token to token pools, which need a quote asset in the schema and not just SOL
 - [ ] Reading the checkpoint at startup, so a restart resumes instead of starting over
-- [ ] A bench command and published throughput numbers
+- [x] A bench command and published throughput numbers ([results](BENCHMARKS.md))
 - [ ] Reorg handling
 
 Known limits are listed in [DESIGN.md](DESIGN.md).
