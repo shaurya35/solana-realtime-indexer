@@ -217,12 +217,12 @@ What the indexer handles, and what showed up in a 500-transaction mainnet sample
 
 503 events total, from 500 transactions, across 92 distinct pools.
 
-I ignore the instructions on purpose. They record what a user asked for, and the CPI events
-record what actually executed. See [DESIGN.md](DESIGN.md).
+The instructions are ignored on purpose. They record what a user asked for, and the CPI
+events record what actually executed. See [DESIGN.md](DESIGN.md).
 
-I checked ten trades across ten different pools by hand against the token balance changes
-recorded in each transaction, and the amounts matched exactly. For orientation I went
-further and checked all 445 PumpSwap events rather than a sample.
+Ten trades across ten different pools were checked by hand against the token balance changes
+recorded in each transaction, and the amounts matched exactly. Orientation was checked
+across all 445 PumpSwap events rather than a sample of them.
 
 ## Twelve hours unattended
 
@@ -254,13 +254,13 @@ Replaying the committed fixture through the normal pipeline at a controlled rate
 | 9,600 | Fell behind, 3.9 s schedule lag, no events lost |
 
 At the overloaded rate nothing was dropped. The pipeline applied backpressure and slowed
-down instead, which is the behaviour I wanted from it. Over 18 trials it decoded all
-1,696,116 events it should have, and never once left a row uncommitted or fell back to a
-dead letter.
+down instead, which is what it is built to do. Across 18 trials it decoded all 1,696,116
+events it should have, leaving no uncommitted rows and no dead letters.
 
-That is one local machine running against a local Postgres, on a single fixture, so treat
-it as a shape rather than a number to quote. [BENCHMARKS.md](BENCHMARKS.md) has the method,
-the full per-rate table and what I think the limits are.
+These numbers come from one local machine, one fixture and a local Postgres, so they
+describe how this indexer behaves under load rather than what any particular deployment
+will do. [BENCHMARKS.md](BENCHMARKS.md) has the method, the full per-rate table and the
+limits.
 
 ## Status
 
@@ -308,6 +308,25 @@ How this was built, and what went wrong on the way.
 
 [Demo video](https://youtu.be/URRNNI0bn_Q). Three minutes, running and recovering.
 
+## Contributing
+
+Issues and pull requests are welcome, and the Planned list above is a reasonable place to
+start.
+
+CI runs three checks on every push and every pull request, so run them before opening one:
+
+```bash
+cargo fmt --all -- --check
+cargo clippy --all-targets -- -D warnings
+cargo test -- --test-threads=1
+```
+
+The test command needs `TEST_DATABASE_URL` set, as described in [Try it](#try-it).
+Without it the two database tests print `SKIPPED` and pass without running anything.
+
+If you are changing how an event is decoded or identified, read [DESIGN.md](DESIGN.md)
+first. Most of those decisions have a reason and a test behind them.
+
 ## License
 
-MIT
+[MIT](LICENSE)
