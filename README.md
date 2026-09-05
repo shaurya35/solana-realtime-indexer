@@ -1,22 +1,27 @@
-![ci](https://github.com/shaurya35/solana-realtime-indexer/actions/workflows/ci.yml/badge.svg)
-![license](https://img.shields.io/badge/license-MIT-blue)
-![rust](https://img.shields.io/badge/rust-stable%20%7C%202024%20edition-orange)
-![release](https://img.shields.io/github/v/release/shaurya35/solana-realtime-indexer)
+<div align="center">
+  <h1>solana-realtime-indexer</h1>
+  <p><strong>Real-time pump.fun and PumpSwap trade indexer in Rust — 12.4M events,
+     0 panics, 4,800 tx/s.</strong></p>
+  <p>Streams over Yellowstone gRPC, decodes with
+     <a href="https://github.com/sevenlabs-hq/carbon">Carbon</a>, stores in Postgres.</p>
 
-# solana-realtime-indexer
+  <p>
+    <img alt="ci" src="https://github.com/shaurya35/solana-realtime-indexer/actions/workflows/ci.yml/badge.svg">
+    <img alt="license" src="https://img.shields.io/badge/license-MIT-blue">
+    <img alt="release" src="https://img.shields.io/github/v/release/shaurya35/solana-realtime-indexer">
+  </p>
 
-Indexes pump.fun and PumpSwap trades from Solana mainnet, in real time.
+  <p>
+    <a href="#demo">Demo</a> ·
+    <a href="#how-it-works">How it works</a> ·
+    <a href="#try-it">Try it</a> ·
+    <a href="#query-it">Query it</a> ·
+    <a href="BENCHMARKS.md">Benchmarks</a> ·
+    <a href="DESIGN.md">Design</a>
+  </p>
+</div>
 
-Written in Rust. Streams over Yellowstone gRPC, decodes with
-[Carbon](https://github.com/sevenlabs-hq/carbon), stores in Postgres.
-
-**12.4M events · 0 panics · 4,800 tx/s sustained · 12 hours unattended**
-
-Released as v0.1.0. CI green on every push, eleven tests. Known limits are in
-[Status](#status) and [DESIGN.md](DESIGN.md).
-
-[Demo](#demo) · [How it works](#how-it-works) · [Try it](#try-it) ·
-[Query it](#query-it) · [Benchmarks](BENCHMARKS.md) · [Design](DESIGN.md)
+---
 
 ## Demo
 
@@ -238,6 +243,8 @@ One local machine, one fixture, local Postgres. Method, per-rate table, and limi
 [BENCHMARKS.md](BENCHMARKS.md).
 
 ## Status
+
+Released as v0.1.0. CI green on every push, with eleven tests.
 
 Working:
 
