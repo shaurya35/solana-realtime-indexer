@@ -61,41 +61,41 @@ the database.
 **Write.** A separate task batches rows and commits them with the progress marker in one
 transaction, so the marker can never claim more than was written.
 
-Gap detection, recovery, `verify`, the query API, and metrics are separate concerns and
-not shown here.
+Gap detection, recovery, `verify`, the query API and metrics are left off. They answer
+different questions and hang off the side of this.
 
 ## Where the code is
 
 ```
 # src/pipeline.rs
-run_pipeline, the one decode path all three datasources enter
+run_pipeline. All three datasources come through here.
 
 # src/datasources/
-live gRPC, replay from file, backfill by slot range
+Live gRPC, a file on disk, or a slot range.
 
 # src/processors/
-one per program: pumpfun.rs, pumpswap.rs
+One per program: pumpfun.rs, pumpswap.rs
 
 # src/pools.rs
-decides which side of a PumpSwap pool holds SOL
+Works out which side of a PumpSwap pool is the SOL side.
 
 # src/writer.rs
-batches rows, commits the checkpoint in the same transaction
+Batching, and the checkpoint write that shares its transaction.
 
 # src/gaps.rs
-notices the stream broke
+Notices when the stream skipped something.
 
 # src/recover.rs
-refetches what the gaps say is missing
+Goes and fetches it back.
 
 # src/verify.rs
-checks stored rows against a recording or the chain
+Independent check against a recording or against the chain.
 
 # src/repair.rs
-rebuilds trades once a pool becomes known
+Rebuilds trades that were stored before their pool was known.
 
 # src/api.rs
-serves the read-only query API
+The read-only query API.
 ```
 
 ## Try it
@@ -117,14 +117,15 @@ No account and no API key. Postgres comes up empty, gets loaded from
 `fixtures/golden-500.jsonl`, and the API serves it.
 
 The same command brings up Prometheus on `localhost:9090` and Grafana on
-`localhost:3001`, with the dashboard loaded from `docker/grafana/dashboards/indexer.json`.
-Both stay empty until `live` is running. The fixture alone does not populate them.
+`localhost:3001`, with the dashboard already loaded from
+`docker/grafana/dashboards/indexer.json`. They stay empty until something is running to
+scrape, which means `live` below and not the fixture.
 
-That fixture holds 500 real mainnet transactions saved as raw wire bytes. It lets this
-and the test suite run without an endpoint.
+That fixture is 500 real mainnet transactions saved as raw wire bytes. It is what lets
+this and the test suite run without an endpoint.
 
-The demo uses Solana's public RPC to find which side of a PumpSwap pool is SOL. That
-needs internet, not an account.
+The demo does use Solana's public RPC to work out which side of a PumpSwap pool is SOL.
+That needs internet, but no account.
 
 Tests, with no Docker and no network:
 
@@ -146,12 +147,12 @@ its own Postgres, so all eleven run on every push.
 
 ## Run it against live mainnet
 
-This is the part that needs an endpoint. Set a Yellowstone gRPC URL and a Postgres URL
-in `.env`.
+This is the part that needs an endpoint, so set a Yellowstone gRPC URL and a Postgres URL
+in `.env` first.
 
-The endpoint at `solana-yellowstone-grpc.publicnode.com:443` is free but needs a personal
-token, generated at [allnodes.com/publicnode](https://www.allnodes.com/publicnode). It
-goes in `.env` as `YELLOWSTONE_X_TOKEN`. Without it, the connection is refused.
+The free endpoint at `solana-yellowstone-grpc.publicnode.com:443` needs a personal token,
+which you generate for free at [allnodes.com/publicnode](https://www.allnodes.com/publicnode).
+It goes in `.env` as `YELLOWSTONE_X_TOKEN`, and without it the connection is refused.
 
 ```bash
 # decode trades as they happen
@@ -196,9 +197,9 @@ GET /trades/token/{mint}?limit=50 trades for one token
 GET /volume/token/{mint}          trade count and total SOL for one token
 ```
 
-Amounts are returned as strings. They are stored as raw integers that can exceed what a
-JSON number holds exactly. Sending them as numbers would let a JavaScript client round
-them silently.
+Amounts are returned as strings. They are stored as raw integers and can exceed what a JSON
+number holds exactly, so sending them as numbers would let a JavaScript client round them
+without saying so.
 
 ## Coverage
 
@@ -212,16 +213,16 @@ What the indexer handles, and what showed up in a 500-transaction mainnet sample
 | PumpSwap | `CpiEvent::SellEvent` | yes | (buy and sell) |
 | PumpSwap | `CpiEvent::CreatePoolEvent` | yes | 0 |
 | PumpSwap | Deposit, Withdraw, other events | decoded, ignored | not counted |
-| pump.fun | `Buy`, `Sell`, `Create` instructions | ignored by design | not counted |
+| pump.fun | `Buy`, `Sell`, `Create` instructions | ignored on purpose | not counted |
 
 503 events total, from 500 transactions, across 92 distinct pools.
 
-The instructions are ignored on purpose. They record what a user asked for. The CPI events
-record what executed. See [DESIGN.md](DESIGN.md).
+I ignore the instructions on purpose. They record what a user asked for, and the CPI events
+record what actually executed. See [DESIGN.md](DESIGN.md).
 
-Ten trades across ten different pools were checked by hand against the token balance changes
-recorded in each transaction. Token amounts matched exactly. Orientation was checked across
-all 445 PumpSwap events.
+I checked ten trades across ten different pools by hand against the token balance changes
+recorded in each transaction, and the amounts matched exactly. For orientation I went
+further and checked all 445 PumpSwap events rather than a sample.
 
 ## Twelve hours unattended
 
@@ -230,14 +231,14 @@ all 445 PumpSwap events.
 One unattended run against mainnet, 15 to 16 August 2026.
 
 ```
-12,439,266 events           0 panics
-12,415,571 trades           0 updates dropped
-        0 dead letters      memory flat, 29 to 36 MB
+12,439,266 events, 12,415,571 of them trades
+no panics, no dropped updates, no dead letters
+memory flat between 29 and 36 MB
 ```
 
-The stream dropped once, for 938 slots. Both gap detectors recorded the same range
-independently. `recover` refetched it and `verify-range` checked the result against the
-chain: 105,481 events expected, 105,481 found, nothing missing and nothing extra.
+The stream dropped once, for 938 slots, and both gap detectors recorded the same range
+independently of each other. `recover` refetched it and `verify-range` checked the result
+against the chain: 105,481 events expected, 105,481 found, and no extras.
 
 Latency from a row reaching the writer to its batch committing averaged 170 ms, with a p99
 between 0.6 and 1.4 seconds. Method and full numbers in [DESIGN.md](DESIGN.md), raw output
@@ -252,16 +253,18 @@ Replaying the committed fixture through the normal pipeline at a controlled rate
 | 4,800 | Clean, no events lost |
 | 9,600 | Fell behind, 3.9 s schedule lag, no events lost |
 
-At the overloaded rate the pipeline applied backpressure and slowed down rather than
-dropping events. Across 18 trials it decoded all 1,696,116 expected events, with zero
-missing, zero uncommitted rows, and zero dead letters.
+At the overloaded rate nothing was dropped. The pipeline applied backpressure and slowed
+down instead, which is the behaviour I wanted from it. Over 18 trials it decoded all
+1,696,116 events it should have, and never once left a row uncommitted or fell back to a
+dead letter.
 
-One local machine, one fixture, local Postgres. Method, per-rate table, and limits in
-[BENCHMARKS.md](BENCHMARKS.md).
+That is one local machine running against a local Postgres, on a single fixture, so treat
+it as a shape rather than a number to quote. [BENCHMARKS.md](BENCHMARKS.md) has the method,
+the full per-rate table and what I think the limits are.
 
 ## Status
 
-Released as v0.1.0. CI green on every push. Eleven tests.
+Released as v0.1.0, with eleven tests and CI green on every push.
 
 Working:
 
@@ -290,10 +293,10 @@ Known limits are listed in [DESIGN.md](DESIGN.md).
 
 ## Notes
 
-Amounts are stored as raw integers. Lamports for SOL, raw units for tokens. Never floats.
+Amounts are stored as raw integers, lamports for SOL and raw units for tokens, never floats.
 
-Recordings are large, around 340 MB for two minutes, so they are gitignored.
-`fixtures/golden-500.jsonl` is a small committed slice used by the tests.
+Recordings are large, around 340 MB for two minutes, so they are gitignored, and
+`fixtures/golden-500.jsonl` is the small committed slice that the tests run against.
 
 [DESIGN.md](DESIGN.md) covers the reasoning behind each decision, the measurements, and
 what this does not do yet.
