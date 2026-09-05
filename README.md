@@ -12,8 +12,8 @@ Written in Rust. Streams over Yellowstone gRPC, decodes with
 
 **12.4M events · 0 panics · 4,800 tx/s sustained · 12 hours unattended**
 
-Released as v0.1.0. CI green on every push, eleven tests, and one 12-hour unattended run
-against mainnet. Known limits are in [Status](#status) and [DESIGN.md](DESIGN.md).
+Released as v0.1.0. CI green on every push, eleven tests. Known limits are in
+[Status](#status) and [DESIGN.md](DESIGN.md).
 
 [Demo](#demo) · [How it works](#how-it-works) · [Try it](#try-it) ·
 [Query it](#query-it) · [Benchmarks](BENCHMARKS.md) · [Design](DESIGN.md)
@@ -97,8 +97,6 @@ The same command brings up Prometheus on `localhost:9090` and Grafana on
 `localhost:3001`, with the dashboard already loaded from
 `docker/grafana/dashboards/indexer.json`. It stays empty until something is running to
 scrape, which means `live` below rather than the fixture.
-
-![The Grafana dashboard that ships with the compose file](docs/images/grafana-dashboard.png)
 
 That fixture is 500 real mainnet transactions saved as raw wire bytes. It is what lets this
 and the test suite run without an endpoint.
@@ -227,10 +225,10 @@ in `docs/evidence/`.
 
 Replaying the committed fixture through the normal pipeline at a controlled rate:
 
-```
-4,800 tx/s        clean, no events lost
-9,600 tx/s        fell behind, 3.9 s schedule lag, still lost nothing
-```
+| Requested tx/s | Result |
+|---:|:---|
+| 4,800 | Clean — no events lost |
+| 9,600 | Fell behind — 3.9 s schedule lag, still lost nothing |
 
 At the overloaded rate the pipeline applied backpressure and slowed down rather than
 dropping events. Across 18 trials it decoded all 1,696,116 expected events, with zero
