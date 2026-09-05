@@ -1,7 +1,6 @@
 <div align="center">
-  <h1>solana-realtime-indexer</h1>
-  <p><strong>Real-time pump.fun and PumpSwap trade indexer in Rust — 12.4M events,
-     0 panics, 4,800 tx/s.</strong></p>
+  <h1>Solana Realtime Indexer</h1>
+  <p><strong>Real-time pump.fun and PumpSwap trade indexer in Rust</strong></p>
   <p>Streams over Yellowstone gRPC, decodes with
      <a href="https://github.com/sevenlabs-hq/carbon">Carbon</a>, stores in Postgres.</p>
 
@@ -43,7 +42,7 @@ stored.
 Live traffic, a saved file, and a range of slots all enter through the same function.
 `run_pipeline` takes a datasource and does not care which one it got.
 
-So the decoder that handles mainnet is the same one the tests run, and the same one that
+The decoder that handles mainnet is the same one the tests run, and the same one that
 fills a gap. There is no second path to drift.
 
 Everything after that box is the same four steps, whichever way the data came in.
@@ -62,22 +61,41 @@ the database.
 **Write.** A separate task batches rows and commits them with the progress marker in one
 transaction, so the marker can never claim more than was written.
 
-Gap detection, recovery, `verify`, the query API and metrics are left off. They answer
-different questions and hang off the side of this.
+Gap detection, recovery, `verify`, the query API, and metrics are separate concerns and
+not shown here.
 
 ## Where the code is
 
 ```
-src/pipeline.rs      run_pipeline, the one decode path all three datasources enter
-src/datasources/     live gRPC, replay from file, backfill by slot range
-src/processors/      one per program: pumpfun.rs, pumpswap.rs
-src/pools.rs         which side of a PumpSwap pool holds SOL
-src/writer.rs        batching, and the checkpoint committed in the same transaction
-src/gaps.rs          noticing the stream broke
-src/recover.rs       refetching what the gaps say is missing
-src/verify.rs        checking stored rows against a recording or the chain
-src/repair.rs        rebuilding trades once a pool becomes known
-src/api.rs           the read-only query API
+# src/pipeline.rs
+run_pipeline, the one decode path all three datasources enter
+
+# src/datasources/
+live gRPC, replay from file, backfill by slot range
+
+# src/processors/
+one per program: pumpfun.rs, pumpswap.rs
+
+# src/pools.rs
+decides which side of a PumpSwap pool holds SOL
+
+# src/writer.rs
+batches rows, commits the checkpoint in the same transaction
+
+# src/gaps.rs
+notices the stream broke
+
+# src/recover.rs
+refetches what the gaps say is missing
+
+# src/verify.rs
+checks stored rows against a recording or the chain
+
+# src/repair.rs
+rebuilds trades once a pool becomes known
+
+# src/api.rs
+serves the read-only query API
 ```
 
 ## Try it
@@ -99,15 +117,14 @@ No account and no API key. Postgres comes up empty, gets loaded from
 `fixtures/golden-500.jsonl`, and the API serves it.
 
 The same command brings up Prometheus on `localhost:9090` and Grafana on
-`localhost:3001`, with the dashboard already loaded from
-`docker/grafana/dashboards/indexer.json`. It stays empty until something is running to
-scrape, which means `live` below rather than the fixture.
+`localhost:3001`, with the dashboard loaded from `docker/grafana/dashboards/indexer.json`.
+Both stay empty until `live` is running. The fixture alone does not populate them.
 
-That fixture is 500 real mainnet transactions saved as raw wire bytes. It is what lets this
+That fixture holds 500 real mainnet transactions saved as raw wire bytes. It lets this
 and the test suite run without an endpoint.
 
-The demo does use Solana's public RPC to work out which side of a PumpSwap pool is SOL.
-That needs internet, but no account.
+The demo uses Solana's public RPC to find which side of a PumpSwap pool is SOL. That
+needs internet, not an account.
 
 Tests, with no Docker and no network:
 
@@ -132,9 +149,9 @@ its own Postgres, so all eleven run on every push.
 This is the part that needs an endpoint. Set a Yellowstone gRPC URL and a Postgres URL
 in `.env`.
 
-The free endpoint at `solana-yellowstone-grpc.publicnode.com:443` needs a personal token,
-which you generate for free at [allnodes.com/publicnode](https://www.allnodes.com/publicnode).
-It goes in `.env` as `YELLOWSTONE_X_TOKEN`. Without it the connection is refused.
+The endpoint at `solana-yellowstone-grpc.publicnode.com:443` is free but needs a personal
+token, generated at [allnodes.com/publicnode](https://www.allnodes.com/publicnode). It
+goes in `.env` as `YELLOWSTONE_X_TOKEN`. Without it, the connection is refused.
 
 ```bash
 # decode trades as they happen
@@ -179,9 +196,9 @@ GET /trades/token/{mint}?limit=50 trades for one token
 GET /volume/token/{mint}          trade count and total SOL for one token
 ```
 
-Amounts are returned as strings. They are stored as raw integers and can exceed what a JSON
-number holds exactly, so sending them as numbers would let a JavaScript client round them
-without saying so.
+Amounts are returned as strings. They are stored as raw integers that can exceed what a
+JSON number holds exactly. Sending them as numbers would let a JavaScript client round
+them silently.
 
 ## Coverage
 
@@ -232,8 +249,8 @@ Replaying the committed fixture through the normal pipeline at a controlled rate
 
 | Requested tx/s | Result |
 |---:|:---|
-| 4,800 | Clean — no events lost |
-| 9,600 | Fell behind — 3.9 s schedule lag, still lost nothing |
+| 4,800 | Clean, no events lost |
+| 9,600 | Fell behind, 3.9 s schedule lag, no events lost |
 
 At the overloaded rate the pipeline applied backpressure and slowed down rather than
 dropping events. Across 18 trials it decoded all 1,696,116 expected events, with zero
@@ -244,7 +261,7 @@ One local machine, one fixture, local Postgres. Method, per-rate table, and limi
 
 ## Status
 
-Released as v0.1.0. CI green on every push, with eleven tests.
+Released as v0.1.0. CI green on every push. Eleven tests.
 
 Working:
 
