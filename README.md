@@ -26,9 +26,8 @@
 
 **[Watch the demo](https://youtu.be/URRNNI0bn_Q)** (3 minutes)
 
-Booting from one command, decoding live mainnet, a `kill -9` mid-write that leaves the
-checkpoint no further ahead than the rows it committed, and detecting and repairing a gap
-in the stream.
+Booting from one command, decoding live mainnet, a `kill -9` mid-write with the checkpoint
+still matching what was saved, and detecting and repairing a gap in the stream.
 
 ## How it works
 
@@ -81,7 +80,7 @@ One per program: pumpfun.rs, pumpswap.rs
 Works out which side of a PumpSwap pool is the SOL side.
 
 # src/writer.rs
-Batching, and the checkpoint write that shares its transaction.
+Batches rows and writes the checkpoint in the same transaction.
 
 # src/gaps.rs
 Notices when the stream skipped something.
@@ -122,8 +121,8 @@ The same command brings up Prometheus on `localhost:9090` and Grafana on
 `docker/grafana/dashboards/indexer.json`. They stay empty until something is running to
 scrape, which means `live` below and not the fixture.
 
-That fixture is 500 real mainnet transactions saved as raw wire bytes. It is what lets
-this and the test suite run without an endpoint.
+That fixture is 500 real mainnet transactions saved as raw wire bytes. It lets this and
+the test suite run without an endpoint.
 
 The demo does use Solana's public RPC to work out which side of a PumpSwap pool is SOL.
 That needs internet, but no account.
@@ -222,8 +221,8 @@ The instructions are ignored on purpose. They record what a user asked for, and 
 events record what actually executed. See [DESIGN.md](DESIGN.md).
 
 Ten trades across ten different pools were checked by hand against the token balance changes
-recorded in each transaction, and the amounts matched exactly. Orientation was checked
-across all 445 PumpSwap events rather than a sample of them.
+recorded in each transaction, and the amounts matched exactly. Orientation was checked on
+all 445 PumpSwap events, not just a sample.
 
 ## Twelve hours unattended
 
@@ -237,9 +236,9 @@ no panics, no dropped updates, no dead letters
 memory flat between 29 and 36 MB
 ```
 
-The stream dropped once, for 938 slots, and both gap detectors recorded the same range
-independently of each other. `recover` refetched it and `verify-range` checked the result
-against the chain: 105,481 events expected, 105,481 found, and no extras.
+The stream dropped once, for 938 slots, and both gap detectors recorded the same range.
+`recover` refetched it and `verify-range` checked the result against the chain: 105,481
+events expected, 105,481 found, and no extras.
 
 Latency from a row reaching the writer to its batch committing averaged 170 ms, with a p99
 between 0.6 and 1.4 seconds. Method and full numbers in [DESIGN.md](DESIGN.md), raw output
@@ -258,10 +257,9 @@ At the overloaded rate nothing was dropped. The pipeline applied backpressure an
 down instead, which is what it is built to do. Across 18 trials it decoded all 1,696,116
 events it should have, leaving no uncommitted rows and no dead letters.
 
-These numbers come from one local machine, one fixture and a local Postgres, so they
-describe how this indexer behaves under load rather than what any particular deployment
-will do. [BENCHMARKS.md](BENCHMARKS.md) has the method, the full per-rate table and the
-limits.
+These numbers come from one local machine, one fixture and a local Postgres. They show how
+this indexer behaves under load, and they are not a promise about any other setup.
+[BENCHMARKS.md](BENCHMARKS.md) has the method, the full per-rate table and the limits.
 
 ## Status
 
