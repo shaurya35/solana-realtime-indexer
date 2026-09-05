@@ -1,4 +1,7 @@
 ![ci](https://github.com/shaurya35/solana-realtime-indexer/actions/workflows/ci.yml/badge.svg)
+![license](https://img.shields.io/badge/license-MIT-blue)
+![rust](https://img.shields.io/badge/rust-stable%20%7C%202024%20edition-orange)
+![release](https://img.shields.io/github/v/release/shaurya35/solana-realtime-indexer)
 
 # solana-realtime-indexer
 
@@ -7,7 +10,13 @@ Indexes pump.fun and PumpSwap trades from Solana mainnet, in real time.
 Written in Rust. Streams over Yellowstone gRPC, decodes with
 [Carbon](https://github.com/sevenlabs-hq/carbon), stores in Postgres.
 
-Work in progress, built in public.
+**12.4M events · 0 panics · 4,800 tx/s sustained · 12 hours unattended**
+
+Released as v0.1.0. CI green on every push, eleven tests, and one 12-hour unattended run
+against mainnet. Known limits are in [Status](#status) and [DESIGN.md](DESIGN.md).
+
+[Demo](#demo) · [How it works](#how-it-works) · [Try it](#try-it) ·
+[Query it](#query-it) · [Benchmarks](BENCHMARKS.md) · [Design](DESIGN.md)
 
 ## Demo
 
@@ -51,6 +60,21 @@ transaction, so the marker can never claim more than was written.
 Gap detection, recovery, `verify`, the query API and metrics are left off. They answer
 different questions and hang off the side of this.
 
+## Where the code is
+
+```
+src/pipeline.rs      run_pipeline, the one decode path all three datasources enter
+src/datasources/     live gRPC, replay from file, backfill by slot range
+src/processors/      one per program: pumpfun.rs, pumpswap.rs
+src/pools.rs         which side of a PumpSwap pool holds SOL
+src/writer.rs        batching, and the checkpoint committed in the same transaction
+src/gaps.rs          noticing the stream broke
+src/recover.rs       refetching what the gaps say is missing
+src/verify.rs        checking stored rows against a recording or the chain
+src/repair.rs        rebuilding trades once a pool becomes known
+src/api.rs           the read-only query API
+```
+
 ## Try it
 
 ```bash
@@ -74,6 +98,8 @@ The same command brings up Prometheus on `localhost:9090` and Grafana on
 `docker/grafana/dashboards/indexer.json`. It stays empty until something is running to
 scrape, which means `live` below rather than the fixture.
 
+![The Grafana dashboard that ships with the compose file](docs/images/grafana-dashboard.png)
+
 That fixture is 500 real mainnet transactions saved as raw wire bytes. It is what lets this
 and the test suite run without an endpoint.
 
@@ -87,7 +113,7 @@ cp .env.example .env
 cargo test
 ```
 
-Three of the ten need a database and print `SKIPPED` without one. To run all of them:
+Two of the eleven need a database and print `SKIPPED` without one. To run all of them:
 
 ```bash
 docker compose up -d postgres
@@ -95,8 +121,8 @@ TEST_DATABASE_URL=postgres://indexer:indexer@localhost:5433/indexer \
   cargo test -- --test-threads=1
 ```
 
-Single threaded because those three share a schema and empty it between runs. CI brings up
-its own Postgres, so all ten run on every push.
+Single threaded because those two share a schema and empty it between runs. CI brings up
+its own Postgres, so all eleven run on every push.
 
 ## Run it against live mainnet
 
@@ -134,6 +160,9 @@ cargo run -- backfill --from 437993119 --to 437993182
 
 # serve it on localhost:3000
 cargo run -- api
+
+# replay the fixture at a controlled rate to find the throughput ceiling
+cargo run --release -- bench --rate 4800 --repeat 3 --output results/bench.json
 ```
 
 `live` also serves Prometheus metrics on `localhost:9100/metrics`.
@@ -193,6 +222,22 @@ chain: 105,481 events expected, 105,481 found, nothing missing and nothing extra
 Latency from a row reaching the writer to its batch committing averaged 170 ms, with a p99
 between 0.6 and 1.4 seconds. Method and full numbers in [DESIGN.md](DESIGN.md), raw output
 in `docs/evidence/`.
+
+## Throughput
+
+Replaying the committed fixture through the normal pipeline at a controlled rate:
+
+```
+4,800 tx/s        clean, no events lost
+9,600 tx/s        fell behind, 3.9 s schedule lag, still lost nothing
+```
+
+At the overloaded rate the pipeline applied backpressure and slowed down rather than
+dropping events. Across 18 trials it decoded all 1,696,116 expected events, with zero
+missing, zero uncommitted rows, and zero dead letters.
+
+One local machine, one fixture, local Postgres. Method, per-rate table, and limits in
+[BENCHMARKS.md](BENCHMARKS.md).
 
 ## Status
 
