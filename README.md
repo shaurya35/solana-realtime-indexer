@@ -26,8 +26,9 @@
 
 **[Watch the demo](https://youtu.be/URRNNI0bn_Q)** (3 minutes)
 
-Booting from one command, decoding live mainnet, surviving a `kill -9` mid-write, and
-detecting and repairing a gap in the stream.
+Booting from one command, decoding live mainnet, a `kill -9` mid-write that leaves the
+checkpoint no further ahead than the rows it committed, and detecting and repairing a gap
+in the stream.
 
 ## How it works
 
